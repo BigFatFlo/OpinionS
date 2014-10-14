@@ -1,0 +1,286 @@
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content">
+
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="${packageName}.${activityClass}" >
+        
+     <TextView 
+        android:id="@+id/results_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/results_title"
+        />
+     
+     <TextView
+        android:id="@+id/asker_info_r"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/results_title"
+        android:text="@string/asker_info"
+        android:paddingBottom="20dp"
+        />
+    
+    <TextView
+        android:id="@+id/question_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/asker_info_r"
+        android:text="@string/question_view"
+        android:paddingBottom="20dp"
+        />
+    
+    <TextView
+        android:id="@+id/answer1_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/question_view"
+        android:text="@string/answer1"
+        android:paddingBottom="20dp"
+        android:paddingLeft="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/n_answer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pc1"
+        android:layout_below="@id/question_view"
+        android:textAlignment="textEnd"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        />
+    
+    <TextView
+        android:id="@+id/pc1"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/question_view"
+        android:gravity="right"
+		android:textAlignment="gravity"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="32dp"
+        />
+    
+    
+    <TextView
+        android:id="@+id/answer2_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/answer1_preview"
+        android:text="@string/answer2"
+        android:paddingBottom="20dp"
+        android:paddingLeft="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/n_answer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pc2"
+        android:layout_below="@id/answer1_preview"
+        android:textAlignment="textEnd"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        />
+    
+    <TextView
+        android:id="@+id/pc2"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/answer1_preview"
+        android:gravity="right"
+		android:textAlignment="gravity"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/answer3_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/answer2_preview"
+        android:text="@string/answer3"
+        android:paddingBottom="20dp"
+        android:paddingLeft="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/n_answer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pc3"
+        android:layout_below="@id/answer2_preview"
+        android:textAlignment="textEnd"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        />
+    
+    <TextView
+        android:id="@+id/pc3"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/answer2_preview"
+        android:gravity="right"
+		android:textAlignment="gravity"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/answer4_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/answer3_preview"
+        android:text="@string/answer4"
+        android:paddingBottom="20dp"
+        android:paddingLeft="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/n_answer4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pc4"
+        android:layout_below="@id/answer3_preview"
+        android:textAlignment="textEnd"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        />
+    
+    <TextView
+        android:id="@+id/pc4"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/answer3_preview"
+        android:gravity="right"
+		android:textAlignment="gravity"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/answer5_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/answer4_preview"
+        android:text="@string/answer5"
+        android:paddingBottom="20dp"
+        android:paddingLeft="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/n_answer5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pc5"
+        android:layout_below="@id/answer4_preview"
+        android:textAlignment="textEnd"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        />
+    
+    <TextView
+        android:id="@+id/pc5"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/answer4_preview"
+        android:gravity="right"
+		android:textAlignment="gravity"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/results_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/answer5_preview"
+        android:text="@string/total"
+        android:paddingTop="15dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="32dp"
+        />
+    
+    <TextView
+        android:id="@+id/results_total_n"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pcTotal"
+        android:layout_below="@id/answer5_preview"
+        android:textAlignment="textEnd"
+        android:paddingTop="15dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        />
+    
+    <TextView
+        android:id="@+id/pcTotal"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/answer5_preview"
+        android:gravity="right"
+		android:textAlignment="gravity"
+        android:paddingTop="15dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="32dp"
+        />
+    
+    <Button
+        android:id="@+id/saveResults_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/results_total"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="@string/saveResults" />
+    
+    <Button
+        android:id="@+id/backToMenu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/saveResults_button"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="@string/BTM" />
+    
+    
+</RelativeLayout>
+
+</ScrollView>

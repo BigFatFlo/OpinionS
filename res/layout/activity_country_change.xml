@@ -1,0 +1,55 @@
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}" >
+    
+    <TextView
+        android:id="@+id/username_profile_pref_lang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/prompt_username" />
+    
+    <TextView
+        android:id="@+id/country_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/username_profile_pref_lang"
+        android:layout_centerHorizontal="true"
+        android:text="@string/select_country" />
+    
+    <Button
+        android:id="@+id/pref_submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/submit_selection" />
+    
+    <!-- <ListView
+        android:id="@+id/listP_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_above="@id/pref_submit_button"
+        android:layout_below="@id/language_preferred_change"
+        android:layout_centerHorizontal="true"
+        android:choiceMode="singleChoice" >
+
+    </ListView>
+    -->
+
+    <Spinner
+        android:id="@+id/listP_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:layout_centerInParent="true"
+        />
+        <!-- android:layout_below="@+id/language_preferred_change" -->
+    
+</RelativeLayout>
+
