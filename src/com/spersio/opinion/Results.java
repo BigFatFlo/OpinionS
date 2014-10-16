@@ -1,5 +1,8 @@
 package com.spersio.opinion;
 
+import java.util.HashMap;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -11,8 +14,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FunctionCallback;
 import com.parse.ParseAnalytics;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
@@ -42,8 +50,10 @@ public class Results extends Activity {
 	
 	Button backToMenu = null;
 	Button saveResults = null;
+	Button subscribe = null;
 	
 	String questionID = null;
+	String askerUsername = null;
 	int nId = 0;
 	String tag = null;
 
@@ -64,6 +74,7 @@ public class Results extends Activity {
 		
 		backToMenu= (Button) findViewById(R.id.backToMenu_button);
 		saveResults= (Button) findViewById(R.id.saveResults_button);
+		subscribe= (Button) findViewById(R.id.subscribe_button);
 		
 		answer1= (TextView) findViewById(R.id.answer1_preview);
 		answer2= (TextView) findViewById(R.id.answer2_preview);
@@ -105,6 +116,7 @@ public class Results extends Activity {
 		pcTotal.setVisibility(View.GONE);
 		
 		saveResults.setVisibility(View.GONE);
+		subscribe.setVisibility(View.GONE);
 
 		final ParseUser currentUser = ParseUser.getCurrentUser();
 		if (currentUser != null) {
@@ -117,7 +129,7 @@ public class Results extends Activity {
 		final Boolean around = extras.getBoolean(CustomPushReceiver.around);
 		final int radius = extras.getInt(CustomPushReceiver.radius);
 		final int nbrAnswers = extras.getInt(CustomPushReceiver.nbrAnswers);
-		final String askerUsername = extras.getString(CustomPushReceiver.askerUsername);
+		askerUsername = extras.getString(CustomPushReceiver.askerUsername);
 		final String A1 = extras.getString(CustomPushReceiver.A1);
 		final String A2 = extras.getString(CustomPushReceiver.A2);
 		final String A3 = extras.getString(CustomPushReceiver.A3);
@@ -150,6 +162,22 @@ public class Results extends Activity {
 		total.setVisibility(View.VISIBLE);
 		pcTotal.setVisibility(View.VISIBLE);
 		saveResults.setVisibility(View.VISIBLE);
+		subscribe.setVisibility(View.VISIBLE);
+		List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
+		
+		if (subscribedChannels != null) {
+		
+		if (subscribedChannels.contains(askerUsername)) {
+			subscribe.setText("Unsubscribe from " + askerUsername + "'s questions");	
+		} else {
+			subscribe.setText("Subscribe to " + askerUsername + "'s questions");	
+		}
+		
+		} else {
+			subscribe.setText("Subscribe to " + askerUsername + "'s questions");	
+		}
+			
+		
 	switch (nbrAnswers)
 	{
 	  case 2:
@@ -276,10 +304,10 @@ public class Results extends Activity {
 	
 	findViewById(R.id.saveResults_button).setOnClickListener(new View.OnClickListener() {
 		public void onClick(View view) {
-			final ProgressDialog dlg2 = new ProgressDialog(Results.this);
-		    dlg2.setTitle("Please wait.");
-		    dlg2.setMessage("Saving results. Please wait.");
-		    dlg2.show();
+			final ProgressDialog dlg = new ProgressDialog(Results.this);
+		    dlg.setTitle("Please wait.");
+		    dlg.setMessage("Saving results. Please wait.");
+		    dlg.show();
 		    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			manager.cancel(tag, nId);
 		    ParseRelation<ParseObject> relation = currentUser.getRelation("savedQuestions");
@@ -288,7 +316,65 @@ public class Results extends Activity {
 			Toast.makeText(Results.this, "Results saved!", Toast.LENGTH_LONG)
 			.show();
 			saveResults.setVisibility(View.GONE);
-			dlg2.dismiss();
+			dlg.dismiss();
+		}
+		});
+	
+	findViewById(R.id.subscribe_button).setOnClickListener(new View.OnClickListener() {
+		public void onClick(View view) {
+			
+			if (subscribe.getText().toString().equals("Unsubscribe from " + askerUsername + "'s questions")) {
+				
+			final ProgressDialog dlg = new ProgressDialog(Results.this);
+		    dlg.setTitle("Please wait.");
+		    dlg.setMessage("Unsubscribing. Please wait.");
+		    dlg.show();
+		    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			manager.cancel(tag, nId);
+			ParsePush.unsubscribeInBackground(askerUsername);
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("username", askerUsername);
+			ParseCloud.callFunctionInBackground("subtractSubscriber", params, new FunctionCallback<Object>() {
+				   public void done(Object object, ParseException e) {
+					   if (e == null) {
+						subscribe.setVisibility(View.GONE);
+						dlg.dismiss();
+						Toast.makeText(Results.this, "Unsubscribed from " + askerUsername + "'s questions!", Toast.LENGTH_LONG)
+						.show();
+					   } else {
+						dlg.dismiss();
+						Toast.makeText(Results.this, "Unable to unsubscribe from " + askerUsername + "'s questions, please try again.", Toast.LENGTH_LONG)
+						.show();
+					   }
+				   }
+				});
+				
+			} else {
+			
+			final ProgressDialog dlg = new ProgressDialog(Results.this);
+		    dlg.setTitle("Please wait.");
+		    dlg.setMessage("Subscribing. Please wait.");
+		    dlg.show();
+		    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			manager.cancel(tag, nId);
+			ParsePush.subscribeInBackground(askerUsername);
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("username", askerUsername);
+			ParseCloud.callFunctionInBackground("addSubscriber", params, new FunctionCallback<Object>() {
+				   public void done(Object object, ParseException e) {
+					   if (e == null) {
+						subscribe.setVisibility(View.GONE);
+						dlg.dismiss();
+						Toast.makeText(Results.this, "Subscribed to " + askerUsername + "'s questions!", Toast.LENGTH_LONG)
+						.show();
+					   } else {
+						dlg.dismiss();
+						Toast.makeText(Results.this, "Unable to subscribe to " + askerUsername + "'s questions, please try again.", Toast.LENGTH_LONG)
+						.show();
+					   }
+				   }
+				});
+			}
 		}
 		});
 	

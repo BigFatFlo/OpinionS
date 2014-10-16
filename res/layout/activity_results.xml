@@ -269,13 +269,24 @@ android:layout_height="wrap_content">
         android:text="@string/saveResults" />
     
     <Button
+        android:id="@+id/subscribe_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/saveResults_button"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="@string/subscribe" />
+    
+    <Button
         android:id="@+id/backToMenu_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/saveResults_button"
+        android:layout_below="@id/subscribe_button"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
         android:text="@string/BTM" />

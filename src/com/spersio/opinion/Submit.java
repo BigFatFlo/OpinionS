@@ -60,6 +60,10 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 	
 	Integer nbrUsersPerChannel = 0;
 	
+	Integer nbrSubscribers = 0;
+	
+	Integer nbrUsersTargeted = 0;
+	
 	Integer radius = 0;
 	
 	Boolean international = false;
@@ -414,6 +418,9 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 		        		case R.id.area_submit:
 		        			submit_type = 2;
 		        		break;
+		        		case R.id.subscribers_submit:
+		        			submit_type = 3;
+		        		break;
 		        		default:
 		        			submit_type = -1;
 		        	}
@@ -439,6 +446,7 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 									break;
 									case 0:
 									int nbrUsersAvailable0 = country.getInt("nbrUsers");
+									nbrUsersTargeted = nbrUsersAvailable0;
 									usersNumber.setText("Ask about " + nbrUsersAvailable0 + "users");
 									usersNumber.setVisibility(View.VISIBLE);
 									usersAvailable.setText(nbrUsersAvailable0 + "users available");
@@ -449,6 +457,7 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 									default:
 									nbrUsersPerChannel = country.getInt("avUsersPerChannel");
 									int nbrUsersAvailable1 = country.getInt("nbrUsers");
+									nbrUsersTargeted = nbrUsersPerChannel;
 									usersNumber.setText("Ask " + nbrUsersPerChannel + "users");
 									usersNumber.setVisibility(View.VISIBLE);
 									usersBar.setMax(nbrChannelsAvailable-1);
@@ -460,6 +469,7 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 									}
 								  
 								} else {
+									radioGroup.clearCheck();
 								  Toast.makeText(Submit.this, "Unable to load available users...", Toast.LENGTH_LONG)
 								  .show();
 								  dlg.dismiss();
@@ -468,7 +478,8 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 							});
 		            	break;
 		            	case 1: // International submit (country = "international")
-							final ProgressDialog dlg1 = new ProgressDialog(Submit.this);
+		            		if (currentUser.getBoolean("international")) {
+		            		final ProgressDialog dlg1 = new ProgressDialog(Submit.this);
 							dlg1.setTitle("Please wait.");
 							dlg1.setMessage("Loading available users. Please wait.");
 							dlg1.show();
@@ -481,6 +492,7 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 								  switch (nbrChannelsAvailable) {
 									case 0:
 									int nbrUsersAvailable0 = country.getInt("nbrUsers");
+									nbrUsersTargeted = nbrUsersAvailable0;
 									usersNumber.setText("Ask " + nbrUsersAvailable0 + "users");
 									usersNumber.setVisibility(View.VISIBLE);
 									usersAvailable.setText(nbrUsersAvailable0 + "users available");
@@ -491,6 +503,7 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 									default:
 									nbrUsersPerChannel = country.getInt("avUsersPerChannel");
 									int nbrUsersAvailable1 = country.getInt("nbrUsers");
+									nbrUsersTargeted = nbrUsersPerChannel;
 									usersNumber.setText("Ask about " + nbrUsersPerChannel + "users");
 									usersNumber.setVisibility(View.VISIBLE);
 									usersBar.setMax(nbrChannelsAvailable);
@@ -502,12 +515,18 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 									}
 								  
 								} else {
+									radioGroup.clearCheck();
 								  Toast.makeText(Submit.this, "Unable to load available users...", Toast.LENGTH_LONG)
 								  .show();
 								  dlg1.dismiss();
 								}
 							  }
 							});
+		            		} else {
+		            			radioGroup.clearCheck();
+								Toast.makeText(Submit.this, "You need to accept international questions!", Toast.LENGTH_LONG)
+								.show();
+		            		}
 		            	break;
 		            	case 2: // In the area submit
 							if (currentUser.getBoolean("useLocation") && currentUser.getBoolean("locationKnown")) {
@@ -522,6 +541,12 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 							   public void done(Integer number, ParseException e) {
 								   if (e == null) {
 									int nbrUsersAvailable = number;
+									nbrUsersTargeted = nbrUsersAvailable;
+									if (nbrUsersAvailable == 0) {
+									radioGroup.clearCheck();
+									Toast.makeText(Submit.this, "No users available in a radius of " + radius + "km", Toast.LENGTH_LONG)
+									.show();
+									} else {
 									usersNumber.setText("In a radius of " + radius + "km");
 									usersNumber.setVisibility(View.VISIBLE);
 									usersBar.setMax(10);
@@ -530,6 +555,7 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 									usersAvailable.setVisibility(View.VISIBLE);
 									nbrChannels = 1;
 									dlg2.dismiss();
+									}
 								   } else {
 									Toast.makeText(Submit.this, "Unable to load available users", Toast.LENGTH_LONG)
 									.show();
@@ -538,9 +564,30 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 							   }
 							});
 							} else {
+								radioGroup.clearCheck();
 							Toast.makeText(Submit.this, "Location unavailable...", Toast.LENGTH_LONG)
 							.show();
 							}
+		            	break;
+		            	case 3:
+		            		currentUser.fetchInBackground(new GetCallback<ParseObject>() {
+		            			  public void done(ParseObject user, ParseException e) {
+		            			    if (e == null) {
+		    		            		nbrSubscribers = user.getInt("nbrSubscribers");
+		            			    } else {
+		    		            		nbrSubscribers = currentUser.getInt("nbrSubscribers");
+		            			    }
+		            			  }
+		            			});
+		            		if (nbrSubscribers <= 0) {
+		            			Toast.makeText(Submit.this, "You don't seem to have any subscribers...", Toast.LENGTH_LONG)
+								  .show();
+		            			radioGroup.clearCheck();
+		            		} else {
+		            		usersAvailable.setText("Send to " + nbrSubscribers + "subscribers");
+							usersAvailable.setVisibility(View.VISIBLE);
+							nbrChannels = 1;
+		            		}
 		            	break;
 		            	
 		            	// WiFi Direct Submit
@@ -596,14 +643,26 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 						case 0:
 						params.put("international",false);
 						params.put("around",false);
+						params.put("subscribersOnly", false);
+						params.put("nbrUsersTargeted", nbrUsersTargeted);
 						break;
 						case 1:
 						params.put("international",true);
 						params.put("around",false);
+						params.put("subscribersOnly", false);
+						params.put("nbrUsersTargeted", nbrUsersTargeted);
 						break;
 						case 2:
 						params.put("international",false);
 						params.put("around",true);
+						params.put("subscribersOnly", false);
+						params.put("nbrUsersTargeted", nbrUsersTargeted);
+						break;
+						case 3:
+						params.put("international",false);
+						params.put("around",true);
+						params.put("subscribersOnly", true);
+						params.put("nbrUsersTargeted", nbrSubscribers);
 						break;
 					}
 					switch (nbrAnswers)
@@ -819,21 +878,21 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 						.show();
 					}
 					if (nbrAnswers > 1 && nbrAnswers < 6) {
-					final ProgressDialog dlg4 = new ProgressDialog(Submit.this);
-					dlg4.setTitle("Please wait.");
-					dlg4.setMessage("Submitting question. Please wait.");
-					dlg4.show();
+					final ProgressDialog dlg = new ProgressDialog(Submit.this);
+					dlg.setTitle("Please wait.");
+					dlg.setMessage("Submitting question. Please wait.");
+					dlg.show();
 					ParseCloud.callFunctionInBackground("newQuestion", params, new FunctionCallback<Object>() {
 						   public void done(Object object, ParseException e) {
 							   if (e == null) {
-								dlg4.dismiss();
+								dlg.dismiss();
 								Toast.makeText(Submit.this, "Question submitted", Toast.LENGTH_LONG)
 								.show();
 								Intent intent = new Intent(Submit.this,Menu.class);
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 								startActivity(intent);
 							   } else {
-								dlg4.dismiss();
+								dlg.dismiss();
 								Toast.makeText(Submit.this, "Unable to submit the question, please try again", Toast.LENGTH_LONG)
 								.show();
 							   }
@@ -881,10 +940,12 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 	     	switch (submit_type) {
 				case 0:
 			usersNumber.setText("Ask about " + (progress+1)*nbrUsersPerChannel + "users");
+			nbrUsersTargeted = (progress+1)*nbrUsersPerChannel;
 			nbrChannels = progress+1;
 				break;
 				case 1:
 			usersNumber.setText("Ask about " + (progress+1)*nbrUsersPerChannel + "users");
+			nbrUsersTargeted = (progress+1)*nbrUsersPerChannel;
 			nbrChannels = progress+1;
 				break;
 				case 2:
@@ -901,6 +962,7 @@ public class Submit extends Activity implements OnSeekBarChangeListener{
 					int nbrUsersAvailable = number;
 					usersNumber.setText("In a radius of " + radius + "km");
 					usersAvailable.setText(nbrUsersAvailable + "users available");
+					nbrUsersTargeted = nbrUsersAvailable;
 					dlgR.dismiss();
 				   } else {
 					Toast.makeText(Submit.this, "Unable to load available users", Toast.LENGTH_LONG)

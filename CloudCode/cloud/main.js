@@ -2,18 +2,46 @@
 Parse.Cloud.beforeSave(Parse.User, function(request,response){
 	Parse.Cloud.useMasterKey();
 	var changeOfChannel = request.object.get("changeOfChannel");
-	var international = request.object.get("international");	
-
+	var international = request.object.get("international");
 	var maxMembers = 2; // Setting the maximum number of members per channel
 
-	if (international && typeof request.object.get("internationalChannel") === "undefined") { // International option is turned on for the first time
+	if (international && request.object.get("internationalChannel") == "") { // International option is turned on for the first time
+		
 		var query = new Parse.Query("Country");
-		query.get("7wQb7cZnQH", {
-		  success: function(resultCountry) {
+		query.equalTo("name", "International");
+		query.first().then(function(resultCountry) {
+			
+			var nbrUsers = resultCountry.get("nbrUsers");
+			var nbrChannels = resultCountry.get("nbrChannels");
+
+			if (nbrChannels == -1){ // If no channel has been created for this country
+				
+				var newChannel = new Parse.Object("Channel"); // Creation of the first channel
+				newChannel.set("name","International_" + "0");
+				newChannel.set("full",false);
+				newChannel.set("country","International");
+				newChannel.set("members",1);
+				newChannel.set("lastTester",0);
+				newChannel.set("maxMembers",maxMembers);
+				newChannel.set("counted",false); // The channel isn't counted until it's full
+				resultCountry.set("nbrChannels",0); // Updating International: nbrChannels = 0 means there is only one 
+													// channel, which has never been full. Once it is full for the 
+													// first time, nbrChannels will be set to 1 and a new channel 
+													// will be created the next time. nbrChannels must always
+													// be the number of channels that have already been full, 
+													// so as to be sure that they are never empty: it is very
+													// unlikely that a once full channel would become empty
+				resultCountry.set("nbrUsers",1);
+				resultCountry.set("avUsersPerChannel",1);
+				request.object.set("internationalChannel","International_"+ "0"); // Updating User
+				return Parse.Object.saveAll([resultCountry,newChannel]); // Saving country and new channel
+
+			} else {	
+
 			var channelQuery = new Parse.Query("Channel");
-				channelQuery.equalTo("country","international");
+				channelQuery.equalTo("country","International");
 				channelQuery.notEqualTo("full", true);
-				channelQuery.first().then(function(resultChannel) { // Querying the first matching, unfull, channel
+				return channelQuery.first().then(function(resultChannel) { // Querying the first matching, unfull, channel
 					
 					if (resultChannel != null) { // If there is one
 					var m = resultChannel.get("members");
@@ -30,6 +58,7 @@ Parse.Cloud.beforeSave(Parse.User, function(request,response){
 							resultCountry.set("avUsersPerChannel",Math.floor((nbrUsers+1)/(nbrChannels+1)));// Updating "country" International's average number of users per channel
 						} else {
 							resultCountry.set("nbrUsers",nbrUsers+1); // If the maximum numbers is not reached, only the number of users for International is updated
+							resultCountry.set("avUsersPerChannel",Math.floor((nbrUsers+1)/(nbrChannels+1)));
 						}
 					request.object.set("internationalChannel",channelName); // Setting the user's international channel
 					return Parse.Object.saveAll([resultChannel,resultCountry]); // Saving "country" international and channel
@@ -37,9 +66,9 @@ Parse.Cloud.beforeSave(Parse.User, function(request,response){
 					} else { // If all the matching channels are full: we need to create a new one
 					
 					var newChannel = new Parse.Object("Channel"); // Creation of a new channel
-					newChannel.set("name", "international_" + nbrChannels); // Naming it
+					newChannel.set("name", "International_" + nbrChannels); // Naming it
 					newChannel.set("full",false); // Not full
-					newChannel.set("country","international"); // International Channel
+					newChannel.set("country","International"); // International Channel
 					newChannel.set("members",1); // Only one user
 					newChannel.set("lastTester",0); // USELESS?
 					newChannel.set("maxMembers",maxMembers); // Setting the maximum number of members
@@ -47,18 +76,70 @@ Parse.Cloud.beforeSave(Parse.User, function(request,response){
 					resultCountry.set("nbrUsers",nbrUsers+1); // Updating "country" International's number of users
 					resultCountry.set("avUsersPerChannel",Math.floor((nbrUsers+1)/(nbrChannels+1))); // Updating average number of users per channel
 																									 // (no new channel because not counted)
-					request.object.set("internationalChannel","international_" + nbrChannels); // Setting the user's international channel
+					request.object.set("internationalChannel","International_" + nbrChannels); // Setting the user's international channel
 					return Parse.Object.saveAll([newChannel,resultCountry]); // Saving "country" international and channel
 					
 					}
-				}, function(error){
-					console.error("there was an error" + error);
 				});
-		  },
-		  error: function(object, error) {
-		  }
-		});
-	}
+			}
+
+		  	}).then(function(){
+				console.log("All good");
+				response.success(); // Everything was successful
+			}, function (error){
+				console.error("Oops, something went wrong!") // There was an error somewhere
+			});
+
+	} else {
+
+	if (!international && request.object.get("internationalChannel") != "") { //International option had just been turned off 
+
+		
+		console.log("Inside the If");
+
+		var oldInternationalChannelName = request.object.get("internationalChannel"); // We need to update the number of members of the "country" International and of the user's former international channel
+			
+
+		console.log(oldInternationalChannelName);
+
+			var oldInternationalChannelQuery = new Parse.Query("Channel"); // Query for the old international channel
+			oldInternationalChannelQuery.equalTo("name",oldInternationalChannelName);
+			oldInternationalChannelQuery.first().then(function(oldInternationalChannel) {
+				
+
+				console.log("Inside the channel query");
+
+				var oldInternationalChannelMembers = oldInternationalChannel.get("members");
+
+				var query = new Parse.Query("Country");
+				query.equalTo("name", "International");
+				return query.first().then(function(resultCountry) {
+					
+
+					console.log("inside the country query");
+
+					var internationalUsers = resultCountry.get("nbrUsers");
+					var internationalChannels = resultCountry.get("nbrChannels");
+
+					resultCountry.set("nbrUsers",internationalUsers-1); // Updating all concerned fields for International and channel
+					resultCountry.set("avUsersPerChannel",Math.floor((internationalUsers-1)/(internationalChannels+1))); // No need to lower the nbrChannels for International
+																												// the channel will be filled again at the next subscription
+					oldInternationalChannel.set("members",oldInternationalChannelMembers-1);
+					if (oldInternationalChannel.get("full")) { // if the channel was full, it isn't any longer
+						oldInternationalChannel.set("full",false);
+					}
+					request.object.set("internationalChannel", "");
+					return Parse.Object.saveAll([oldInternationalChannel,resultCountry]); // Saving old channel and International
+
+				});
+			}).then(function(){
+				console.log("All good");
+				response.success(); // Everything was successful
+			},function (error){
+				console.error("Oops, something went wrong!") // There was an error somewhere
+			});
+
+	} else {
 	
 	if (changeOfChannel) { // There is a change of channel
 		
@@ -189,6 +270,9 @@ Parse.Cloud.beforeSave(Parse.User, function(request,response){
 	
 	console.log("end");
 	response.success();
+
+	}
+	}
 	}
 	
 });
@@ -246,6 +330,8 @@ Parse.Cloud.define("newQuestion", function(request, response) {
   var nbrChannels = request.params.nbrChannels;
   var nbrAnswers = request.params.nbrAnswers;
   var international = request.params.international;
+  var subscribersOnly = request.params.subscribersOnly;
+  var nbrUsersTargeted = request.params.nbrUsersTargeted;
   var around = request.params.around;
   var radius = request.params.radius; // Getting the parameters from the User in the app
 
@@ -276,6 +362,8 @@ Parse.Cloud.define("newQuestion", function(request, response) {
 		newQuestion.set("published",false);
 		newQuestion.set("approvedAndSent",false);
 		newQuestion.set("international",international);
+		newQuestion.set("subscribersOnly",subscribersOnly);
+		newQuestion.set("nbrUsersTargeted",nbrUsersTargeted);
 		newQuestion.set("around",around);
 		newQuestion.set("radius",radius); // Setting the question's fields and saving
 		newQuestion.save().then(function(){
@@ -310,6 +398,8 @@ Parse.Cloud.define("newQuestion", function(request, response) {
 		newQuestion.set("published",false);
 		newQuestion.set("approvedAndSent",false);
 		newQuestion.set("international",international);
+		newQuestion.set("subscribersOnly",subscribersOnly);
+		newQuestion.set("nbrUsersTargeted",nbrUsersTargeted);
 		newQuestion.set("around",around);
 		newQuestion.set("radius",radius); // Setting the question's fields and saving
 		newQuestion.save().then(function(){
@@ -344,6 +434,8 @@ Parse.Cloud.define("newQuestion", function(request, response) {
 		newQuestion.set("published",false);
 		newQuestion.set("approvedAndSent",false);
 		newQuestion.set("international",international);
+		newQuestion.set("subscribersOnly",subscribersOnly);
+		newQuestion.set("nbrUsersTargeted",nbrUsersTargeted);
 		newQuestion.set("around",around);
 		newQuestion.set("radius",radius); // Setting the question's fields and saving
 		newQuestion.save().then(function(){
@@ -378,6 +470,8 @@ Parse.Cloud.define("newQuestion", function(request, response) {
 		newQuestion.set("published",false);
 		newQuestion.set("approvedAndSent",false);
 		newQuestion.set("international",international);
+		newQuestion.set("subscribersOnly",subscribersOnly);
+		newQuestion.set("nbrUsersTargeted",nbrUsersTargeted);
 		newQuestion.set("around",around);
 		newQuestion.set("radius",radius); // Setting the question's fields and saving
 		newQuestion.save().then(function(){
@@ -491,6 +585,40 @@ Parse.Cloud.define("addAnswer", function(request, response) {
 	});
 });
 
+Parse.Cloud.define("addSubscriber", function(request, response) {
+  Parse.Cloud.useMasterKey();
+  var query = new Parse.Query(Parse.User);
+  query.equalTo("username",request.params.username);
+  query.first().then(function(asker) {
+  	var nbrSubscribers = asker.get("nbrSubscribers");
+  	asker.set("nbrSubscribers",nbrSubscribers+1);
+  	asker.save().then(function(){
+  		response.success();
+  	});
+  },
+	function(error) {
+      response.error("Unable to count new Subscriber");
+    });
+});
+
+Parse.Cloud.define("subtractSubscriber", function(request, response) {
+  Parse.Cloud.useMasterKey();
+  var query = new Parse.Query(Parse.User);
+  query.equalTo("username",request.params.username);
+  query.first().then(function(asker) {
+  	var nbrSubscribers = asker.get("nbrSubscribers");
+  	asker.set("nbrSubscribers",nbrSubscribers-1);
+  	asker.save().then(function(){
+  		response.success();
+  	});
+  },
+	function(error) {
+      response.error("Unable to subtract Subscriber");
+    });
+});
+
+
+
 Parse.Cloud.beforeSave("Question", function(request,response){
 	Parse.Cloud.useMasterKey();
 	var n = request.object.get("nbrAnswers");
@@ -498,8 +626,9 @@ Parse.Cloud.beforeSave("Question", function(request,response){
 	var nA = request.object.get("nA");
 	var approvedAndSent = request.object.get("approvedAndSent");
 	var published = request.object.get("published");
-	var minToA = 1;
-	var minForR = 1;
+	var nbrUsersTargeted = request.object.get("nbrUsersTargeted");
+	var minToA = Math.max(1,(nbrUsersTargeted*30)/100);
+	var minForR = Math.max(1,(nbrUsersTargeted*30)/100);
 	request.object.set("minToBeApproved",minToA);
 	request.object.set("minForResults",minForR);
 	if (nI == minToA && !approvedAndSent) {
@@ -541,9 +670,10 @@ Parse.Cloud.afterSave("Question", function(request){
 	var time_for_answer = 86400; // expiration time for notification requesting answer
 	var time_for_results = 86400; // expiration time for notification giving results
 	
+	var subscribersOnly = request.object.get("subscribersOnly");
 	var international = request.object.get("international");
 	if (international) {
-	var country = "international";
+	var country = "International";
 	} else {
 	var country = request.object.get("country");
 	}
@@ -556,6 +686,38 @@ Parse.Cloud.afterSave("Question", function(request){
 		
 	if (toSendForTest) {	
 	
+	if (subscribersOnly){
+
+	Parse.Push.send({
+		channels: [request.object.get("askerUsername")],
+		data: {
+			action: "com.spersio.opinion.ANSWER_INTEREST",
+			//alert: "Question: " + request.object.get("text"),
+			//title: "Your approval is needed!",
+			questionID: request.object.id,
+			questionText: request.object.get("text"),
+			nbrAnswers: request.object.get("nbrAnswers"),
+			answer1: request.object.get("answer1"),
+			answer2: request.object.get("answer2"),
+			answer3: request.object.get("answer3"),
+			answer4: request.object.get("answer4"),
+			answer5: request.object.get("answer5"),
+			international: request.object.get("international"),
+			around: request.object.get("around"),
+			radius: request.object.get("radius"),
+			askerUsername: request.object.get("askerUsername")
+		},
+		expiration_interval: time_for_interest		
+		}, {
+		success: function(){
+			request.object.set("toSendForTest",false);
+			request.object.save();
+			},
+		error: function(error) {}	
+			});
+
+	} else {
+
 	if (around) {
 	
 	var userGeoPoint = request.user.get("location");
@@ -566,7 +728,7 @@ Parse.Cloud.afterSave("Question", function(request){
 	pushQuery.withinKilometers("location", userGeoPoint, radius);
 	pushQuery.find().then(function(results) {
 		for (i=0;i<results.length;i++) {
-			request.object.add("followers",results[i].id);
+			request.object.add("Subscribers",results[i].id);
 		}
 		pushQuery.limit(10);
 		return Parse.Push.send({
@@ -634,7 +796,7 @@ Parse.Cloud.afterSave("Question", function(request){
 	
 	var pushQuery = new Parse.Query(Parse.Installation);
 	if (international) {
-	pushQuery.equalTo("internationalChannel", 'international_' + nbrChannel);
+	pushQuery.equalTo("internationalChannel", 'International_' + nbrChannel);
 	} else {
 	pushQuery.equalTo("channel",country + '_' + nbrChannel);
 	}
@@ -681,16 +843,51 @@ Parse.Cloud.afterSave("Question", function(request){
 	});
 	}
 	}
+	}
 	
 	if (toSendForAnswer) {
 	
+	
+	if (subscribersOnly) {
+
+	Parse.Push.send({
+		channels: [request.object.get("askerUsername")],
+		data: {
+			action: "com.spersio.opinion.ANSWER_QUESTION",
+			//alert: "Question: " + request.object.get("text"),
+			//title: "Your approval is needed!",
+			questionID: request.object.id,
+			questionText: request.object.get("text"),
+			nbrAnswers: request.object.get("nbrAnswers"),
+			answer1: request.object.get("answer1"),
+			answer2: request.object.get("answer2"),
+			answer3: request.object.get("answer3"),
+			answer4: request.object.get("answer4"),
+			answer5: request.object.get("answer5"),
+			international: request.object.get("international"),
+			around: request.object.get("around"),
+			radius: request.object.get("radius"),
+			askerUsername: request.object.get("askerUsername")
+		},
+		expiration_interval: time_for_answer		
+		}, {
+		success: function(){
+			request.object.set("toSendForAnswer",false);
+			request.object.set("approvedAndSent",true);
+			request.object.save();
+			},
+		error: function(error) {}	
+			});
+
+	} else {
+
 	if (around) {
 	
 
 	var asker = request.object.get("asker");
 
 	var pushQuery = new Parse.Query(Parse.Installation);
-	pushQuery.containedIn("objectId",request.object.get("followers"));
+	pushQuery.containedIn("objectId",request.object.get("Subscribers"));
 	Parse.Push.send({
 		where: pushQuery,
 		data: {
@@ -789,16 +986,61 @@ Parse.Cloud.afterSave("Question", function(request){
 		error: function(error) {}	
 		});
 	}
+	}
 	}	
 		
 	if (toSendForResults) {
 	
+	if (subscribersOnly) {
+
+	Parse.Push.send({
+		channels: [request.object.get("askerUsername")],
+		data: {
+			action: "com.spersio.opinion.QUESTION_RESULTS",
+			//alert: "Question: " + request.object.get("text"),
+			//title: "The results are in!",
+			questionID: request.object.id,
+			questionText: request.object.get("text"),
+			nbrAnswers: request.object.get("nbrAnswers"),
+			nA: request.object.get("nA"),
+			nA1: request.object.get("nA1"),
+			nA2: request.object.get("nA2"),
+			nA3: request.object.get("nA3"),
+			nA4: request.object.get("nA4"),
+			nA5: request.object.get("nA5"),
+			pcA1: request.object.get("pcA1"),
+			pcA2: request.object.get("pcA2"),
+			pcA3: request.object.get("pcA3"),
+			pcA4: request.object.get("pcA4"),
+			pcA5: request.object.get("pcA5"),
+			answer1: request.object.get("answer1"),
+			answer2: request.object.get("answer2"),
+			answer3: request.object.get("answer3"),
+			answer4: request.object.get("answer4"),
+			answer5: request.object.get("answer5"),
+			international: request.object.get("international"),
+			around: request.object.get("around"),
+			radius: request.object.get("radius"),
+			askerUsername: request.object.get("askerUsername")
+		},
+		expiration_interval: time_for_results		
+		}, {
+		success: function(){
+			request.object.set("toSendForResults",false);
+			request.object.set("published",true);
+			request.object.save();
+			},
+		error: function(error) {}	
+			});
+
+	} else {
+
 	if (around) {
 	
 	var asker = request.object.get("asker");
 
 	var pushQuery = new Parse.Query(Parse.Installation);
-	pushQuery.containedIn("objectId",request.object.get("followers"));
+	pushQuery.containedIn("objectId",request.object.get("Subscribers"));
 	Parse.Push.send({
 		where: pushQuery,
 		data: {
@@ -964,6 +1206,7 @@ Parse.Cloud.afterSave("Question", function(request){
 		},
 	error: function(error) {}	
 		});
+	}
 	}
 	}
 	}

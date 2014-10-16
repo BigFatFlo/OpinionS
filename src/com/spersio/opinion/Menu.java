@@ -96,7 +96,7 @@ public class Menu extends Activity implements LocationListener{
                 	/*ParseInstallation installation = ParseInstallation.getCurrentInstallation();
             		installation.put("useLocation",true);*/
                 	locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 10, Menu.this);
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, Menu.this);
                 } else {
                 	currentUser.put("useLocation",false);
                 	//currentUser.saveInBackground();

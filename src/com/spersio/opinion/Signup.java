@@ -98,6 +98,7 @@ public class Signup extends Activity {
               user.setPassword(passwordView.getText().toString());
               user.put("country", "");
               user.put("nbrQuestionsAsked", 0);
+              user.put("nbrSubscribers", 0);
               user.put("international", false);
               user.put("internationalChannel", "");
               user.put("useLocation", false);

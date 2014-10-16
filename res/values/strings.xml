@@ -54,11 +54,13 @@
     <string name="normalSubmit">Ask users in your country</string>
     <string name="areaSubmit">Ask users in your area</string>
     <string name="wifiSubmit">Ask users nearby</string>
+    <string name="subscribersSubmit">Ask your subscribers</string>
     <string name="internationalSubmit">Ask users all around the world</string>
     <string name="usersAvailable">About 0 users available</string>
 	<string name="usersNumber">Ask 0 users</string>
     <string name="saveResults">Save results</string>
     <string name="savedQuestions">Saved questions</string>
+    <string name="subscribe">Subscribe to this user\'s questions</string>
     
 
 </resources>

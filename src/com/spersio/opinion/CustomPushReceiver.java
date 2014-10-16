@@ -124,9 +124,10 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 	interestIntent.putExtras(extras);
 	
 	Intent quickIntent1 = new Intent(ctx, InterestNotificationActivity.class);
-	final Bundle extras1 = new Bundle();
+	Bundle extras1 = new Bundle();
 	extras1.putString(ID, questionId);
 	Log.d("FirstID",questionId);
+	Log.d("SecondID",extras1.getString(CustomPushReceiver.ID));
 	extras1.putString(text, qText);
 	extras1.putInt(nbrAnswers, nbrA);
 	extras1.putString(A1, answer1);
@@ -142,7 +143,8 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 	extras1.putBoolean(around, arnd);
 	extras1.putString(askerUsername, askerU);
 	quickIntent1.putExtras(extras1);
-	final PendingIntent btPendingIntent1 = PendingIntent.getBroadcast(ctx, 0, quickIntent1, 0);
+	Log.d("ThirdID",quickIntent1.getExtras().getString(CustomPushReceiver.ID));
+	final PendingIntent btPendingIntent1 = PendingIntent.getBroadcast(ctx, 11, quickIntent1, PendingIntent.FLAG_UPDATE_CURRENT);
 	
 	Intent quickIntent0 = new Intent(ctx, InterestNotificationActivity.class);
 	Bundle extras0 = new Bundle();
@@ -162,22 +164,23 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 	extras0.putBoolean(around, arnd);
 	extras0.putString(askerUsername, askerU);
 	quickIntent0.putExtras(extras0);
-	final PendingIntent btPendingIntent0 = PendingIntent.getBroadcast(ctx, 0, quickIntent0, 0);
+	final PendingIntent btPendingIntent0 = PendingIntent.getBroadcast(ctx, 10, quickIntent0, PendingIntent.FLAG_UPDATE_CURRENT);
+	
+	final NotificationCompat.Builder mBuilder =
+	        new NotificationCompat.Builder(ctx)
+	        .setSmallIcon(R.drawable.ic_stat_question)
+	        .setTicker("New question to approve!")
+	        .setContentTitle("Your Approval is needed")
+	        .setContentText(qText)
+	        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText + extras1.getString(ID) + answer1 + "  " + answer2 + "  " + answer3 + "  " + answer4 + "  " + answer5))
+			.addAction(R.drawable.ic_stat_question, "Interesting", btPendingIntent1)
+			.addAction(R.drawable.ic_stat_question, "Not Interesting", btPendingIntent0);
 	
 	countDownTimerI = new CountDownTimer(31000, 5000) {
 
 	     public void onTick(long millisUntilFinished) {
 	    	 
 	    	 if (millisUntilFinished>28000) {
-	    		 NotificationCompat.Builder mBuilder =
-	    			        new NotificationCompat.Builder(ctx)
-	    			        .setSmallIcon(R.drawable.ic_stat_question)
-	    			        .setTicker("New question to approve!")
-	    			        .setContentTitle("Your Approval is needed")
-	    			        .setContentText(qText)
-	    			        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText + extras1.getString(ID) + answer1 + "  " + answer2 + "  " + answer3 + "  " + answer4 + "  " + answer5))
-	    					.addAction(R.drawable.ic_stat_question, "Interesting", btPendingIntent1)
-	    					.addAction(R.drawable.ic_stat_question, "Not Interesting", btPendingIntent0);
 	    				
 	    				mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
 	    				// The stack builder object will contain an artificial back stack for the
@@ -200,27 +203,21 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 	    				// notificationId allows you to update the notification later on.
 	    				mNotificationManager.notify(notificationTag, notificationId, mBuilder.build());
 	    	 } else {
-	    	 NotificationCompat.Builder mBuilder =
-	    		        new NotificationCompat.Builder(ctx)
-	    		        .setTicker(String.valueOf((int) (millisUntilFinished / 1000)))
-	    		        .setContentTitle("Your Approval is needed")
-	    		        .setContentText(qText)
-	    		        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText + extras1.getString(ID) + answer1 + "  " + answer2 + "  " + answer3 + "  " + answer4 + "  " + answer5))
-	    				.addAction(R.drawable.ic_stat_question, "Interesting", btPendingIntent1)
-	    				.addAction(R.drawable.ic_stat_question, "Not Interesting", btPendingIntent0);
+	    	 
+	    		mBuilder.setTicker(String.valueOf((int) (millisUntilFinished / 1000)));
 	    			
 	    	 		switch((int) (millisUntilFinished / 1000)) {
 	    	 		case 25:
-	    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
+	    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
 	    	 		break;
 	    	 		case 20:
-		    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
+	    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
 		    	 	break;
 	    	 		case 15:
-		    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
+	    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
 		    	 	break;
 	    	 		case 10:
-		    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
+	    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
 		    	 	break;
 		    	 	default: 
 		    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
@@ -301,6 +298,8 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			Intent quickIntent1 = new Intent(ctx, AnswerNotificationActivity.class);
 			final Bundle extras1 = new Bundle();
 			extras1.putString(ID, questionId);
+			Log.d("FirstID",questionId);
+			Log.d("SecondID",extras1.getString(CustomPushReceiver.ID));
 			extras1.putString(text, qText);
 			extras1.putInt(nbrAnswers, nbrA);
 			extras1.putString(A1, answer1);
@@ -316,7 +315,8 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras1.putBoolean(around, arnd);
 			extras1.putString(askerUsername, askerU);
 			quickIntent1.putExtras(extras1);
-			final PendingIntent btPendingIntent1 = PendingIntent.getBroadcast(ctx, 0, quickIntent1, 0);
+			Log.d("ThirdID",quickIntent1.getExtras().getString(CustomPushReceiver.ID));
+			final PendingIntent btPendingIntent1 = PendingIntent.getBroadcast(ctx, 21, quickIntent1, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			Intent quickIntent2 = new Intent(ctx, AnswerNotificationActivity.class);
 			final Bundle extras2 = new Bundle();
@@ -336,7 +336,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras2.putBoolean(around, arnd);
 			extras2.putString(askerUsername, askerU);
 			quickIntent2.putExtras(extras2);
-			final PendingIntent btPendingIntent2 = PendingIntent.getBroadcast(ctx, 0, quickIntent2, 0);
+			final PendingIntent btPendingIntent2 = PendingIntent.getBroadcast(ctx, 22, quickIntent2, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			Intent quickIntent3 = new Intent(ctx, AnswerNotificationActivity.class);
 			final Bundle extras3 = new Bundle();
@@ -356,7 +356,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras3.putBoolean(around, arnd);
 			extras3.putString(askerUsername, askerU);
 			quickIntent3.putExtras(extras3);
-			final PendingIntent btPendingIntent3 = PendingIntent.getBroadcast(ctx, 0, quickIntent3, 0);
+			final PendingIntent btPendingIntent3 = PendingIntent.getBroadcast(ctx, 23, quickIntent3, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			Intent quickIntent4 = new Intent(ctx, AnswerNotificationActivity.class);
 			final Bundle extras4 = new Bundle();
@@ -376,7 +376,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras4.putBoolean(around, arnd);
 			extras4.putString(askerUsername, askerU);
 			quickIntent4.putExtras(extras4);
-			final PendingIntent btPendingIntent4 = PendingIntent.getBroadcast(ctx, 0, quickIntent4, 0);
+			final PendingIntent btPendingIntent4 = PendingIntent.getBroadcast(ctx, 24, quickIntent4, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			Intent quickIntent5 = new Intent(ctx, AnswerNotificationActivity.class);
 			final Bundle extras5 = new Bundle();
@@ -395,7 +395,17 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras5.putBoolean(around, arnd);
 			extras5.putString(askerUsername, askerU);
 			quickIntent5.putExtras(extras5);
-			final PendingIntent btPendingIntent5 = PendingIntent.getBroadcast(ctx, 0, quickIntent5, 0);
+			final PendingIntent btPendingIntent5 = PendingIntent.getBroadcast(ctx, 25, quickIntent5, PendingIntent.FLAG_UPDATE_CURRENT);
+			
+			final NotificationCompat.Builder mBuilder =
+			        new NotificationCompat.Builder(ctx)
+			        .setSmallIcon(R.drawable.ic_stat_question)
+			        .setTicker("New question!")
+			        .setContentTitle("Your Opinion is needed")
+			        .setContentText(qText)
+			        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText))
+					.addAction(R.drawable.ic_stat_question, answer1, btPendingIntent1)
+					.addAction(R.drawable.ic_stat_question, answer2, btPendingIntent2);
 			
 			switch (nbrA) {
 			case 2:
@@ -405,18 +415,8 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 				     public void onTick(long millisUntilFinished) {
 				    	 
 				    	 if (millisUntilFinished>58000) {
-				    	 
-				    	 NotificationCompat.Builder mBuilder2 =
-							        new NotificationCompat.Builder(ctx)
-							        .setSmallIcon(R.drawable.ic_stat_question)
-							        .setTicker("New question!")
-							        .setContentTitle("Your Opinion is needed")
-							        .setContentText(qText)
-							        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText))
-									.addAction(R.drawable.ic_stat_question, answer1, btPendingIntent1)
-									.addAction(R.drawable.ic_stat_question, answer2, btPendingIntent2);
 								
-								mBuilder2.setVibrate(new long[] { 0, 400, 150, 400 });
+								mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
 								// The stack builder object will contain an artificial back stack for the
 										// started Activity.
 										// This ensures that navigating backward from the Activity leads out of
@@ -431,41 +431,33 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 													0,
 													PendingIntent.FLAG_UPDATE_CURRENT
 												);
-										mBuilder2.setContentIntent(answerPendingIntent2);
+										mBuilder.setContentIntent(answerPendingIntent2);
 										NotificationManager mNotificationManager2 =
 											(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 										// notificationId allows you to update the notification later on.
-										mNotificationManager2.notify(notificationTag, notificationId, mBuilder2.build());
+										mNotificationManager2.notify(notificationTag, notificationId, mBuilder.build());
 						} else {
 				    	 
-				    	 NotificationCompat.Builder mBuilder2 =
-							        new NotificationCompat.Builder(ctx)
-							        .setSmallIcon(R.drawable.ic_stat_question)
-							        .setContentTitle("Your Opinion is needed")
-							        .setTicker(String.valueOf((int) (millisUntilFinished / 1000)))
-							        .setContentText(qText)
-							        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText))
-									.addAction(R.drawable.ic_stat_question, answer1, btPendingIntent1)
-									.addAction(R.drawable.ic_stat_question, answer2, btPendingIntent2);
+						        mBuilder.setTicker(String.valueOf((int) (millisUntilFinished / 1000)));
 								
 						    	 switch((int) (millisUntilFinished / 1000)) {
 					    	 		case 50:
-					    	 			mBuilder2.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
+					    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
 					    	 		break;
 					    	 		case 40:
-						    	 		mBuilder2.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
 						    	 	break;
 					    	 		case 30:
-						    	 		mBuilder2.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
 						    	 	break;
 					    	 		case 20:
-						    	 		mBuilder2.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
 						    	 	break;
 						    	 	default: 
-						    	 		mBuilder2.setSmallIcon(R.drawable.ic_stat_question_all_red);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
 					    	 		}
 				    	 
-				    	 		mBuilder2.setVibrate(new long[] { 0, 150});
+				    	 		mBuilder.setVibrate(new long[] { 0, 150});
 								// The stack builder object will contain an artificial back stack for the
 										// started Activity.
 										// This ensures that navigating backward from the Activity leads out of
@@ -480,11 +472,11 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 													0,
 													PendingIntent.FLAG_UPDATE_CURRENT
 												);
-										mBuilder2.setContentIntent(answerPendingIntent2);
+										mBuilder.setContentIntent(answerPendingIntent2);
 										NotificationManager mNotificationManager2 =
 											(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 										// notificationId allows you to update the notification later on.
-										mNotificationManager2.notify(notificationTag, notificationId, mBuilder2.build());
+										mNotificationManager2.notify(notificationTag, notificationId, mBuilder.build());
 						}
 				     }
 
@@ -506,18 +498,9 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 				    	 
 				    	 if (millisUntilFinished>38000) {
 				    	 
-				    		 NotificationCompat.Builder mBuilder3 =
-				 			        new NotificationCompat.Builder(ctx)
-				 			        .setSmallIcon(R.drawable.ic_stat_question)
-				 			        .setTicker("New question!")
-				 			        .setContentTitle("Your Opinion is needed")
-				 			        .setContentText(qText)
-				 			        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText))
-				 					.addAction(R.drawable.ic_stat_question, answer1, btPendingIntent1)
-				 					.addAction(R.drawable.ic_stat_question, answer2, btPendingIntent2)
-				 					.addAction(R.drawable.ic_stat_question, answer3, btPendingIntent3);
+			 					mBuilder.addAction(R.drawable.ic_stat_question, answer3, btPendingIntent3);
 				 				
-				 				mBuilder3.setVibrate(new long[] { 0, 400, 150, 400 });
+				 				mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
 				 				// The stack builder object will contain an artificial back stack for the
 				 						// started Activity.
 				 						// This ensures that navigating backward from the Activity leads out of
@@ -532,42 +515,34 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 				 									0,
 				 									PendingIntent.FLAG_UPDATE_CURRENT
 				 								);
-				 						mBuilder3.setContentIntent(answerPendingIntent3);
+				 						mBuilder.setContentIntent(answerPendingIntent3);
 				 						NotificationManager mNotificationManager3 =
 				 							(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 				 						// notificationId allows you to update the notification later on.
-				 						mNotificationManager3.notify(notificationTag, notificationId, mBuilder3.build());
+				 						mNotificationManager3.notify(notificationTag, notificationId, mBuilder.build());
 				    		 
 				    	 } else { 
-				    	 NotificationCompat.Builder mBuilder3 =
-							        new NotificationCompat.Builder(ctx)
-							        .setSmallIcon(R.drawable.ic_stat_question)
-							        .setContentTitle("Your Opinion is needed")
-							        .setTicker(String.valueOf((int) (millisUntilFinished / 1000)))
-							        .setContentText(qText)
-							        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText))
-									.addAction(R.drawable.ic_stat_question, answer1, btPendingIntent1)
-									.addAction(R.drawable.ic_stat_question, answer2, btPendingIntent2)
-									.addAction(R.drawable.ic_stat_question, answer3, btPendingIntent3);
+				    	 
+				    		 	mBuilder.setTicker(String.valueOf((int) (millisUntilFinished / 1000)));
 								
 						    	 switch((int) (millisUntilFinished / 1000)) {
 					    	 		case 50:
-					    	 			mBuilder3.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
+					    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
 					    	 		break;
 					    	 		case 40:
-						    	 		mBuilder3.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
 						    	 	break;
 					    	 		case 30:
-						    	 		mBuilder3.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
 						    	 	break;
 					    	 		case 20:
-						    	 		mBuilder3.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
 						    	 	break;
 						    	 	default: 
-						    	 		mBuilder3.setSmallIcon(R.drawable.ic_stat_question_all_red);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
 					    	 		}
 				    	 
-				    	 		mBuilder3.setVibrate(new long[] { 0, 100});
+				    	 		mBuilder.setVibrate(new long[] { 0, 100});
 								// The stack builder object will contain an artificial back stack for the
 										// started Activity.
 										// This ensures that navigating backward from the Activity leads out of
@@ -582,11 +557,11 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 													0,
 													PendingIntent.FLAG_UPDATE_CURRENT
 												);
-										mBuilder3.setContentIntent(answerPendingIntent3);
+										mBuilder.setContentIntent(answerPendingIntent3);
 										NotificationManager mNotificationManager3 =
 											(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 										// notificationId allows you to update the notification later on.
-										mNotificationManager3.notify(notificationTag, notificationId, mBuilder3.build());
+										mNotificationManager3.notify(notificationTag, notificationId, mBuilder.build());
 				    	 }
 				     }
 
@@ -607,19 +582,10 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 						    	 
 						    	 if (millisUntilFinished>38000) {
 						    	 
-						    	 NotificationCompat.Builder mBuilder4 =
-									        new NotificationCompat.Builder(ctx)
-									        .setSmallIcon(R.drawable.ic_stat_question)
-									        .setContentTitle("Your Opinion is needed")
-									        .setTicker("New question!")
-									        .setContentText(qText)
-									        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText))
-											.addAction(R.drawable.ic_stat_question, answer1, btPendingIntent1)
-											.addAction(R.drawable.ic_stat_question, answer2, btPendingIntent2)
-											.addAction(R.drawable.ic_stat_question, answer3, btPendingIntent3)
-											.addAction(R.drawable.ic_stat_question, answer4, btPendingIntent4);
+						    		 	mBuilder.addAction(R.drawable.ic_stat_question, answer3, btPendingIntent3);
+										mBuilder.addAction(R.drawable.ic_stat_question, answer4, btPendingIntent4);
 										
-										mBuilder4.setVibrate(new long[] { 0, 400, 150, 400 });
+										mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
 										// The stack builder object will contain an artificial back stack for the
 												// started Activity.
 												// This ensures that navigating backward from the Activity leads out of
@@ -634,44 +600,35 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 															0,
 															PendingIntent.FLAG_UPDATE_CURRENT
 														);
-												mBuilder4.setContentIntent(answerPendingIntent4);
+												mBuilder.setContentIntent(answerPendingIntent4);
 												NotificationManager mNotificationManager4 =
 													(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 												// notificationId allows you to update the notification later on.
-												mNotificationManager4.notify(notificationTag, notificationId, mBuilder4.build());
+												mNotificationManager4.notify(notificationTag, notificationId, mBuilder.build());
 												
 						    	 } else {
 						    	 
-						    	 NotificationCompat.Builder mBuilder4 =
-									        new NotificationCompat.Builder(ctx)
-									        .setSmallIcon(R.drawable.ic_stat_question)
-									        .setContentTitle("Your Opinion is needed")
-									        .setTicker(String.valueOf((int) (millisUntilFinished / 1000)))
-									        .setContentText(qText)
-									        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText))
-											.addAction(R.drawable.ic_stat_question, answer1, btPendingIntent1)
-											.addAction(R.drawable.ic_stat_question, answer2, btPendingIntent2)
-											.addAction(R.drawable.ic_stat_question, answer3, btPendingIntent3)
-											.addAction(R.drawable.ic_stat_question, answer4, btPendingIntent4);
+						    	
+									     mBuilder.setTicker(String.valueOf((int) (millisUntilFinished / 1000)));
 										
 								    	 switch((int) (millisUntilFinished / 1000)) {
 							    	 		case 50:
-							    	 			mBuilder4.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
+							    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
 							    	 		break;
 							    	 		case 40:
-								    	 		mBuilder4.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
+								    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
 								    	 	break;
 							    	 		case 30:
-								    	 		mBuilder4.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
+								    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
 								    	 	break;
 							    	 		case 20:
-								    	 		mBuilder4.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
+								    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
 								    	 	break;
 								    	 	default: 
-								    	 		mBuilder4.setSmallIcon(R.drawable.ic_stat_question_all_red);
+								    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
 							    	 		}
 						    	 
-						    	 		mBuilder4.setVibrate(new long[] { 0, 100});
+						    	 		mBuilder.setVibrate(new long[] { 0, 100});
 										// The stack builder object will contain an artificial back stack for the
 												// started Activity.
 												// This ensures that navigating backward from the Activity leads out of
@@ -686,11 +643,11 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 															0,
 															PendingIntent.FLAG_UPDATE_CURRENT
 														);
-												mBuilder4.setContentIntent(answerPendingIntent4);
+												mBuilder.setContentIntent(answerPendingIntent4);
 												NotificationManager mNotificationManager4 =
 													(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 												// notificationId allows you to update the notification later on.
-												mNotificationManager4.notify(notificationTag, notificationId, mBuilder4.build());
+												mNotificationManager4.notify(notificationTag, notificationId, mBuilder.build());
 						    	 }
 						     }
 
@@ -711,20 +668,11 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 				    	 
 				    	 if (millisUntilFinished>38000) {
 				    	 
-				    	 NotificationCompat.Builder mBuilder5 =
-				 		        new NotificationCompat.Builder(ctx)
-				 		        .setSmallIcon(R.drawable.ic_stat_question)
-				 		        .setContentTitle("Your Opinion is needed")
-				 		        .setTicker("New question!")
-				 		        .setContentText(qText)
-				 		        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText))
-				 				.addAction(R.drawable.ic_stat_question, answer1, btPendingIntent1)
-				 				.addAction(R.drawable.ic_stat_question, answer2, btPendingIntent2)
-				 				.addAction(R.drawable.ic_stat_question, answer3, btPendingIntent3)
-				 				.addAction(R.drawable.ic_stat_question, answer4, btPendingIntent4)
-				 				.addAction(R.drawable.ic_stat_question, answer5, btPendingIntent5);
+				    		 	mBuilder.addAction(R.drawable.ic_stat_question, answer3, btPendingIntent3);
+				    		 	mBuilder.addAction(R.drawable.ic_stat_question, answer4, btPendingIntent4);
+				 				mBuilder.addAction(R.drawable.ic_stat_question, answer5, btPendingIntent5);
 				 			
-				 			mBuilder5.setVibrate(new long[] { 0, 400, 150, 400 });
+				 			mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
 				 			// The stack builder object will contain an artificial back stack for the
 				 				// started Activity.
 				 				// This ensures that navigating backward from the Activity leads out of
@@ -739,45 +687,35 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 				 							0,
 				 							PendingIntent.FLAG_UPDATE_CURRENT
 				 						);
-				 				mBuilder5.setContentIntent(answerPendingIntent5);
+				 				mBuilder.setContentIntent(answerPendingIntent5);
 				 				NotificationManager mNotificationManager5 =
 				 					(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 				 				// notificationId allows you to update the notification later on.
-				 				mNotificationManager5.notify(notificationTag, notificationId, mBuilder5.build());
+				 				mNotificationManager5.notify(notificationTag, notificationId, mBuilder.build());
 				    	 
 				    	 } else {
 				    	 
-				    	 NotificationCompat.Builder mBuilder5 =
-				 		        new NotificationCompat.Builder(ctx)
-				 		        .setSmallIcon(R.drawable.ic_stat_question)
-				 		        .setContentTitle("Your Opinion is needed")
-				 		        .setTicker(String.valueOf((int) (millisUntilFinished / 1000)))
-				 		        .setContentText(qText)
-				 		        .setStyle(new NotificationCompat.BigTextStyle().bigText(qText))
-				 				.addAction(R.drawable.ic_stat_question, answer1, btPendingIntent1)
-				 				.addAction(R.drawable.ic_stat_question, answer2, btPendingIntent2)
-				 				.addAction(R.drawable.ic_stat_question, answer3, btPendingIntent3)
-				 				.addAction(R.drawable.ic_stat_question, answer4, btPendingIntent4)
-				 				.addAction(R.drawable.ic_stat_question, answer5, btPendingIntent5);
+				    	
+				    		 	mBuilder.setTicker(String.valueOf((int) (millisUntilFinished / 1000)));
 				 			
 						    	 switch((int) (millisUntilFinished / 1000)) {
 					    	 		case 50:
-					    	 			mBuilder5.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
+					    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
 					    	 		break;
 					    	 		case 40:
-						    	 		mBuilder5.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
 						    	 	break;
 					    	 		case 30:
-						    	 		mBuilder5.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
 						    	 	break;
 					    	 		case 20:
-						    	 		mBuilder5.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
 						    	 	break;
 						    	 	default: 
-						    	 		mBuilder5.setSmallIcon(R.drawable.ic_stat_question_all_red);
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
 					    	 		}
 				    	 
-				    	 		mBuilder5.setVibrate(new long[] { 0, 100});
+				    	 		mBuilder.setVibrate(new long[] { 0, 100});
 				 			// The stack builder object will contain an artificial back stack for the
 				 				// started Activity.
 				 				// This ensures that navigating backward from the Activity leads out of
@@ -792,11 +730,11 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 				 							0,
 				 							PendingIntent.FLAG_UPDATE_CURRENT
 				 						);
-				 				mBuilder5.setContentIntent(answerPendingIntent5);
+				 				mBuilder.setContentIntent(answerPendingIntent5);
 				 				NotificationManager mNotificationManager5 =
 				 					(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 				 				// notificationId allows you to update the notification later on.
-				 				mNotificationManager5.notify(notificationTag, notificationId, mBuilder5.build());
+				 				mNotificationManager5.notify(notificationTag, notificationId, mBuilder.build());
 				    	 }
 				     }
 
@@ -901,7 +839,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras1.putBoolean(around, arnd);
 			extras1.putString(askerUsername, askerU);
 			quickIntent.putExtras(extras1);
-			PendingIntent btPendingIntent = PendingIntent.getBroadcast(ctx, 0, quickIntent, 0);
+			PendingIntent btPendingIntent = PendingIntent.getBroadcast(ctx, 30, quickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(ctx)

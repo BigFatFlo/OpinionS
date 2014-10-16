@@ -12,12 +12,11 @@ public class InterestNotificationActivity extends BroadcastReceiver {
 	  public void onReceive(Context context, Intent intent) {
 			Bundle extras = intent.getExtras();
 			String qID = extras.getString(CustomPushReceiver.ID);
-			int nId = extras.getInt(CustomPushReceiver.nID);
-			String tag = extras.getString(CustomPushReceiver.tag);
+			int notificationId = extras.getInt(CustomPushReceiver.nID);
+			String notificationTag = extras.getString(CustomPushReceiver.tag);
 			int interest = extras.getInt(CustomPushReceiver.interest);
 			
-			Log.d("idonReceive",qID);
-			Interested.addInterest(qID,interest,context,nId,tag);
+			Interested.addInterest(qID,interest,context,notificationId,notificationTag);
 			
 	  }
 	}

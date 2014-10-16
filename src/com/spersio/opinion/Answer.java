@@ -1062,22 +1062,22 @@ public class Answer extends Activity {
 
 	};
 	
-	public static void addAnswer(final String questionID, int answerChosen, final Context context, final int nId, final String tag){
+	public static void addAnswer(final String qID, int answer, final Context context, final int notificationId, final String notificationTag){
 		if (ParseUser.getCurrentUser()!=null){
 		HashMap<String, Object> params = new HashMap<String, Object>();
-				params.put("n", answerChosen);
-				params.put("id", questionID);
+				params.put("n", answer);
+				params.put("id", qID);
 				
 			ParseCloud.callFunctionInBackground("addAnswer", params, new FunctionCallback<Object>() {
 				   public void done(Object object, ParseException e) {
 					   if (e == null) {
-						ParseUser.getCurrentUser().addUnique("answeredQuestions", questionID);
+						ParseUser.getCurrentUser().addUnique("answeredQuestions", qID);
 						ParseUser.getCurrentUser().saveInBackground();
 						Toast.makeText(context, "Answer submitted", Toast.LENGTH_LONG)
 						.show();
 						CustomPushReceiver.countDownTimerA.cancel();
 						NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-						manager.cancel(tag, nId);
+						manager.cancel(notificationTag, notificationId);
 					   } else {
 						Toast.makeText(context, "Unable to submit you answer, please try again", Toast.LENGTH_LONG)
 						.show();
