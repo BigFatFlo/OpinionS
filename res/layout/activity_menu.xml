@@ -2,7 +2,9 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="fill_parent"
-android:layout_height="wrap_content">
+android:layout_height="wrap_content"
+android:background="@drawable/background_2"
+>
 
 <RelativeLayout 
     android:layout_width="match_parent"
@@ -13,7 +15,8 @@ android:layout_height="wrap_content">
         android:id="@+id/submit_button"
         style="@style/ButtonStyle"
         android:layout_centerHorizontal="true"
-        android:text="@string/submit_button" />
+        android:text="@string/submit_button"
+         />
     
     <TextView
         android:id="@+id/username_profile"
@@ -21,40 +24,108 @@ android:layout_height="wrap_content">
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/submit_button"
-        android:text="@string/prompt_username" />
+        android:padding="12dp"
+        android:text="@string/prompt_username"
+        android:textStyle="bold"
+        android:textSize="18sp"
+         />
  
     <TextView
-        android:id="@+id/stats_title"
+        android:id="@+id/nbrSubscribers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/username_profile"
-        android:padding="12dp"
-        android:text="@string/stats_title" />
+        android:layout_below="@id/username_profile"
+        android:padding="10dp"
+        android:text="@string/nbrSubscribers" />
+    
+    <ImageButton
+        android:id="@+id/nbrSubscribersRefresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/nbrSubscribers"
+        android:layout_toRightOf="@id/nbrSubscribers"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/delete"
+        android:src="@drawable/button_refresh"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+    
+    <TextView
+        android:id="@+id/subscribeToUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/nbrSubscribers"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:text="@string/subscribeToUser"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+    
+    <EditText
+        android:id="@+id/subscribeToUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subscribeToUser"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/prompt_username"
+        android:inputType="textEmailAddress"
+        android:maxLength="40"
+        android:maxLines="1"
+        android:singleLine="true" />
+    
+    <ImageButton
+        android:id="@+id/subscribeToUser_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subscribeToUsername"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/delete"
+        android:src="@drawable/button_subscribe" />
     
     <TextView
         android:id="@+id/country_set"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/stats_title"
-        android:padding="12dp"
-        android:text="@string/country_set" /> 
+        android:layout_below="@id/subscribeToUser_button"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp"
+        android:text="@string/country_set"
+        android:textStyle="bold"
+        android:textSize="18sp" /> 
     
     <Button
-        android:id="@+id/pref_change_button"
+        android:id="@+id/country_change_button"
         style="@style/ButtonStyle"
-        android:layout_alignBaseline="@+id/country_set"
+        android:layout_alignBaseline="@id/country_set"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
         android:text="@string/change" />
     
     <TextView
         android:id="@+id/country_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/country_set"
-        android:padding="12dp"
+        android:layout_alignBaseline="@id/country_set"
+        android:layout_centerHorizontal="true"
         android:text="@string/no_country"
+        android:textSize="16sp"
+        />
+    
+    <TextView
+        android:id="@+id/no_country_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/country_set"
+        android:padding="12dp"
+        android:text="@string/need_country"
         />
     
     <TextView
@@ -62,17 +133,18 @@ android:layout_height="wrap_content">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/location_button"
-        android:layout_below="@+id/country_view"
-        android:padding="12dp"
+        android:layout_below="@+id/no_country_view"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
         android:text="@string/useLocation" />
     
     <ToggleButton
         android:id="@+id/location_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ButtonStyle.Toggle"
         android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@id/use_location"
-        android:layout_below="@id/country_view"
+        android:layout_below="@id/no_country_view"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
         android:textOn="Yes"
         android:textOff="No"
         />
@@ -83,146 +155,43 @@ android:layout_height="wrap_content">
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/international_button"
         android:layout_below="@+id/use_location"
-        android:padding="12dp"
+        android:padding="10dp"
         android:text="@string/international" />
     
     <ToggleButton
         android:id="@+id/international_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ButtonStyle.Toggle"
         android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@id/international"
         android:layout_below="@id/use_location"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:textOn="Yes"
         android:textOff="No"
         />	
     
     <Button
-        android:id="@+id/savedQuestions_button"
+        android:id="@+id/yourSubscriptions_button"
         style="@style/ButtonStyle"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/international"
+        android:layout_marginTop="40dp"
+        android:text="@string/yourSubscriptions" />
+    
+    <Button
+        android:id="@+id/savedQuestions_button"
+        style="@style/ButtonStyle"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/yourSubscriptions_button"
+        android:layout_marginBottom="20dp"
         android:text="@string/savedQuestions" />
     
 	<Button
         android:id="@+id/log_out_button"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        style="@style/ButtonStyle.LogOut"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/savedQuestions_button"
-        android:background="#FF0000"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
         android:text="@string/log_out" />
-    
-    <!--
-    <TextView 
-        android:id="@+id/languages_mastered"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/language_pref_view"
-        android:text="@string/languages_mastered"
-        android:padding="12dp"
-        />
-    
-    <Button
-        android:id="@+id/mastered_change_button"
-        style="@style/ButtonStyle"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@id/languages_mastered"
-        android:text="@string/change" />
-    
-    <TextView
-        android:id="@+id/languages_mast_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/languages_mastered"
-        android:text="@string/prompt_language"
-        android:padding="12dp"
-        />
-    
-    <TextView 
-        android:id="@+id/music_known"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/languages_mast_view"
-        android:text="@string/music_known"
-        android:padding="12dp"
-        />
-    
-    <Button
-        android:id="@+id/music_change_button"
-        style="@style/ButtonStyle"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@id/music_known"
-        android:text="@string/change" />
-    
-    <TextView
-        android:id="@+id/music_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/music_known"
-        android:text="@string/prompt_music"
-        android:padding="12dp"
-        />
-    
-    <TextView 
-        android:id="@+id/AoE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/music_view"
-        android:text="@string/AoE"
-        android:padding="12dp"
-        />
-    
-    <Button
-        android:id="@+id/AoE_change_button"
-        style="@style/ButtonStyle"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@id/AoE"
-        android:text="@string/change" />
-    
-    <TextView
-        android:id="@+id/AoE_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/AoE"
-        android:text="@string/prompt_AoE"
-        android:padding="12dp"
-        />
-    
-    <TextView 
-        android:id="@+id/AoI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/AoE_view"
-        android:text="@string/AoI"
-        android:padding="12dp"
-        />
-    
-    <Button
-        android:id="@+id/AoI_change_button"
-        style="@style/ButtonStyle"
-        android:layout_alignParentRight="true"
-        android:layout_alignBaseline="@id/AoI"
-        android:text="@string/change" />
-    
-    <TextView
-        android:id="@+id/AoI_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/AoI"
-        android:text="@string/prompt_AoI"
-        android:padding="12dp"
-        />
-        
-        -->
-
     
     
 </RelativeLayout>

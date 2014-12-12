@@ -1,59 +1,73 @@
-   <!-- Sign Up form -->
-    
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-    		xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:background="@drawable/background_2">
+    		
+    <LinearLayout
     		android:layout_width="match_parent"
-    		android:layout_height="match_parent"
+    		android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/signup_title"
+                android:layout_margin="20dp"
+		        android:textSize="16sp"
+                />
+            
             <EditText
-                android:id="@+id/username"
+                android:id="@+id/username_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_username"
                 android:inputType="textEmailAddress"
+        		android:maxLength="40"
                 android:maxLines="1"
                 android:singleLine="true" />
             
-            <!-- <EditText
-                android:id="@+id/email"
+            <EditText
+                android:id="@+id/email_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
+        		android:maxLength="40"
                 android:maxLines="1"
                 android:singleLine="true" />
-                -->
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/password_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
                 android:inputType="textPassword"
+        		android:maxLength="40"
                 android:maxLines="1"
                 android:singleLine="true" />
             
             <EditText
-                android:id="@+id/passwordAgain"
+                android:id="@+id/passwordAgain_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:hint="@string/prompt_password_again"
                 android:imeActionId="@+id/login"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
+        		android:maxLength="40"
                 android:maxLines="1"
                 android:singleLine="true" />
-                <!-- android:imeActionLabel="@string/action_sign_in_short"  -->
 
             <Button
-                android:id="@+id/action_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginTop="16dp"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
+                android:id="@+id/signup_button"
+                style="@style/ButtonStyle"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/sign_up" />
-        </LinearLayout>
+            
+    </LinearLayout>
+
+</ScrollView>

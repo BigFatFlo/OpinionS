@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    
+    <ImageView
+        android:id="@+id/question_mark_r_notif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_stat_question"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+		android:layout_alignTop="@+id/question_view_r_notif"
+        android:contentDescription="@string/delete"       
+        />
+    
+    <TextView
+        android:id="@+id/question_view_r_notif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/question_mark_r_notif"
+        android:text="@string/question_preview"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        />
+    
+    <LinearLayout
+    	android:id="@+id/results_notification_layout"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@id/question_view_r_notif"
+		android:orientation="vertical"
+    	>
+    	
+    	<LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+    	    
+		    <ImageView
+		        android:id="@+id/one_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="7"
+		        android:src="@drawable/one"
+		        android:layout_gravity="center"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:contentDescription="@string/delete"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer1_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="66"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer1"
+		        />
+		    
+		    <TextView
+		        android:id="@+id/n_answer1_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="14"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="10.4"
+		        />
+		    
+		    <TextView
+		        android:id="@+id/pc1_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="13"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="44.4%"
+		        />
+		    
+        </LinearLayout>
+        
+		<LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+		    
+		    <ImageView
+		        android:id="@+id/two_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="7"
+		        android:src="@drawable/two"
+		        android:layout_gravity="center"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:contentDescription="@string/delete"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer2_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="66"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer2"
+		        />
+		    
+		    <TextView
+		        android:id="@+id/n_answer2_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="14"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="10.4"
+		        />
+		    
+		    <TextView
+		        android:id="@+id/pc2_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="13"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="1.4"
+		        />
+		    
+        </LinearLayout>
+        
+		<LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+		    
+		    <ImageView
+		        android:id="@+id/three_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="7"
+		        android:src="@drawable/three"
+		        android:layout_gravity="center"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:contentDescription="@string/delete"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer3_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="66"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer3"
+        		
+		        />
+		    
+		    <TextView
+		        android:id="@+id/n_answer3_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="14"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="10.4"
+		        />
+		    
+		    <TextView
+		        android:id="@+id/pc3_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="13"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="1.4"
+		        />
+		    
+        </LinearLayout>
+        
+		<LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+		    
+		    <ImageView
+		        android:id="@+id/four_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="7"
+		        android:src="@drawable/four"
+		        android:layout_gravity="center"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:contentDescription="@string/delete"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer4_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="66"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer4"
+        		
+		        />
+		    
+		    <TextView
+		        android:id="@+id/n_answer4_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="14"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="10.4"
+		        />
+		    
+		    <TextView
+		        android:id="@+id/pc4_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="13"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="1.4"
+		        />
+		    
+        </LinearLayout>
+        
+		<LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+		    
+		    <ImageView
+		        android:id="@+id/five_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="7"
+		        android:src="@drawable/five"
+		        android:layout_gravity="center"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:contentDescription="@string/delete"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer5_r_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="66"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer5"
+        		
+		        />
+		    
+		    <TextView
+		        android:id="@+id/n_answer5_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="14"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="44444"
+		        />
+		    
+		    <TextView
+		        android:id="@+id/pc5_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="13"
+		        android:lines="1"
+		        android:layout_marginRight="5dp"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="right"
+		        android:text="100%"
+		        />
+		    
+        </LinearLayout>
+    
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+   		android:layout_height="wrap_content"
+       	android:layout_below="@id/results_notification_layout"
+   		android:orientation="horizontal"
+   		>
+    
+    <ImageButton
+        android:id="@+id/saveResults_button_notif"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+		android:layout_gravity="center"
+        android:src="@drawable/button_save"
+        android:contentDescription="@string/delete"
+        />
+    
+    <ImageButton
+        android:id="@+id/subscribe_button_notif"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+		android:layout_gravity="center"
+        android:src="@drawable/button_subscribe"
+        android:contentDescription="@string/delete"
+        />
+    
+    </LinearLayout>
+    
+</RelativeLayout>

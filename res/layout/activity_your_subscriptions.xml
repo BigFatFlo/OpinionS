@@ -1,0 +1,42 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${packageName}.${activityClass}"
+    android:id="@+id/yourSubscriptions_linearLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:background="@drawable/background_2" >
+	
+	<TextView
+	    android:id="@+id/username_yourSubscriptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:text="@string/yourSubscriptions" 
+        />
+	
+	<ListView
+        android:id="@+id/yourSubscriptions"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+	
+	<Button
+        android:id="@+id/unsubscribeFromSelection_button"
+		style="@style/ButtonStyle"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/unsubscribe_selection" 
+        />
+	
+	<Button
+        android:id="@+id/backToMenu_SQ_button"
+		style="@style/ButtonStyle.LogOut"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/BTM" 
+        />
+	
+</LinearLayout>

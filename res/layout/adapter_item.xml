@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    
+     <LinearLayout
+        android:id="@+id/linear_layout_saved_questions"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" 
+	    android:weightSum="10"
+	    >
+    
+	    <TextView
+	        android:id="@+id/askedBy_adapter"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="3"
+	        android:layout_marginLeft="10dp"
+	        android:lines="1"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="left"
+	    	android:text="@string/askedBy"
+	    />
+	    
+	    <TextView
+	        android:id="@+id/asker_adapter"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="5"
+	        android:layout_marginRight="10dp"
+	        android:layout_gravity="center_vertical"
+	        android:gravity="left"
+	    	android:text="@string/asker_info"
+	    />
+	    
+	    <ImageButton
+	        android:id="@+id/results_adapter"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:layout_marginRight="5dp"
+		    android:layout_marginLeft="5dp"
+	        android:padding="5dp"
+	        android:background="@android:color/transparent"
+	        android:layout_gravity="center"
+	        android:contentDescription="@string/delete"
+	        android:src="@drawable/button_details" 
+        />
+	    
+	    <ImageButton
+	        android:id="@+id/delete_adapter"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:layout_marginRight="5dp"
+		    android:layout_marginLeft="5dp"
+	        android:padding="5dp"
+	        android:background="@android:color/transparent"
+	        android:contentDescription="@string/delete"
+	        android:layout_gravity="center"
+	        android:src="@drawable/button_reject" 
+        />
+    
+    
+	</LinearLayout>
+     
+    <TextView
+        android:id="@+id/question_adapter"
+        android:layout_width="match_parent"
+        android:layout_below="@id/linear_layout_saved_questions"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+    	android:text="@string/question_preview"
+    />
+ 
+	    
+</RelativeLayout>
