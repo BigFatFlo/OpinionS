@@ -1,0 +1,62 @@
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}"
+	android:background="@drawable/background_2" >
+    
+    <!--  
+	<TextView
+        android:id="@+id/username_savedQuestions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/submit_button"
+        android:padding="12dp"
+        android:text="@string/prompt_username"
+        android:textStyle="bold"
+        android:textSize="18sp" />
+	-->
+	
+	<Button
+        android:id="@+id/newerSavedQuestions_button"
+		style="@style/ButtonStyle"
+        android:layout_centerHorizontal="true"
+        android:text="@string/newer_questions" 
+        />
+	
+	
+	<LinearLayout 
+	    android:id="@+id/savedQuestions_linearLayout"
+	    android:orientation="vertical"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_below="@id/newerSavedQuestions_button"
+	    >
+	
+	<ListView
+        android:id="@+id/savedQuestions"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+	
+	
+	<Button
+        android:id="@+id/olderSavedQuestions_button"
+		style="@style/ButtonStyle"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/older_questions" 
+        />
+	
+	<Button
+        android:id="@+id/backToMenu_SQ_button"
+		style="@style/ButtonStyle.LogOut"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/BTM" 
+        />
+	
+	</LinearLayout>
+    
+</RelativeLayout>
