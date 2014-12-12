@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Opinion": {
+            "applicationId": "yZMElToeMuWoxSzeNUfK0glPK638E6d47IUxRYdF", 
+            "masterKey": "wqh5Gk8JqvV01BL4I0neMXU4asDlobBV9FspMsTk"
+        }, 
+        "_default": {
+            "link": "Opinion"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.18"
+    }
+}
