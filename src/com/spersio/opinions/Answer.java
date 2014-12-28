@@ -18,11 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FunctionCallback;
-import com.parse.GetCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 public class Answer extends Activity {
@@ -84,7 +82,7 @@ public class Answer extends Activity {
 		
 		countDown = (TextView) findViewById(R.id.countdown_a);
 		
-		submit= (Button) findViewById(R.id.submit_answer_button);
+		submit= (Button) findViewById(R.id.send_answer_button);
 		
 		answer1= (TextView) findViewById(R.id.answer1_a);
 		answer2= (TextView) findViewById(R.id.answer2_a);
@@ -137,9 +135,9 @@ public class Answer extends Activity {
             }
 
             public void onFinish() {
-            	Toast.makeText(Answer.this, "Too late!", Toast.LENGTH_SHORT)
+            	Toast.makeText(Answer.this, getResources().getString(R.string.too_late), Toast.LENGTH_SHORT)
 				.show();
-				Intent intent = new Intent(Answer.this, Menu.class);
+				Intent intent = new Intent(Answer.this, Home.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 				Answer.this.finish();
@@ -151,17 +149,17 @@ public class Answer extends Activity {
 		tag = extras.getString(CustomPushReceiver.tag);
 		final String qText = extras.getString(CustomPushReceiver.text);
 		nA = extras.getInt(CustomPushReceiver.nbrAnswers);
-		final Boolean international = extras.getBoolean(CustomPushReceiver.international);
-		final Boolean around = extras.getBoolean(CustomPushReceiver.around);
-		final int radius = extras.getInt(CustomPushReceiver.radius);
+		final Boolean subscribersOnly = extras.getBoolean(CustomPushReceiver.subscribersOnly);
+		final Boolean group = extras.getBoolean(CustomPushReceiver.group);
 		final String askerUsername = extras.getString(CustomPushReceiver.askerUsername);
+		final String groupname = extras.getString(CustomPushReceiver.groupname);
 			
-		if (international) {
-			askerInfo.setText("International question asked by " + askerUsername);
-		} else if (around) {
-			askerInfo.setText("Question asked to users within " + radius + "km of " + askerUsername);
+		if (subscribersOnly) {
+			askerInfo.setText(getResources().getString(R.string.question_asked_by) + askerUsername + getResources().getString(R.string.to_his_her_subscribers));
+		} else if (group) {
+			askerInfo.setText(getResources().getString(R.string.question_asked_by) + askerUsername + getResources().getString(R.string.to_the_group) + groupname);
 		} else {
-			askerInfo.setText("Question asked by " + askerUsername);
+			askerInfo.setText(getResources().getString(R.string.question_asked_by) + askerUsername);
 		}
 
 		questionText.setText(qText);
@@ -233,7 +231,7 @@ public class Answer extends Activity {
 				five.setVisibility(View.VISIBLE);
 			    break;
 		  default:
-			  Toast.makeText(Answer.this, "Oops, something went wrong!", Toast.LENGTH_LONG)
+			  Toast.makeText(Answer.this, getResources().getString(R.string.oops), Toast.LENGTH_LONG)
 				.show();             
 		}
 
@@ -259,13 +257,13 @@ public class Answer extends Activity {
 									if (!choiceMade){
 									answerChosen = 1;
 									choose2.setVisibility(View.INVISIBLE);
-									choose1.setImageResource(R.drawable.button_reject);
+									choose1.setImageResource(R.drawable.ic_reject);
 									answer1.setTypeface(null, Typeface.BOLD_ITALIC);
 									choiceMade = true;
 									} else {
 									answerChosen = 0;
 									choose2.setVisibility(View.VISIBLE);
-									choose1.setImageResource(R.drawable.button_approve);
+									choose1.setImageResource(R.drawable.ic_select);
 									answer1.setTypeface(null, Typeface.NORMAL);
 									choiceMade = false;
 									}
@@ -275,13 +273,13 @@ public class Answer extends Activity {
 									if (!choiceMade){
 									answerChosen = 2;
 									choose1.setVisibility(View.INVISIBLE);
-									choose2.setImageResource(R.drawable.button_reject);
+									choose2.setImageResource(R.drawable.ic_reject);
 									answer2.setTypeface(null, Typeface.BOLD_ITALIC);
 									choiceMade = true;
 									} else {
 									answerChosen = 0;
 									choose1.setVisibility(View.VISIBLE);
-									choose2.setImageResource(R.drawable.button_approve);
+									choose2.setImageResource(R.drawable.ic_select);
 									answer2.setTypeface(null, Typeface.NORMAL);
 									choiceMade = false;
 									}
@@ -295,14 +293,14 @@ public class Answer extends Activity {
 									answerChosen = 1;
 									choose2.setVisibility(View.INVISIBLE);
 									choose3.setVisibility(View.INVISIBLE);
-									choose1.setImageResource(R.drawable.button_reject);
+									choose1.setImageResource(R.drawable.ic_reject);
 									answer1.setTypeface(null, Typeface.BOLD_ITALIC);
 									choiceMade = true;
 									} else {
 									answerChosen = 0;
 									choose2.setVisibility(View.VISIBLE);
 									choose3.setVisibility(View.VISIBLE);
-									choose1.setImageResource(R.drawable.button_approve);
+									choose1.setImageResource(R.drawable.ic_select);
 									answer1.setTypeface(null, Typeface.NORMAL);
 									choiceMade = false;
 									}
@@ -313,14 +311,14 @@ public class Answer extends Activity {
 									answerChosen = 2;
 									choose1.setVisibility(View.INVISIBLE);
 									choose3.setVisibility(View.INVISIBLE);
-									choose2.setImageResource(R.drawable.button_reject);
+									choose2.setImageResource(R.drawable.ic_reject);
 									answer2.setTypeface(null, Typeface.BOLD_ITALIC);
 									choiceMade = true;
 									} else {
 									answerChosen = 0;
 									choose1.setVisibility(View.VISIBLE);
 									choose3.setVisibility(View.VISIBLE);
-									choose2.setImageResource(R.drawable.button_approve);
+									choose2.setImageResource(R.drawable.ic_select);
 									answer2.setTypeface(null, Typeface.NORMAL);
 									choiceMade = false;
 									}
@@ -331,14 +329,14 @@ public class Answer extends Activity {
 									answerChosen = 3;
 									choose1.setVisibility(View.INVISIBLE);
 									choose2.setVisibility(View.INVISIBLE);
-									choose3.setImageResource(R.drawable.button_reject);
+									choose3.setImageResource(R.drawable.ic_reject);
 									answer3.setTypeface(null, Typeface.BOLD_ITALIC);
 									choiceMade = true;
 									} else {
 									answerChosen = 0;
 									choose1.setVisibility(View.VISIBLE);
 									choose2.setVisibility(View.VISIBLE);
-									choose3.setImageResource(R.drawable.button_approve);
+									choose3.setImageResource(R.drawable.ic_select);
 									answer3.setTypeface(null, Typeface.NORMAL);
 									choiceMade = false;
 									}
@@ -353,7 +351,7 @@ public class Answer extends Activity {
 									choose2.setVisibility(View.INVISIBLE);
 									choose3.setVisibility(View.INVISIBLE);
 									choose4.setVisibility(View.INVISIBLE);
-									choose1.setImageResource(R.drawable.button_reject);
+									choose1.setImageResource(R.drawable.ic_reject);
 									answer1.setTypeface(null, Typeface.BOLD_ITALIC);
 									choiceMade = true;
 									} else {
@@ -361,7 +359,7 @@ public class Answer extends Activity {
 									choose2.setVisibility(View.VISIBLE);
 									choose3.setVisibility(View.VISIBLE);
 									choose4.setVisibility(View.VISIBLE);
-									choose1.setImageResource(R.drawable.button_approve);
+									choose1.setImageResource(R.drawable.ic_select);
 									answer1.setTypeface(null, Typeface.NORMAL);
 									choiceMade = false;
 									}
@@ -373,7 +371,7 @@ public class Answer extends Activity {
 									choose1.setVisibility(View.INVISIBLE);
 									choose3.setVisibility(View.INVISIBLE);
 									choose4.setVisibility(View.INVISIBLE);
-									choose2.setImageResource(R.drawable.button_reject);
+									choose2.setImageResource(R.drawable.ic_reject);
 									answer2.setTypeface(null, Typeface.BOLD_ITALIC);
 									choiceMade = true;
 									} else {
@@ -381,7 +379,7 @@ public class Answer extends Activity {
 									choose1.setVisibility(View.VISIBLE);
 									choose3.setVisibility(View.VISIBLE);
 									choose4.setVisibility(View.VISIBLE);
-									choose2.setImageResource(R.drawable.button_approve);
+									choose2.setImageResource(R.drawable.ic_select);
 									answer2.setTypeface(null, Typeface.NORMAL);
 									choiceMade = false;
 									}
@@ -393,7 +391,7 @@ public class Answer extends Activity {
 									choose1.setVisibility(View.INVISIBLE);
 									choose2.setVisibility(View.INVISIBLE);
 									choose4.setVisibility(View.INVISIBLE);
-									choose3.setImageResource(R.drawable.button_reject);
+									choose3.setImageResource(R.drawable.ic_reject);
 									answer3.setTypeface(null, Typeface.BOLD_ITALIC);
 									choiceMade = true;
 									} else {
@@ -401,7 +399,7 @@ public class Answer extends Activity {
 									choose1.setVisibility(View.VISIBLE);
 									choose2.setVisibility(View.VISIBLE);
 									choose4.setVisibility(View.VISIBLE);
-									choose3.setImageResource(R.drawable.button_approve);
+									choose3.setImageResource(R.drawable.ic_select);
 									answer3.setTypeface(null, Typeface.NORMAL);
 									choiceMade = false;
 									}
@@ -413,7 +411,7 @@ public class Answer extends Activity {
 									choose1.setVisibility(View.INVISIBLE);
 									choose2.setVisibility(View.INVISIBLE);
 									choose3.setVisibility(View.INVISIBLE);
-									choose4.setImageResource(R.drawable.button_reject);
+									choose4.setImageResource(R.drawable.ic_reject);
 									answer4.setTypeface(null, Typeface.BOLD_ITALIC);
 									choiceMade = true;
 									} else {
@@ -421,7 +419,7 @@ public class Answer extends Activity {
 									choose1.setVisibility(View.VISIBLE);
 									choose2.setVisibility(View.VISIBLE);
 									choose3.setVisibility(View.VISIBLE);
-									choose4.setImageResource(R.drawable.button_approve);
+									choose4.setImageResource(R.drawable.ic_select);
 									answer4.setTypeface(null, Typeface.NORMAL);
 									choiceMade = false;
 									}
@@ -436,7 +434,7 @@ public class Answer extends Activity {
 										choose3.setVisibility(View.INVISIBLE);
 										choose4.setVisibility(View.INVISIBLE);
 										choose5.setVisibility(View.INVISIBLE);
-										choose1.setImageResource(R.drawable.button_reject);
+										choose1.setImageResource(R.drawable.ic_reject);
 										answer1.setTypeface(null, Typeface.BOLD_ITALIC);
 										choiceMade = true;
 									} else {
@@ -445,7 +443,7 @@ public class Answer extends Activity {
 										choose3.setVisibility(View.VISIBLE);
 										choose4.setVisibility(View.VISIBLE);
 										choose5.setVisibility(View.VISIBLE);
-										choose1.setImageResource(R.drawable.button_approve);
+										choose1.setImageResource(R.drawable.ic_select);
 										answer1.setTypeface(null, Typeface.NORMAL);
 										choiceMade = false;
 									}
@@ -458,7 +456,7 @@ public class Answer extends Activity {
 										choose3.setVisibility(View.INVISIBLE);
 										choose4.setVisibility(View.INVISIBLE);
 										choose5.setVisibility(View.INVISIBLE);
-										choose2.setImageResource(R.drawable.button_reject);
+										choose2.setImageResource(R.drawable.ic_reject);
 										answer2.setTypeface(null, Typeface.BOLD_ITALIC);
 										choiceMade = true;
 									} else {
@@ -467,7 +465,7 @@ public class Answer extends Activity {
 										choose3.setVisibility(View.VISIBLE);
 										choose4.setVisibility(View.VISIBLE);
 										choose5.setVisibility(View.VISIBLE);
-										choose2.setImageResource(R.drawable.button_approve);
+										choose2.setImageResource(R.drawable.ic_select);
 										answer2.setTypeface(null, Typeface.NORMAL);
 										choiceMade = false;
 									}
@@ -480,7 +478,7 @@ public class Answer extends Activity {
 										choose2.setVisibility(View.INVISIBLE);
 										choose4.setVisibility(View.INVISIBLE);
 										choose5.setVisibility(View.INVISIBLE);
-										choose3.setImageResource(R.drawable.button_reject);
+										choose3.setImageResource(R.drawable.ic_reject);
 										answer3.setTypeface(null, Typeface.BOLD_ITALIC);
 										choiceMade = true;
 									} else {
@@ -489,7 +487,7 @@ public class Answer extends Activity {
 										choose2.setVisibility(View.VISIBLE);
 										choose4.setVisibility(View.VISIBLE);
 										choose5.setVisibility(View.VISIBLE);
-										choose3.setImageResource(R.drawable.button_approve);
+										choose3.setImageResource(R.drawable.ic_select);
 										answer3.setTypeface(null, Typeface.NORMAL);
 										choiceMade = false;
 									}
@@ -502,7 +500,7 @@ public class Answer extends Activity {
 										choose2.setVisibility(View.INVISIBLE);
 										choose3.setVisibility(View.INVISIBLE);
 										choose5.setVisibility(View.INVISIBLE);
-										choose4.setImageResource(R.drawable.button_reject);
+										choose4.setImageResource(R.drawable.ic_reject);
 										answer4.setTypeface(null, Typeface.BOLD_ITALIC);
 										choiceMade = true;
 									} else {
@@ -511,7 +509,7 @@ public class Answer extends Activity {
 										choose2.setVisibility(View.VISIBLE);
 										choose3.setVisibility(View.VISIBLE);
 										choose5.setVisibility(View.VISIBLE);
-										choose4.setImageResource(R.drawable.button_approve);
+										choose4.setImageResource(R.drawable.ic_select);
 										answer4.setTypeface(null, Typeface.NORMAL);
 										choiceMade = false;
 									}
@@ -524,7 +522,7 @@ public class Answer extends Activity {
 										choose2.setVisibility(View.INVISIBLE);
 										choose3.setVisibility(View.INVISIBLE);
 										choose4.setVisibility(View.INVISIBLE);
-										choose5.setImageResource(R.drawable.button_reject);
+										choose5.setImageResource(R.drawable.ic_reject);
 										answer5.setTypeface(null, Typeface.BOLD_ITALIC);
 										choiceMade = true;
 									} else {
@@ -533,7 +531,7 @@ public class Answer extends Activity {
 										choose2.setVisibility(View.VISIBLE);
 										choose3.setVisibility(View.VISIBLE);
 										choose4.setVisibility(View.VISIBLE);
-										choose5.setImageResource(R.drawable.button_approve);
+										choose5.setImageResource(R.drawable.ic_select);
 										answer5.setTypeface(null, Typeface.NORMAL);
 										choiceMade = false;
 									}
@@ -541,12 +539,12 @@ public class Answer extends Activity {
 							break;
 						}
 						
-						findViewById(R.id.submit_answer_button).setOnClickListener(new View.OnClickListener() {
+						findViewById(R.id.send_answer_button).setOnClickListener(new View.OnClickListener() {
 							public void onClick(View v) {
 								if (choiceMade && answerChosen != 0 && answerChosen < 6){
 									final ProgressDialog dlg = new ProgressDialog(Answer.this);
-									dlg.setTitle("Please wait.");
-								    dlg.setMessage("Submitting Answer. Please wait.");
+									dlg.setTitle(getResources().getString(R.string.please_wait));
+								    dlg.setMessage(getResources().getString(R.string.sending_answer));
 								    dlg.show();
 				            			    	
 				            			    HashMap<String, Object> params = new HashMap<String, Object>();
@@ -557,21 +555,21 @@ public class Answer extends Activity {
 												   public void done(Object object, ParseException e) {
 													   if (e == null) {
 														dlg.dismiss();
-														Toast.makeText(Answer.this, "Answer submitted", Toast.LENGTH_SHORT)
+														Toast.makeText(Answer.this, getResources().getString(R.string.answer_sent), Toast.LENGTH_SHORT)
 														.show();
 														ParseUser.getCurrentUser().addUnique("answeredQuestions", questionID);
 														ParseUser.getCurrentUser().saveInBackground();
 														CustomPushReceiver.countDownTimerA.cancel();
 														NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 														manager.cancel(tag, nId);
-														Intent intent = new Intent(Answer.this,Menu.class);
+														Intent intent = new Intent(Answer.this,Home.class);
 														intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 														startActivity(intent);
 														countDownTimer.cancel();
 														Answer.this.finish();
 													   } else {
 														dlg.dismiss();
-														Toast.makeText(Answer.this, "Error: " + e.getMessage() , Toast.LENGTH_LONG)
+														Toast.makeText(Answer.this, getResources().getString(R.string.error) + e.getMessage() , Toast.LENGTH_LONG)
 														.show();
 													   }
 												   };
@@ -579,14 +577,14 @@ public class Answer extends Activity {
 												});
 								
 								} else {
-									Toast.makeText(Answer.this, "You have to choose an answer!", Toast.LENGTH_LONG)
+									Toast.makeText(Answer.this, getResources().getString(R.string.have_to_choose_answer), Toast.LENGTH_LONG)
 									.show();
 								}
 							}
 							});
 			
 		} else {
-			Toast.makeText(Answer.this, "You are not logged in", Toast.LENGTH_LONG)
+			Toast.makeText(Answer.this, getResources().getString(R.string.not_logged_in), Toast.LENGTH_LONG)
 			.show();
 			Intent intent = new Intent(Answer.this, Login.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -608,19 +606,19 @@ public class Answer extends Activity {
 					   if (e == null) {
 						ParseUser.getCurrentUser().addUnique("answeredQuestions", qID);
 						ParseUser.getCurrentUser().saveInBackground();
-						Toast.makeText(context, "Answer submitted", Toast.LENGTH_SHORT)
+						Toast.makeText(context, context.getResources().getString(R.string.answer_sent), Toast.LENGTH_SHORT)
 						.show();
 						CustomPushReceiver.countDownTimerA.cancel();
 						NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 						manager.cancel(notificationTag, notificationId);
 					   } else {
-						Toast.makeText(context, "Error: " + e.getMessage() , Toast.LENGTH_LONG)
+						Toast.makeText(context, context.getResources().getString(R.string.error) + e.getMessage() , Toast.LENGTH_LONG)
 						.show();
 					   }
 				   };
 				});
 		} else {
-			Toast.makeText(context, "You are not logged in!", Toast.LENGTH_LONG)
+			Toast.makeText(context, context.getResources().getString(R.string.not_logged_in), Toast.LENGTH_LONG)
 			.show();
 		}
 	};

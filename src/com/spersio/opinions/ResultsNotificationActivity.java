@@ -13,9 +13,11 @@ public class ResultsNotificationActivity extends BroadcastReceiver {
 			String questionID = extras.getString(CustomPushReceiver.ID);
 			int nId = extras.getInt(CustomPushReceiver.nID);
 			String tag = extras.getString(CustomPushReceiver.tag);
-			int action = extras.getInt(CustomPushReceiver.saveOrSubscribe);
+			int action = extras.getInt(CustomPushReceiver.saveOrUnsubscribeOrLeave);
 			String askerUsername = extras.getString(CustomPushReceiver.askerUsername);
+			String groupname = extras.getString(CustomPushReceiver.groupname);
 			Boolean subscribersOnly = extras.getBoolean(CustomPushReceiver.subscribersOnly);
+			Boolean group = extras.getBoolean(CustomPushReceiver.group);
 			
 			switch (action) { 
 				case 1:
@@ -24,8 +26,8 @@ public class ResultsNotificationActivity extends BroadcastReceiver {
 				case 2:
 					if (subscribersOnly) {
 						Results.unsubscribe(askerUsername,context);
-					} else {
-						Results.subscribe(askerUsername,context);
+					} else if (group) {
+						Results.leave(groupname,context);
 					}
 				break;
 			}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="yourOpinion">What\'s your Opinion?</string>
+    <string name="choose_one">Choose One</string>
+    <string name="choose_two">Choose Two</string>
+    <string name="choose_three">Choose Three</string>
+    <string name="choose_four">Choose Four</string>
+    <string name="choose_five">Choose Five</string>
+    
+    <string name="too_late">Too late!</string>
+    <string name="question_asked_by">"Question asked by "</string>
+    <string name="to_his_her_subscribers">" to his/her subscribers"</string>
+    <string name="to_the_group">" to the group "</string>
+    <string name="sending_answer">Sending answer. Please wait.</string>
+    <string name="answer_sent">Answer sent!</string>
+    <string name="have_to_choose_answer">You have to choose an answer!</string>
+    
+</resources>

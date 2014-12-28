@@ -14,7 +14,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 
-
 public class ResetPassword extends Activity {
 	
 	private TextView titleView;
@@ -48,8 +47,8 @@ public class ResetPassword extends Activity {
             	if(emailView.getText().toString().length()>3) {
         	
             		final ProgressDialog dlg = new ProgressDialog(ResetPassword.this);
-                    dlg.setTitle("Please wait.");
-                    dlg.setMessage("Checking address. Please wait.");
+                    dlg.setTitle(getResources().getString(R.string.please_wait));
+                    dlg.setMessage(getResources().getString(R.string.checking_address));
                     dlg.show();
             		
 		        	ParseUser.requestPasswordResetInBackground(emailView.getText().toString(),
@@ -59,11 +58,11 @@ public class ResetPassword extends Activity {
 							
 							emailView.setVisibility(View.GONE);
 							resetButton.setVisibility(View.GONE);
-							titleView.setText("An email has been sent to your email address!");
+							titleView.setText(getResources().getString(R.string.an_email_has_been_sent));
 							dlg.dismiss();
 							
 						} else {
-							Toast.makeText(ResetPassword.this, "Something went wrong: " + e.getMessage(), Toast.LENGTH_LONG)
+							Toast.makeText(ResetPassword.this, getResources().getString(R.string.error) + e.getMessage(), Toast.LENGTH_LONG)
 				            .show();
 							dlg.dismiss();
 						}
@@ -72,15 +71,15 @@ public class ResetPassword extends Activity {
 					});
         	
         } else {
-        	Toast.makeText(ResetPassword.this, "You have to type in your email address!", Toast.LENGTH_LONG)
+        	Toast.makeText(ResetPassword.this, getResources().getString(R.string.you_have_to_type_email), Toast.LENGTH_LONG)
             .show();
         }
         
         }});
     	
-    	findViewById(R.id.reset_back_to_menu_button).setOnClickListener(new View.OnClickListener() {
+    	findViewById(R.id.reset_back_to_login_button).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-            	Intent intent = new Intent(ResetPassword.this,Menu.class);
+            	Intent intent = new Intent(ResetPassword.this,Home.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
             }

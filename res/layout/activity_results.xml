@@ -27,6 +27,7 @@ android:background="@drawable/background_2">
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/results_title"
+        android:padding="10dp"
         android:text="@string/asker_info"
         android:textSize="16sp"
         />
@@ -47,13 +48,13 @@ android:background="@drawable/background_2">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/question_mark"
+        android:src="@drawable/ic_question_mark"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
 		android:layout_alignTop="@+id/question_view_r"
-        android:contentDescription="@string/delete"       
+        android:contentDescription="@string/questionMark"       
         />
     
     <TextView
@@ -91,7 +92,7 @@ android:background="@drawable/background_2">
 		        android:layout_width="0dp"
 		        android:layout_height="wrap_content"
 		        android:layout_weight="7"
-		        android:src="@drawable/one"
+		        android:src="@drawable/ic_one"
 		        android:layout_gravity="center"
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
@@ -145,7 +146,7 @@ android:background="@drawable/background_2">
 		        android:layout_width="0dp"
 		        android:layout_height="wrap_content"
 		        android:layout_weight="7"
-		        android:src="@drawable/two"
+		        android:src="@drawable/ic_two"
 		        android:layout_gravity="center"
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
@@ -199,7 +200,7 @@ android:background="@drawable/background_2">
 		        android:layout_width="0dp"
 		        android:layout_height="wrap_content"
 		        android:layout_weight="7"
-		        android:src="@drawable/three"
+		        android:src="@drawable/ic_three"
 		        android:layout_gravity="center"
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
@@ -253,7 +254,7 @@ android:background="@drawable/background_2">
 		        android:layout_width="0dp"
 		        android:layout_height="wrap_content"
 		        android:layout_weight="7"
-		        android:src="@drawable/four"
+		        android:src="@drawable/ic_four"
 		        android:layout_gravity="center"
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
@@ -307,7 +308,7 @@ android:background="@drawable/background_2">
 		        android:layout_width="0dp"
 		        android:layout_height="wrap_content"
 		        android:layout_weight="7"
-		        android:src="@drawable/five"
+		        android:src="@drawable/ic_five"
 		        android:layout_gravity="center"
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
@@ -414,44 +415,103 @@ android:background="@drawable/background_2">
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         >
-    <Button
+    <ImageButton
         android:id="@+id/share_button_email"
         android:layout_weight="1"
-		style="@style/ButtonStyle"
-        android:text="Mail" />
-    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_envelope"
+        android:contentDescription="@string/share_email" />
+    <ImageButton
         android:id="@+id/share_button_facebook"
         android:layout_weight="1"
-		style="@style/ButtonStyle"
-        android:text="Facebook" />
-    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_facebook"
+        android:contentDescription="@string/share_facebook" />
+    <ImageButton
         android:id="@+id/share_button_twitter"
         android:layout_weight="1"
-		style="@style/ButtonStyle"
-        android:text="Twitter" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_twitter"
+        android:contentDescription="@string/share_twitter" />
+    <ImageButton
+        android:id="@+id/share_button_google"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_google_plus"
+        android:contentDescription="@string/share_google"
+        android:visibility="gone" />
     
     </LinearLayout>
     
-    <Button
-        android:id="@+id/subscribe_button"
-		style="@style/ButtonStyle"
+    <ImageButton
+        android:id="@+id/unsubscribe_button"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="15dp"
+        android:padding="5dp"
 		android:layout_below="@id/share_buttons"
         android:layout_centerHorizontal="true"
-        android:text="@string/subscribe" />
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_unsubscribe_big"
+        android:contentDescription="@string/unsubscribe" />
     
-    <Button
+    <TextView
+	    android:id="@+id/unsubscribe_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/unsubscribe_button"
+        android:layout_margin="5dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/unsubscribe"
+        android:textSize="16sp" 
+        />
+    
+    <ImageButton
         android:id="@+id/saveResults_button"
-		style="@style/ButtonStyle"
-		android:layout_below="@id/subscribe_button"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="15dp"
+        android:padding="5dp"
+		android:layout_below="@id/unsubscribe_text"
         android:layout_centerHorizontal="true"
-        android:text="@string/saveResults" />
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_save_big"
+        android:contentDescription="@string/saveResults" />
     
-    <Button
-        android:id="@+id/backToMenu_button"
-		style="@style/ButtonStyle.LogOut"
-		android:layout_below="@id/saveResults_button"
+    <TextView
+	    android:id="@+id/saveResults_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/saveResults_button"
+        android:layout_margin="5dp"
         android:layout_centerHorizontal="true"
-        android:text="@string/BTM" />
+        android:text="@string/saveResults"
+        android:textSize="16sp" 
+        />
+    
+    <ImageButton
+        android:id="@+id/backToHome_button"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_marginTop="15dp"
+        android:padding="5dp"
+		android:layout_below="@id/saveResults_text"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_menu_home"
+        android:contentDescription="@string/BTH" />
     
 </RelativeLayout>
 

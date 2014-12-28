@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="20" />
+        android:targetSdkVersion="21" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -38,10 +38,15 @@
             android:name=".Signup"
             android:label="@string/app_name" >
         </activity>
-        <activity
-            android:name=".Menu"
+        <activity 
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:name=".Home"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop" 
+            android:screenOrientation="fullSensor"
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,24 +54,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Submit"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:name=".Ask"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop" 
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
         </activity>
         <activity
-            android:name=".WiFiDirect"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:name=".Profile"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
-        </activity>
-        <activity
-            android:name=".Approve"
-            android:label="@string/app_name"
-            android:launchMode="singleTop" >
-        </activity>
-        <activity
-            android:name=".CountryChange"
-            android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop" 
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
         </activity>
         <activity
             android:name=".Answer"
@@ -79,14 +82,44 @@
             android:launchMode="singleTop" >
         </activity>
         <activity
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:name=".SavedQuestions"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop" 
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
         </activity>
         <activity
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:name=".YourSubscriptions"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop" 
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
+        </activity>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:name=".YourGroups"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" 
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
+        </activity>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:name=".Group"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" 
+            android:uiOptions="splitActionBarWhenNarrow" 
+            android:parentActivityName="com.spersio.opinions.YourGroups">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.spersio.opinions.YourGroups" />
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
         </activity>
         <activity
             android:name=".Login"
@@ -96,15 +129,7 @@
             android:name=".ResetPassword"
             android:label="@string/app_name" >
         </activity>
-
-        <receiver
-            android:name=".WiFiDirectBroadcastReceiver"
-            android:exported="false" >
-        </receiver>
-        <receiver
-            android:name=".ApproveNotificationActivity"
-            android:exported="false" >
-        </receiver>
+        
         <receiver
             android:name=".AnswerNotificationActivity"
             android:exported="false" >

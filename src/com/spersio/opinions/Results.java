@@ -17,18 +17,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.FacebookOperationCanceledException;
-import com.facebook.Session;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
-import com.facebook.widget.WebDialog;
-import com.facebook.widget.WebDialog.OnCompleteListener;
-import com.facebook.FacebookException;
 import com.parse.FunctionCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseCloud;
@@ -62,18 +57,22 @@ public class Results extends Activity {
 	TextView pc5 = null;
 	TextView pcTotal = null;
 	
+	TextView unsubscribe = null;
+	TextView saveResults_text = null;
+	
 	ImageView one = null;
 	ImageView two = null;
 	ImageView three = null;
 	ImageView four = null;
 	ImageView five = null;
 	
-	Button backToMenu = null;
-	Button saveResults = null;
-	Button subscribe = null;
+	ImageButton backToHome = null;
+	ImageButton saveResults = null;
+	ImageButton unsubscribeButton = null;
 	
 	String questionID = null;
 	String askerUsername = null;
+	String groupname = null;
 	int nId = 0;
 	String tag = null;
 	
@@ -98,9 +97,9 @@ public class Results extends Activity {
 		
 		questionText= (TextView) findViewById(R.id.question_view_r);
 		
-		backToMenu= (Button) findViewById(R.id.backToMenu_button);
-		saveResults= (Button) findViewById(R.id.saveResults_button);
-		subscribe= (Button) findViewById(R.id.subscribe_button);
+		backToHome= (ImageButton) findViewById(R.id.backToHome_button);
+		saveResults= (ImageButton) findViewById(R.id.saveResults_button);
+		unsubscribeButton= (ImageButton) findViewById(R.id.unsubscribe_button);
 		
 		answer1= (TextView) findViewById(R.id.answer1_r);
 		answer2= (TextView) findViewById(R.id.answer2_r);
@@ -121,6 +120,9 @@ public class Results extends Activity {
 		pc4= (TextView) findViewById(R.id.pc4);
 		pc5= (TextView) findViewById(R.id.pc5);
 		pcTotal= (TextView) findViewById(R.id.pcTotal);
+		
+		unsubscribe= (TextView) findViewById(R.id.unsubscribe_text);
+		saveResults_text= (TextView) findViewById(R.id.saveResults_text);
 		
 		one= (ImageView) findViewById(R.id.one_r);
 		two= (ImageView) findViewById(R.id.two_r);
@@ -155,7 +157,9 @@ public class Results extends Activity {
 		five.setVisibility(View.GONE);
 		
 		saveResults.setVisibility(View.GONE);
-		subscribe.setVisibility(View.GONE);
+		saveResults_text.setVisibility(View.GONE);
+		unsubscribe.setVisibility(View.GONE);
+		unsubscribeButton.setVisibility(View.GONE);
 
 		final ParseUser currentUser = ParseUser.getCurrentUser();
 		if (currentUser != null) {
@@ -164,10 +168,9 @@ public class Results extends Activity {
 		questionID = extras.getString(CustomPushReceiver.ID);
 		nId = extras.getInt(CustomPushReceiver.nID);
 		tag = extras.getString(CustomPushReceiver.tag);
-		final Boolean international = extras.getBoolean(CustomPushReceiver.international);
-		Boolean subscribersOnly = extras.getBoolean(CustomPushReceiver.international);
-		final Boolean around = extras.getBoolean(CustomPushReceiver.around);
-		final int radius = extras.getInt(CustomPushReceiver.radius);
+		Boolean subscribersOnly = extras.getBoolean(CustomPushReceiver.subscribersOnly);
+		Boolean group = extras.getBoolean(CustomPushReceiver.group);
+		groupname = extras.getString(CustomPushReceiver.groupname);
 		final int nbrAnswers = extras.getInt(CustomPushReceiver.nbrAnswers);
 		askerUsername = extras.getString(CustomPushReceiver.askerUsername);
 		final String A1 = extras.getString(CustomPushReceiver.A1);
@@ -189,16 +192,11 @@ public class Results extends Activity {
 		final String qText = extras.getString(CustomPushReceiver.text);		
 		final Boolean savedQuestion = extras.getBoolean(CustomPushReceiver.savedQuestion);
 		final String creationTime = extras.getString(CustomPushReceiver.createdAt);
-		final String country = extras.getString(CustomPushReceiver.country);
 		
-		if (international) {
-			askerInfo.setText("Question asked by " + askerUsername + " to the world");
-		} else if (around) {
-			askerInfo.setText("Question asked to users within " + radius + "km of " + askerUsername);
-		} else if (subscribersOnly) {
-			askerInfo.setText("Question asked by " + askerUsername + " to his/her subscribers");
-		} else {
-			askerInfo.setText("Question asked by " + askerUsername + " to " + country);
+		if (subscribersOnly) {
+			askerInfo.setText(getResources().getString(R.string.question_asked_by) + askerUsername + getResources().getString(R.string.to_subscribers));
+		} else if (group) {
+			askerInfo.setText(getResources().getString(R.string.question_asked_by) + askerUsername + getResources().getString(R.string.to_group) + groupname);
 		}
 		dateInfo.setText(creationTime);
 		questionText.setText(qText);	
@@ -209,29 +207,19 @@ public class Results extends Activity {
 		pcTotal.setVisibility(View.VISIBLE);
 		
 		if (savedQuestion) {
-			backToMenu.setVisibility(View.GONE);
+			backToHome.setVisibility(View.GONE);
 		} else {
 			saveResults.setVisibility(View.VISIBLE);
+			saveResults_text.setVisibility(View.VISIBLE);
 		}
 		
-		subscribe.setVisibility(View.VISIBLE);
+		unsubscribe.setVisibility(View.VISIBLE);
+		unsubscribeButton.setVisibility(View.VISIBLE);
 		
 		if (subscribersOnly) {
-			subscribe.setText("Unsubscribe from " + askerUsername + "'s questions");	
-		} else {
-			
-			List<String> subscribedChannels = currentUser.getList("subscribedChannels");
-			
-			if (subscribedChannels != null) {
-			
-			if (subscribedChannels.contains(askerUsername)) {
-			subscribe.setText("Unsubscribe from " + askerUsername + "'s questions");	
-			} else {
-			subscribe.setText("Subscribe to " + askerUsername + "'s questions");	
-			}
-			} else {
-			subscribe.setText("Subscribe to " + askerUsername + "'s questions");		
-			}
+			unsubscribe.setText(getResources().getString(R.string.unsubscribe_from) + askerUsername + getResources().getString(R.string.s_questions));	
+		} else if (group) {
+			unsubscribe.setText(getResources().getString(R.string.leave_group) + groupname);	
 		}
 		
 	switch (nbrAnswers)
@@ -343,12 +331,12 @@ public class Results extends Activity {
 			five.setVisibility(View.VISIBLE);
 		    break;
 	  default:
-		  Toast.makeText(Results.this, "Oops, something went wrong!", Toast.LENGTH_LONG)
+		  Toast.makeText(Results.this, getResources().getString(R.string.oops), Toast.LENGTH_LONG)
 			.show();             
 	}
 	
 	} else {
-		Toast.makeText(Results.this, "You are not logged in", Toast.LENGTH_LONG)
+		Toast.makeText(Results.this, getResources().getString(R.string.not_logged_in), Toast.LENGTH_LONG)
 		.show();
 		Intent intent = new Intent(Results.this, Login.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -386,7 +374,7 @@ public class Results extends Activity {
 		uiHelper.trackPendingDialogCall(shareDialog.present());
 		} else {
 			
-		Toast.makeText(Results.this,"You need the Facebook app to share",Toast.LENGTH_LONG).show();
+		Toast.makeText(Results.this, getResources().getString(R.string.need_facebook_app),Toast.LENGTH_LONG).show();
 			
 		}
 	}});
@@ -397,7 +385,7 @@ public class Results extends Activity {
 			// Create intent using ACTION_VIEW and a normal Twitter url:
 			String tweetUrl = 
 			    String.format("https://twitter.com/intent/tweet?text=%s&url=%s",
-			        urlEncode("Check out these results!"), urlEncode("https://www.opinions.spersio.com/results/" + questionID));
+			        urlEncode(getResources().getString(R.string.check_out_results)), urlEncode("https://www.opinions.spersio.com/results/" + questionID));
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(tweetUrl));
 
 			// Narrow down to official Twitter app, if available:
@@ -419,12 +407,12 @@ public class Results extends Activity {
 			
 			Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
 		            "mailto","", null));
-			emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Poll results");
-			emailIntent.putExtra(Intent.EXTRA_TEXT, "Check out these results!" + "https://www.opinions.spersio.com/results/" + questionID);
+			emailIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.poll_results));
+			emailIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.check_out_results) + "https://www.opinions.spersio.com/results/" + questionID);
 			try {
-				startActivity(Intent.createChooser(emailIntent, "Send email..."));
+				startActivity(Intent.createChooser(emailIntent, getResources().getString(R.string.send_email)));
 	        } catch (android.content.ActivityNotFoundException ex) {
-	            Toast.makeText(Results.this,"There are no email clients installed.",Toast.LENGTH_LONG).show();
+	            Toast.makeText(Results.this, getResources().getString(R.string.no_email_clients),Toast.LENGTH_LONG).show();
 	        }
 			
 		}
@@ -433,29 +421,31 @@ public class Results extends Activity {
 	findViewById(R.id.saveResults_button).setOnClickListener(new View.OnClickListener() {
 		public void onClick(View view) {
 			final ProgressDialog dlg = new ProgressDialog(Results.this);
-		    dlg.setTitle("Please wait.");
-		    dlg.setMessage("Saving results. Please wait.");
+		    dlg.setTitle(getResources().getString(R.string.please_wait));
+		    dlg.setMessage(getResources().getString(R.string.saving_results));
 		    dlg.show();
 		    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			manager.cancel(tag, nId);
 		    ParseRelation<ParseObject> relation = currentUser.getRelation("savedQuestions");
 		    relation.add(ParseObject.createWithoutData("Question", questionID));
 		    currentUser.saveInBackground();
-			Toast.makeText(Results.this, "Results saved!", Toast.LENGTH_SHORT)
+			Toast.makeText(Results.this, getResources().getString(R.string.results_saved), Toast.LENGTH_SHORT)
 			.show();
 			saveResults.setVisibility(View.GONE);
+			saveResults_text.setVisibility(View.GONE);
+			findViewById(R.id.saveResults_text).setVisibility(View.GONE);
 			dlg.dismiss();
 		}
 		});
 	
-	findViewById(R.id.subscribe_button).setOnClickListener(new View.OnClickListener() {
+	findViewById(R.id.unsubscribe_button).setOnClickListener(new View.OnClickListener() {
 		public void onClick(View view) {
 			
-			if (subscribe.getText().toString().equals("Unsubscribe from " + askerUsername + "'s questions")) {
+			if (unsubscribe.getText().toString().equals(getResources().getString(R.string.unsubscribe_from) + askerUsername + getResources().getString(R.string.s_questions))) {
 				
 			final ProgressDialog dlg = new ProgressDialog(Results.this);
-		    dlg.setTitle("Please wait.");
-		    dlg.setMessage("Unsubscribing. Please wait.");
+		    dlg.setTitle(getResources().getString(R.string.please_wait));
+		    dlg.setMessage(getResources().getString(R.string.unsubscribing));
 		    dlg.show();
 		    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			manager.cancel(tag, nId);
@@ -467,30 +457,31 @@ public class Results extends Activity {
 				   public void done(Object object, ParseException e) {
 					   if (e == null) {
 						   
-						    List<String> list = currentUser.getList("subscribedChannels");
+						    List<String> list = currentUser.getList("subscribedUsers");
 							
 							list.remove(askerUsername);
-							currentUser.put("subscribedChannels", list);
+							currentUser.put("subscribedUsers", list);
 							
 							currentUser.saveInBackground();
 							
-						subscribe.setText("Resubscribe to " + askerUsername + "'s questions");
+						unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));
+						unsubscribe.setText(getResources().getString(R.string.resubscribe_to) + askerUsername + getResources().getString(R.string.s_questions));
 						dlg.dismiss();
-						Toast.makeText(Results.this, "Unsubscribed from " + askerUsername + "'s questions!", Toast.LENGTH_SHORT)
+						Toast.makeText(Results.this, getResources().getString(R.string.unsubscribed_from) + askerUsername + getResources().getString(R.string.s_questions), Toast.LENGTH_SHORT)
 						.show();
 					   } else {
 						dlg.dismiss();
-						Toast.makeText(Results.this, "Unable to unsubscribe from " + askerUsername + "'s questions, please try again.", Toast.LENGTH_LONG)
+						Toast.makeText(Results.this, getResources().getString(R.string.unable_to_unsubscribe_from) + askerUsername + getResources().getString(R.string.s_questions_please), Toast.LENGTH_LONG)
 						.show();
 					   }
 				   }
 				});
 				
-			} else {
+			} else if (unsubscribe.getText().toString().equals(getResources().getString(R.string.resubscribe_to) + askerUsername + getResources().getString(R.string.s_questions))){
 			
 			final ProgressDialog dlg = new ProgressDialog(Results.this);
-		    dlg.setTitle("Please wait.");
-		    dlg.setMessage("Subscribing. Please wait.");
+		    dlg.setTitle(getResources().getString(R.string.please_wait));
+		    dlg.setMessage(getResources().getString(R.string.resubscribing));
 		    dlg.show();
 		    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			manager.cancel(tag, nId);
@@ -500,37 +491,104 @@ public class Results extends Activity {
 				   public void done(Object object, ParseException e) {
 					   if (e == null) {
 						    
-					    currentUser.addUnique("subscribedChannels", askerUsername);
+					    currentUser.addUnique("subscribedUsers", askerUsername);
 					    
 						currentUser.saveInBackground();
 						
-						subscribe.setText("Unsubscribe from " + askerUsername + "'s questions");
+						unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
+						unsubscribe.setText(getResources().getString(R.string.unsubscribe_from) + askerUsername + getResources().getString(R.string.s_questions));
 						dlg.dismiss();
-						Toast.makeText(Results.this, "Subscribed to " + askerUsername + "'s questions!", Toast.LENGTH_SHORT)
+						Toast.makeText(Results.this, getResources().getString(R.string.resubscribed_to) + askerUsername + getResources().getString(R.string.s_questions), Toast.LENGTH_SHORT)
 						.show();
 					   } else {
 						dlg.dismiss();
-						Toast.makeText(Results.this, "Unable to subscribe to " + askerUsername + "'s questions, please try again.", Toast.LENGTH_LONG)
+						Toast.makeText(Results.this, getResources().getString(R.string.unable_to_resubscribe) + askerUsername + getResources().getString(R.string.s_questions_please), Toast.LENGTH_LONG)
 						.show();
 					   }
 				   }
 				});
+			} else if (unsubscribe.getText().toString().equals(getResources().getString(R.string.leave_group) + groupname)) {
+				final ProgressDialog dlg = new ProgressDialog(Results.this);
+			    dlg.setTitle(getResources().getString(R.string.please_wait));
+			    dlg.setMessage(getResources().getString(R.string.leaving));
+			    dlg.show();
+			    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				manager.cancel(tag, nId);
+				HashMap<String, List<String>> params = new HashMap<String, List<String>>();
+				ArrayList<String> groupnames = new ArrayList<String>();
+				groupnames.add(groupname);
+				params.put("groupnames", groupnames);
+				ParseCloud.callFunctionInBackground("subtractMember", params, new FunctionCallback<Object>() {
+					   public void done(Object object, ParseException e) {
+						   if (e == null) {
+							   
+							    List<String> list = currentUser.getList("joinedGroups");
+								
+								list.remove(groupname);
+								currentUser.put("joinedGroups", list);
+								
+								currentUser.saveInBackground();
+								
+							unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));
+							unsubscribe.setText(getResources().getString(R.string.rejoin_group) + groupname);
+							dlg.dismiss();
+							Toast.makeText(Results.this, getResources().getString(R.string.left_group) + groupname, Toast.LENGTH_SHORT)
+							.show();
+						   } else {
+							dlg.dismiss();
+							Toast.makeText(Results.this, getResources().getString(R.string.unable_to_leave) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+							.show();
+						   }
+					   }
+					});
+				
+			} else if (unsubscribe.getText().toString().equals(getResources().getString(R.string.rejoin_group) + groupname)){
+				
+				final ProgressDialog dlg = new ProgressDialog(Results.this);
+			    dlg.setTitle(getResources().getString(R.string.please_wait));
+			    dlg.setMessage(getResources().getString(R.string.rejoining));
+			    dlg.show();
+			    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				manager.cancel(tag, nId);
+				HashMap<String, Object> params = new HashMap<String, Object>();
+				params.put("groupname", groupname);
+				ParseCloud.callFunctionInBackground("addMember", params, new FunctionCallback<Object>() {
+					   public void done(Object object, ParseException e) {
+						   if (e == null) {
+							    
+						    currentUser.addUnique("joinedGroups", groupname);
+						    
+							currentUser.saveInBackground();
+							
+							unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
+							unsubscribe.setText(getResources().getString(R.string.leave_group) + groupname);
+							dlg.dismiss();
+							Toast.makeText(Results.this, getResources().getString(R.string.rejoined_group) + groupname, Toast.LENGTH_SHORT)
+							.show();
+						   } else {
+							dlg.dismiss();
+							Toast.makeText(Results.this, getResources().getString(R.string.unable_to_rejoin) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+							.show();
+						   }
+					   }
+					});
 			}
 		}
+		
 		});
 			
-			findViewById(R.id.backToMenu_button).setOnClickListener(new View.OnClickListener() {
+			findViewById(R.id.backToHome_button).setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
 					NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 					manager.cancel(tag, nId);
-					Intent intent = new Intent(Results.this,Menu.class);
+					Intent intent = new Intent(Results.this,Home.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 				}
 				});		
 
 		} else {
-			Toast.makeText(Results.this, "You are not logged in", Toast.LENGTH_LONG)
+			Toast.makeText(Results.this, getResources().getString(R.string.not_logged_in), Toast.LENGTH_LONG)
 			.show();
 			Intent intent = new Intent(Results.this, Login.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -544,76 +602,12 @@ public class Results extends Activity {
 		ParseRelation<ParseObject> relation = ParseUser.getCurrentUser().getRelation("savedQuestions");
 		relation.add(ParseObject.createWithoutData("Question", questionID));
 		ParseUser.getCurrentUser().saveInBackground();
-		Toast.makeText(context, "Results saved!", Toast.LENGTH_SHORT)
+		Toast.makeText(context, context.getResources().getString(R.string.results_saved), Toast.LENGTH_SHORT)
 		.show();
 		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		manager.cancel(tag, nId);
 		} else {
-		Toast.makeText(context, "Log in and try again!", Toast.LENGTH_LONG)
-		.show();
-		}
-		
-	};
-	
-	public static void subscribe(final String asker_username, final Context context){
-		final ParseUser currentUser = ParseUser.getCurrentUser();
-		if (currentUser!=null){
-			
-			List<String> subscribedChannels = ParseUser.getCurrentUser().getList("subscribedChannels");
-			
-			if (subscribedChannels != null) {
-			
-			if (subscribedChannels.contains(asker_username)) {	
-				Toast.makeText(context, "Already a subscriber! To unsubscribe, click the notification.", Toast.LENGTH_LONG)
-				.show();
-			} else {
-				HashMap<String, Object> params = new HashMap<String, Object>();
-				params.put("username", asker_username);
-					
-				ParseCloud.callFunctionInBackground("addSubscriber", params, new FunctionCallback<Object>() {
-					   public void done(Object object, ParseException e) {
-						   if (e == null) {
-							   
-						    currentUser.addUnique("subscribedChannels", asker_username);
-						    
-							currentUser.saveInBackground();
-							
-							Toast.makeText(context, "Successfully subscribed to " + asker_username + "'s questions!", Toast.LENGTH_SHORT)
-							.show();
-						   } else {
-							Toast.makeText(context, "Unable to subscribe to " + asker_username + "'s questions, please try again.", Toast.LENGTH_LONG)
-							.show();
-						   }
-					   }
-				});
-			}
-			
-			} else {
-		
-				HashMap<String, Object> params = new HashMap<String, Object>();
-				params.put("username", asker_username);
-					
-				ParseCloud.callFunctionInBackground("addSubscriber", params, new FunctionCallback<Object>() {
-					   public void done(Object object, ParseException e) {
-						   if (e == null) {
-							
-							currentUser.addUnique("subscribedChannels", asker_username);
-							
-							currentUser.saveInBackground();
-							
-							Toast.makeText(context, "Successfully subscribed to " + asker_username + "'s questions!", Toast.LENGTH_SHORT)
-							.show();
-						   } else {
-							Toast.makeText(context, "Unable to subscribe to " + asker_username + "'s questions, please try again.", Toast.LENGTH_LONG)
-							.show();
-						   }
-					   }
-				});
-
-			}	
-			
-		} else {
-		Toast.makeText(context, "Log in and try again!", Toast.LENGTH_LONG)
+		Toast.makeText(context, context.getResources().getString(R.string.log_in_and_try_again), Toast.LENGTH_LONG)
 		.show();
 		}
 		
@@ -632,24 +626,60 @@ public class Results extends Activity {
 					   public void done(Object object, ParseException e) {
 						   if (e == null) {
 							
-							List<String> list = currentUser.getList("subscribedChannels");
+							List<String> list = currentUser.getList("subscribedUsers");
 							
 							list.remove(asker_username);
-							currentUser.put("subscribedChannels", list);
+							currentUser.put("subscribedUsers", list);
 							
 							currentUser.saveInBackground();
 							
-							Toast.makeText(context, "Successfully unsubscribed from " + asker_username + "'s questions!", Toast.LENGTH_SHORT)
+							Toast.makeText(context, context.getResources().getString(R.string.unsubscribed_from) + asker_username + context.getResources().getString(R.string.s_questions), Toast.LENGTH_SHORT)
 							.show();
 						   } else {
-							Toast.makeText(context, "Unable to unsubscribe from " + asker_username + "'s questions, please try again.", Toast.LENGTH_LONG)
+							Toast.makeText(context, context.getResources().getString(R.string.unable_to_unsubscribe_from) + asker_username + context.getResources().getString(R.string.s_questions_please), Toast.LENGTH_LONG)
 							.show();
 						   }
 					   }
 				});
 		
 		} else {
-		Toast.makeText(context, "Log in and try again!", Toast.LENGTH_LONG)
+		Toast.makeText(context, context.getResources().getString(R.string.log_in_and_try_again), Toast.LENGTH_LONG)
+		.show();
+		}
+		
+	};
+	
+	public static void leave(final String group_name, final Context context){
+		final ParseUser currentUser = ParseUser.getCurrentUser();
+		if (currentUser!=null){
+			
+			HashMap<String, ArrayList<String>> params = new HashMap<String, ArrayList<String>>();
+			ArrayList<String> groupnames = new ArrayList<String>();
+			groupnames.add(group_name);
+			params.put("groupnames", groupnames);
+			
+				ParseCloud.callFunctionInBackground("subtractMember", params, new FunctionCallback<Object>() {
+					   public void done(Object object, ParseException e) {
+						   if (e == null) {
+							
+							List<String> list = currentUser.getList("joinedGroups");
+							
+							list.remove(group_name);
+							currentUser.put("joinedGroups", list);
+							
+							currentUser.saveInBackground();
+							
+							Toast.makeText(context, context.getResources().getString(R.string.left_group) + group_name , Toast.LENGTH_SHORT)
+							.show();
+						   } else {
+							Toast.makeText(context, context.getResources().getString(R.string.unable_to_leave) + group_name + context.getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+							.show();
+						   }
+					   }
+				});
+		
+		} else {
+		Toast.makeText(context, context.getResources().getString(R.string.log_in_and_try_again), Toast.LENGTH_LONG)
 		.show();
 		}
 		
@@ -686,7 +716,7 @@ public class Results extends Activity {
 	        @Override
 	        public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
 	            Log.i("Activity", "Success!");
-	            Toast.makeText(Results.this, "Results shared!", Toast.LENGTH_SHORT)
+	            Toast.makeText(Results.this, getResources().getString(R.string.results_shared), Toast.LENGTH_SHORT)
 	    		.show();
 	        }
 	    });

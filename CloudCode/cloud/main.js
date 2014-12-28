@@ -9,7 +9,7 @@ require("cloud/app.js");
 
 ////// I - Users: beforeSave, afterSave, usersAround, addSubscriber, subtractSubscriber, usersLocation, deleteSavedQuestions and userExists
 
-//// User beforeSave
+/*//// User beforeSave
 
 // Changing the channel of the user if user.save() called from changeOfCountry class (changeOfChannel = true) or if International is turned on for the first time
 Parse.Cloud.beforeSave(Parse.User, function(request,response){
@@ -310,8 +310,10 @@ Parse.Cloud.beforeSave(Parse.User, function(request,response){
 });
 
 ////
+*/
 
-//// User afterSave
+
+/* //// User afterSave
 
 // Updating all installations linked to the user being saved
 Parse.Cloud.afterSave(Parse.User, function(request) {
@@ -343,8 +345,323 @@ Parse.Cloud.afterSave(Parse.User, function(request) {
 });
 
 ////
+*/
 
-//// usersAround
+//// User afterSave
+
+// Updating all installations linked to the user being saved
+Parse.Cloud.afterSave(Parse.User, function(request) {
+	Parse.Cloud.useMasterKey();
+	var channels = request.object.get("channels");
+	if (typeof request.object.getACL() === "undefined") {
+	var newACL = new Parse.ACL(); // No public read access for users => only the user can read (and write) his own data:
+	newACL.setPublicReadAccess(false);
+	request.object.setACL(newACL);
+	request.object.save();
+	} else {
+	var query = new Parse.Query(Parse.Installation);
+	query.equalTo("user",request.object);
+	query.each(function(installation) {
+		installation.set("channels",channels); // Updating the channels
+		installation.save();
+	});
+	}
+});
+
+////
+
+//// changeOfProfile
+
+// Updating the counters after a user has changed his/her profile
+Parse.Cloud.define("changeOfProfile", function(request, response) {
+  Parse.Cloud.useMasterKey();
+  var oldCharNumber = request.params.oldCharNumber.toString();
+  var newCharNumber = request.params.newCharNumber.toString();
+  var oldCountry = request.params.oldCountry;
+  var newCountry = request.params.newCountry;
+  var newProfile = request.params.newProfile;
+  var changeOfCountry = request.params.changeOfCountry;
+  var changeOfCharNumber = request.params.changeOfCharNumber;
+  var changeOfInternational = request.params.changeOfInternational;
+  var international = request.params.international;
+
+  if (newProfile) {
+
+  	var countryQuery = new Parse.Query("Country");
+	  countryQuery.equalTo("name", newCountry);
+	  countryQuery.first().then(function(country) {
+
+	  		var nbrUsersForCountry = country.get("nbrUsers");
+		  	if (nbrUsersForCountry.hasOwnProperty(newCharNumber)) {
+	  			nbrUsersForCountry[newCharNumber] = nbrUsersForCountry[newCharNumber] + 1;
+	  		} else {
+	  			nbrUsersForCountry[newCharNumber] = 1;
+	  		}
+		  	country.set("nbrUsers",nbrUsersForCountry);
+		  	country.increment("totalNbrUsers");
+
+		  	return country.save();
+
+	  	}).then(function() {
+
+	  		if (international) {
+
+	  		var internationalQuery = new Parse.Query("Country");
+	  		internationalQuery.equalTo("name", "International");
+	  		return internationalQuery.first().then(function(internationalCountry) {
+
+	  			var nbrUsersForInternational = internationalCountry.get("nbrUsers");
+	  			if (nbrUsersForInternational.hasOwnProperty(newCharNumber)) {
+	  			nbrUsersForInternational[newCharNumber] = nbrUsersForInternational[newCharNumber] + 1;
+		  		} else {
+		  			nbrUsersForInternational[newCharNumber] = 1;
+		  		}
+			  	internationalCountry.set("nbrUsers",nbrUsersForInternational);
+			  	internationalCountry.increment("totalNbrUsers");
+
+		  		return internationalCountry.save();
+
+	  		})
+	  	}
+
+	  	}).then(function() {
+	  	response.success();
+	  },
+	  function(error) {
+	  response.error("Unable to create profile");
+	  console.error("Error creating profile, error : " + error); // If there is an error, it is logged
+	});
+
+  } else if (changeOfCountry) {
+
+  	var countryQuery = new Parse.Query("Country");
+	  countryQuery.containedIn("name", [oldCountry, newCountry]);
+	  countryQuery.find().then(function(countries) {
+
+	  	if (countries[0].get("name").valueOf() == oldCountry.valueOf()) {
+	  		
+	  		countries[0].increment("totalNbrUsers",-1);
+	  		var nbrUsersForOldCountry = countries[0].get("nbrUsers");
+		  	nbrUsersForOldCountry[oldCharNumber] = nbrUsersForOldCountry[oldCharNumber] - 1;
+		  	countries[0].set("nbrUsers",nbrUsersForOldCountry);
+
+	  		countries[1].increment("totalNbrUsers");
+	  		var nbrUsersForNewCountry = countries[1].get("nbrUsers");
+	  		if (nbrUsersForNewCountry.hasOwnProperty(newCharNumber)) {
+	  			nbrUsersForNewCountry[newCharNumber] = nbrUsersForNewCountry[newCharNumber] + 1;
+	  		} else {
+	  			nbrUsersForNewCountry[newCharNumber] = 1;
+	  		}
+	  		countries[1].set("nbrUsers",nbrUsersForNewCountry);
+
+	  	} else {
+
+	  		countries[1].increment("totalNbrUsers",-1);
+	  		var nbrUsersForOldCountry = countries[1].get("nbrUsers");
+		  	nbrUsersForOldCountry[oldCharNumber] = nbrUsersForOldCountry[oldCharNumber] - 1;
+		  	countries[1].set("nbrUsers",nbrUsersForOldCountry);
+
+	  		countries[0].increment("totalNbrUsers");
+	  		var nbrUsersForNewCountry = countries[0].get("nbrUsers");
+	  		if (nbrUsersForNewCountry.hasOwnProperty(newCharNumber)) {
+	  			nbrUsersForNewCountry[newCharNumber] = nbrUsersForNewCountry[newCharNumber] + 1;
+	  		} else {
+	  			nbrUsersForNewCountry[newCharNumber] = 1;
+	  		}
+	  		countries[0].set("nbrUsers",nbrUsersForNewCountry);
+
+	  	}
+
+	  	return Parse.Object.saveAll(countries);
+
+	  }).then(function() {
+
+	  	if (changeOfInternational) {
+
+	  		var internationalQuery = new Parse.Query("Country");
+	  		internationalQuery.equalTo("name", "International");
+	  		
+	  		return internationalQuery.first().then(function(internationalCountry) {
+
+	  			var nbrUsersForInternational = internationalCountry.get("nbrUsers");
+	  			
+	  			if (international) {
+
+	  				if (nbrUsersForInternational.hasOwnProperty(newCharNumber)) {
+		  				nbrUsersForInternational[newCharNumber] = nbrUsersForInternational[newCharNumber] + 1;
+			  		} else {
+			  			nbrUsersForInternational[newCharNumber] = 1;
+			  		}
+
+			  		internationalCountry.increment("totalNbrUsers");
+
+	  			} else {
+
+		  			nbrUsersForInternational[oldCharNumber] = nbrUsersForInternational[oldCharNumber] - 1;
+		  			internationalCountry.increment("totalNbrUsers",-1);
+
+	  			}
+
+			  	internationalCountry.set("nbrUsers",nbrUsersForInternational);
+
+		  	return internationalCountry.save();
+
+	  		});
+
+	  	} else if (international && changeOfCharNumber) {
+
+	  		var internationalQuery = new Parse.Query("Country");
+	  		internationalQuery.equalTo("name", "International");
+	  		return internationalQuery.first().then(function(internationalCountry) {
+
+	  			var nbrUsersForInternational = internationalCountry.get("nbrUsers");
+
+  				if (nbrUsersForInternational.hasOwnProperty(newCharNumber)) {
+	  				nbrUsersForInternational[newCharNumber] = nbrUsersForInternational[newCharNumber] + 1;
+		  		} else {
+		  			nbrUsersForInternational[newCharNumber] = 1;
+		  		}
+		  		nbrUsersForInternational[oldCharNumber] = nbrUsersForInternational[oldCharNumber] - 1;
+
+		  		internationalCountry.set("nbrUsers",nbrUsersForInternational);
+
+			return internationalCountry.save();
+
+			});
+
+	  	}
+
+	  	}).then(function() {
+	  	response.success();
+	  },
+	  function(error) {
+	  response.error("Unable to change profile");
+	  console.error("Error changing profile, error : " + error); // If there is an error, it is logged
+	})
+
+  } else if (changeOfCharNumber) {
+
+  	var countryQuery = new Parse.Query("Country");
+	  countryQuery.equalTo("name", oldCountry);
+	  countryQuery.first().then(function(country) {
+
+	  		var nbrUsersForCountry = country.get("nbrUsers");
+		  	nbrUsersForCountry[oldCharNumber] = nbrUsersForCountry[oldCharNumber] - 1;
+		  	if (nbrUsersForCountry.hasOwnProperty(newCharNumber)) {
+	  			nbrUsersForCountry[newCharNumber] = nbrUsersForCountry[newCharNumber] + 1;
+	  		} else {
+	  			nbrUsersForCountry[newCharNumber] = 1;
+	  		}
+		  	country.set("nbrUsers",nbrUsersForCountry);
+
+	  return country.save();
+
+	  }).then(function() {
+
+	  	if (changeOfInternational) {
+
+	  		var internationalQuery = new Parse.Query("Country");
+	  		internationalQuery.equalTo("name", "International");
+	  		return internationalQuery.first().then(function(internationalCountry) {
+
+	  			var nbrUsersForInternational = internationalCountry.get("nbrUsers");
+	  			
+	  			if (international) {
+
+	  				if (nbrUsersForInternational.hasOwnProperty(newCharNumber)) {
+		  				nbrUsersForInternational[newCharNumber] = nbrUsersForInternational[newCharNumber] + 1;
+			  		} else {
+			  			nbrUsersForInternational[newCharNumber] = 1;
+			  		}
+			  		internationalCountry.increment("totalNbrUsers");
+
+				} else {
+
+					nbrUsersForInternational[oldCharNumber] = nbrUsersForInternational[oldCharNumber] - 1;
+					internationalCountry.increment("totalNbrUsers",-1);
+
+				}
+
+				internationalCountry.set("nbrUsers",nbrUsersForInternational);
+
+			return internationalCountry.save();
+
+			});
+
+		} else if (international) {
+
+			var internationalQuery = new Parse.Query("Country");
+			internationalQuery.equalTo("name", "International");
+			return internationalQuery.first().then(function(internationalCountry) {
+
+				var nbrUsersForInternational = internationalCountry.get("nbrUsers");
+
+					if (nbrUsersForInternational.hasOwnProperty(newCharNumber)) {
+						nbrUsersForInternational[newCharNumber] = nbrUsersForInternational[newCharNumber] + 1;
+					} else {
+						nbrUsersForInternational[newCharNumber] = 1;
+					}
+					nbrUsersForInternational[oldCharNumber] = nbrUsersForInternational[oldCharNumber] - 1;
+
+					internationalCountry.set("nbrUsers",nbrUsersForInternational);
+
+			return internationalCountry.save();
+
+			});
+
+	  	}
+
+	  	}).then(function() {
+	  	response.success();
+	  },
+	  function(error) {
+	  response.error("Unable to change profile");
+	  console.error("Error changing profile, error : " + error); // If there is an error, it is logged
+	});
+
+  } else if (changeOfInternational) {
+
+  	var internationalQuery = new Parse.Query("Country");
+  		internationalQuery.equalTo("name", "International");
+  		internationalQuery.first().then(function(internationalCountry) {
+
+  			var nbrUsersForInternational = internationalCountry.get("nbrUsers");
+  			
+  			if (international) {
+
+  				if (nbrUsersForInternational.hasOwnProperty(newCharNumber)) {
+	  				nbrUsersForInternational[newCharNumber] = nbrUsersForInternational[newCharNumber] + 1;
+		  		} else {
+		  			nbrUsersForInternational[newCharNumber] = 1;
+		  		}
+		  		internationalCountry.increment("totalNbrUsers");
+
+			} else {
+
+				nbrUsersForInternational[oldCharNumber] = nbrUsersForInternational[oldCharNumber] - 1;
+				internationalCountry.increment("totalNbrUsers",-1);
+
+			}
+
+			internationalCountry.set("nbrUsers",nbrUsersForInternational);
+
+		return internationalCountry.save();
+
+		}).then(function() {
+	  	response.success();
+	  },
+	  function(error) {
+	  response.error("Unable to update international");
+	  console.error("Error updating international, error : " + error); // If there is an error, it is logged
+	});
+
+  }
+
+});
+
+////
+
+/*//// usersAround
 
 // Calculating the number of users withing a certain radius of the user
 Parse.Cloud.define("usersAround", function(request, response) {
@@ -362,7 +679,7 @@ Parse.Cloud.define("usersAround", function(request, response) {
 	});
 });
 
-////
+////*/
 
 //// addSubscriber
 
@@ -400,12 +717,201 @@ Parse.Cloud.define("subtractSubscriber", function(request, response) {
   	},
 	function(error) {
       response.error("Unable to unsubscribe");
-      console.error("Error unsubscribing new user from " + request.params.username + " Error : " + error); // If there is an error, it is logged
+      console.error("Error unsubscribing user from " + request.params.username + " Error : " + error); // If there is an error, it is logged
     });
 });
 
 ////
 
+//// addMember
+
+// Incrementing the number of members of a particular group
+Parse.Cloud.define("addMember", function(request, response) {
+  Parse.Cloud.useMasterKey();
+  var query = new Parse.Query("Group");
+  query.equalTo("name",request.params.groupname); // Querying the group whose name is in the parameters given by the app
+  query.first().then(function(group) {
+  	group.increment("nbrMembers"); // Updating the number of members
+  	group.addUnique("members",request.params.username); // Updating the list of members
+  	group.save().then(function(){ // Saving the group
+  		response.success();
+  	});
+  },
+	function(error) {
+      response.error("Unable to add member");
+      console.error("Error adding member to group " + request.params.groupname + " Error : " + error); // If there is an error, it is logged
+    });
+});
+
+////
+
+//// subtractMember
+
+// Subtracting one member from a group
+Parse.Cloud.define("subtractMember", function(request, response) {
+  Parse.Cloud.useMasterKey();
+  var query = new Parse.Query("Group");
+  query.containedIn("name",request.params.groupnames); // Querying the group whose name is in the parameters given by the app
+  query.each(function(group) {
+  	group.increment("nbrMembers",-1); // Updating the number of members
+  	group.remove("members",Parse.User.current().get("username"));
+  	return group.save(); // Saving the group
+  }).then(function() {
+  	response.success();
+  	},
+	function(error) {
+      response.error("Unable to leave group");
+      console.error("Error leaving group " + request.params.groupnames + " Error : " + error); // If there is an error, it is logged
+    });
+});
+
+////
+
+//// createGroup
+
+// Creating a new group
+Parse.Cloud.define("createGroup", function(request, response) {
+  Parse.Cloud.useMasterKey();
+  var username = request.params.username;
+  var query = new Parse.Query("Group");
+  query.equalTo("name",request.params.groupname); // Querying the group whose name is in the parameters given by the app
+  query.first().then(function(group) {
+  	if (group!=null) {
+  		response.success(true);
+  	} else {
+  		var newGroup = new Parse.Object("Group");
+  		newGroup.set("name",request.params.groupname);
+  		newGroup.set("owners",[username]);
+  		newGroup.set("nbrMembers",0);
+  		newGroup.set("members",[]);
+  		newGroup.save().then(function(){ // Saving the group
+  		response.success(false);
+  		});
+  	}
+	},
+	function(error) {
+      response.error("Unable to create group " + request.params.groupname);
+      console.error("Error creating group " + request.params.group + " Error : " + error); // If there is an error, it is logged
+    });
+});
+  		
+
+////
+
+//// nbrMembersInGroup
+
+// Getting the number of members in a group, and checking if the user who makes the request is an owner of the group
+Parse.Cloud.define("nbrMembersInGroup", function(request, response) {
+  Parse.Cloud.useMasterKey();
+  var query = new Parse.Query("Group");
+  query.equalTo("name",request.params.groupname); // Querying the group whose name is in the parameters given by the app
+  query.first().then(function(group) {
+  	if (group==null) {
+  		response.success(-1);
+  	} else {
+  		var owners = group.get("owners");
+  		if (owners.indexOf(request.user.id)!=-1) {
+  			response.success(group.get("nbrMembers"));
+  		} else {
+  			response.success(-2);
+  		}
+  	}
+	},
+	function(error) {
+      response.error("Unable to get nbrMembers for group " + request.params.groupname);
+      console.error("Error getting nbrMembers for group " + request.params.groupname + " Error : " + error); // If there is an error, it is logged
+    });
+});
+  		
+
+////
+
+//// addOwner
+
+// Adding an owner to the group's owners list, on the request of one of the owners
+Parse.Cloud.define("addOwner", function(request, response) {
+  Parse.Cloud.useMasterKey();
+
+  var groupname = request.params.groupname;
+  var username = request.params.username;
+  var newOwnerUsername = request.params.newOwnerUsername;
+
+  if (Parse.User.current().get("ownedGroups").indexOf(groupname)==-1) {
+  	
+  	response.success(-4); // The current user isn't an owner of the group!
+
+  } else {
+
+  var userQuery = new Parse.Query(Parse.User);
+  userQuery.equalTo("username",newOwnerUsername);
+  userQuery.first().then(function(user) {
+
+  	if (user==null) {
+
+  		response.success(-3); // No user found for the username given by the current user!
+
+  	} else {
+
+  		if (user.get("ownedGroups") != null) {
+
+  		if (user.get("ownedGroups").indexOf(groupname)!=-1) {
+
+  			response.success(-2); // Requested user is already an owner of the group!
+
+  		}
+
+  		} else {
+
+  			var query = new Parse.Query("Group");
+			query.equalTo("name",groupname); // Querying the group whose name is in the parameters given by the app
+			return query.first().then(function(group) {
+				if (group==null) {
+
+					response.success(-1); // The group doesn't exist!
+
+				} else {
+
+					var owners = group.get("owners");
+					if (owners.indexOf(username)!=-1) {
+						
+						if (owners.indexOf(newOwnerUsername)==-1) {
+
+							group.addUnique("owners",newOwnerUsername); // Everything is good, adding the new owner to the group
+							user.addUnique("ownedGroups",groupname); // and the new group to the new owner
+							return Parse.Object.saveAll([group,user]).then(function(){
+								
+								response.success(0);
+							});
+
+						} else {
+
+							response.success(-2); // The requested user is already an owner of the group!
+
+						}
+					
+					} else {
+					
+						response.success(-4); // The current user isn't an owner of the group!
+					
+					}
+
+				}
+			});
+
+  		}
+
+  	}
+
+  },function(error) {
+      response.error("Unable to add an owner (" + newOwnerUsername + ") for group " + groupname + "for user " + username);
+      console.error("Error adding an owner (" + newOwnerUsername + ") for group " + groupname + "for user " + username + " Error : " + error); // If there is an error, it is logged
+    });
+	}
+});
+
+////
+
+/*
 //// usersLocation
 
 // The job usersLocation sets locationKnown to false for all users who haven't been updated in more than a certain time.
@@ -433,7 +939,7 @@ Parse.Cloud.job("usersLocation", function(request, status) {
 });
 
 ////
-
+*/
 //// savedQuestions
 
 // Sending the saved questions of the current user to his terminal so that he can view them
@@ -450,7 +956,7 @@ Parse.Cloud.define("savedQuestions", function(request, response) {
   query.descending("lastUpdate");
 
   query.find().then(function(results){
-  	
+
   	for (i=0;i<results.length;i++) {
   		questionsJSONArray.push({
   			"questionID" : results[i].id,
@@ -475,9 +981,9 @@ Parse.Cloud.define("savedQuestions", function(request, response) {
 			"answer4": results[i].get("answer4"),
 			"answer5": results[i].get("answer5"),
 			"international": results[i].get("international"),
-			"around": results[i].get("around"),
-			"radius": results[i].get("radius"),
 			"subscribersOnly": results[i].get("subscribersOnly"),
+			"group": results[i].get("group"),
+			"groupname": results[i].get("groupname"),
 			"askerUsername": results[i].get("askerUsername")
   		})
   	}
@@ -519,6 +1025,66 @@ Parse.Cloud.define("deleteSavedQuestions", function(request, response) {
 
 ////
 
+//// groupData
+
+// Sending the data on a group to the user who made the request. The response depends on the status of the user (member or owner of the group)
+Parse.Cloud.define("groupData", function(request, response) {
+  Parse.Cloud.useMasterKey();
+  var groupname = request.params.groupname;
+  var username = request.params.username;
+  
+  var query = new Parse.Query("Group");
+  query.equalTo("name", groupname);
+
+  query.first().then(function(group){
+  		
+  		var owners = group.get("owners");
+  		var members = group.get("members");
+  		var isOwner = (owners.indexOf(username)!=-1);
+  		var isMember = (members.indexOf(username)!=-1);
+
+  		if (isOwner) {
+
+	  		var answer = {
+	  			"groupname" : group.get("name"),
+	  			"members" : group.get("members"),
+				"owners" : group.get("owners"),
+	  			"createdAt": group.createdAt,
+				"nbrMembers": group.get("nbrMembers"),
+				"isOwner" : isOwner,
+				"isMember" : isMember
+	  		};
+
+	  		response.success(answer);
+
+  		} else if (isMember) {
+
+	  		var answer = {
+	  			"groupname" : group.get("name"),
+				"owners" : group.get("owners"),
+	  			"createdAt": group.createdAt,
+				"nbrMembers": group.get("nbrMembers"),
+				"isOwner" : isOwner,
+				"isMember" : isMember
+	  		};
+
+	  		response.success(answer);
+
+  		} else {
+
+  			response.error("You are neither a member nor an owner of this group!");
+
+  		}
+
+  	},function(error){
+  	response.error("Unale to access group data");
+  	console.error("Error while accessing group data for group " + groupname + ". Error : " + error.code + " " + error.message); // If there is an error, it is logged;
+  	});
+
+});
+
+////
+
 //// userExists
 
 // Testing if a particular user exists (for subscription purposes)
@@ -538,6 +1104,25 @@ Parse.Cloud.define("userExists", function(request, response) {
 
 ////
 
+//// groupExists
+
+// Testing if a particular user exists (for subscription purposes)
+
+Parse.Cloud.define("groupExists", function(request, response) {
+  Parse.Cloud.useMasterKey();
+  var query = new Parse.Query("Group");
+  query.equalTo("name",request.params.groupname); // Querying the user whose username is in the parameters given by the app
+  query.first().then(function(group) {
+  	response.success((group!=null));
+  },
+	function(error) {
+      response.error("Unable to look for group");
+      console.error("Error looking for group " + request.params.groupname + " Error : " + error); // If there is an error, it is logged
+    });
+});
+
+////
+
 //////
 
 
@@ -552,49 +1137,45 @@ Parse.Cloud.define("newQuestion", function(request, response) {
   Parse.Cloud.useMasterKey();
   var asker = Parse.User.current();
   var asker_username = asker.get("username");
-  var country = asker.get("country");
   var text = request.params.text;
-  var nbrChannels = request.params.nbrChannels;
   var nbrAnswers = request.params.nbrAnswers;
-  var international = request.params.international;
   var subscribersOnly = request.params.subscribersOnly;
-  var nbrUsersTargeted = request.params.nbrUsersTargeted;
-  var around = request.params.around;
-  var radius = request.params.radius; // Getting the parameters set by the User in the app
+  var group = request.params.group;
+  var groupname = request.params.groupname;
+  var nbrUsersTargeted = request.params.nbrUsersTargeted; // Getting the parameters set by the User in the app
 
-  switch (nbrAnswers) { // 4 cases depending on the number of possible answers to the question
-	case 2:
-		var newQuestion = new Parse.Object("Question");
+  var newQuestion = new Parse.Object("Question");
 		newQuestion.set("asker",asker); // The user who asked the question
 		newQuestion.set("askerUsername",asker_username); // His/her username (so that the user getting the question doesn't have access to the asker's Id and other fields)
-		newQuestion.set("country",country); // The country for the question ("International" is also a country)
 		newQuestion.set("text",text); // The question per say
-		newQuestion.set("approved",0); // Number of users who approved the question being broadcast
-		newQuestion.set("rejected",0); // Number of users who rejected the question being broadcast
 		newQuestion.set("nbrAnswers",nbrAnswers); // Number of possible answers to the question
+		if (subscribersOnly) {
+			var channel = "User_" + asker_username;
+		} else {
+			var channel = "Group_" + groupname;
+		}
+		newQuestion.set("channel", channel); // The channel to which the question will be sent
+		newQuestion.set("subscribersOnly", subscribersOnly); // Is it for subscribers only?
+		newQuestion.set("group",group); // Is it for a specific group?
+		newQuestion.set("groupname",groupname); // Name of the targeted group, "" if not a question for a group
+		newQuestion.set("toSend",true); // If true, then the question hasn't been sent yet and needs to be sent to its channel
+		newQuestion.set("published",false); // If true, then the results have been published, the question has finished its life cycle
+		newQuestion.set("nbrUsersTargeted",nbrUsersTargeted); // The total number of users targeted by the question
+		newQuestion.set("answeredBy",[]); // Users who answered this question
 		newQuestion.set("answer1",request.params.answer1); // Text for the first possible answer
 		newQuestion.set("answer2",request.params.answer2); // Text for the second possible answer
-		newQuestion.set("answer3",""); 
-		newQuestion.set("answer4","");
-		newQuestion.set("answer5",""); // No third, fourth or fifth answers in this case
 		newQuestion.set("nA",0); // Number of users who answered
 		newQuestion.set("nA1",0); // Number of users who answered answer 1
 		newQuestion.set("nA2",0); // Number of users who answered answer 2
 		newQuestion.set("nA3",0); // Number of users who answered answer 3
 		newQuestion.set("nA4",0); // Number of users who answered answer 4
 		newQuestion.set("nA5",0); // Number of users who answered answer 5
-		newQuestion.set("numberOfChannels",nbrChannels); // Number of channels to which the question will be sent (as chosen by the asker using the progressBar in the Submit class of the app)
-		newQuestion.set("channels", []); // The array that will save to which channels the question has been sent, so that the same people who received the question will receive the results
-		newQuestion.set("toSendForApproval",true); // If true, then the question hasn't been approved yet and needs to be sent for approval to a portion of the targeted users
-		newQuestion.set("approvedAndSent",false); // If true, then the question has been approved and now needs to be sent to all users of the channels in the array "channels" so that they can answer
-		newQuestion.set("published",false); // If true, then the results have been published, the question has finished its life cycle 
-		newQuestion.set("international",international); // If true, then the question is an international one, meaning it is in english and targets internationalChannels only
-		newQuestion.set("subscribersOnly",subscribersOnly); // If true, then the question targets only the asker's subscribers
-		newQuestion.set("nbrUsersTargeted",nbrUsersTargeted); // The total number of users targeted by the question
-		newQuestion.set("around",around); // If true, then the question is asked around the asker using localization to determine the number of users in a certain radius of the asker
-		newQuestion.set("radius",radius); // The radius around the asker used to find the targeted users
-		newQuestion.set("approvedOrRejectedBy",[]); // Initializing the approvedOrRejectedBy and answeredBy arrays to the empty array so that it is not null for the addAnswer and addApproval functions
-		newQuestion.set("answeredBy",[]);
+
+  switch (nbrAnswers) { // 4 cases depending on the number of possible answers to the question
+	case 2:
+		newQuestion.set("answer3",""); 
+		newQuestion.set("answer4","");
+		newQuestion.set("answer5",""); // No third, fourth or fifth answers in this case
 		newQuestion.save().then(function(){ // Saving the question
 		response.success();
 		}, function(error){
@@ -602,37 +1183,9 @@ Parse.Cloud.define("newQuestion", function(request, response) {
 		});
 	break;
 	case 3:
-		var newQuestion = new Parse.Object("Question");
-		newQuestion.set("asker",asker);
-		newQuestion.set("askerUsername",asker_username);
-		newQuestion.set("country",country);
-		newQuestion.set("text",text);
-		newQuestion.set("approved",0);
-		newQuestion.set("rejected",0);
-		newQuestion.set("nbrAnswers",nbrAnswers);
-		newQuestion.set("answer1",request.params.answer1);
-		newQuestion.set("answer2",request.params.answer2);
 		newQuestion.set("answer3",request.params.answer3);
 		newQuestion.set("answer4","");
 		newQuestion.set("answer5","");
-		newQuestion.set("nA",0);
-		newQuestion.set("nA1",0);
-		newQuestion.set("nA2",0);
-		newQuestion.set("nA3",0);
-		newQuestion.set("nA4",0);
-		newQuestion.set("nA5",0);
-		newQuestion.set("numberOfChannels",nbrChannels);
-		newQuestion.set("channels", []);
-		newQuestion.set("toSendForApproval",true);
-		newQuestion.set("published",false);
-		newQuestion.set("approvedAndSent",false);
-		newQuestion.set("international",international);
-		newQuestion.set("subscribersOnly",subscribersOnly);
-		newQuestion.set("nbrUsersTargeted",nbrUsersTargeted);
-		newQuestion.set("around",around);
-		newQuestion.set("radius",radius);
-		newQuestion.set("approvedOrRejectedBy",[]); // Initializing the approvedOrRejectedBy and answeredBy arrays to the empty array so that it is not null for the addAnswer and addApproval functions
-		newQuestion.set("answeredBy",[]); // Setting the question's fields and saving
 		newQuestion.save().then(function(){
 		response.success();
 		}, function(error){
@@ -640,37 +1193,9 @@ Parse.Cloud.define("newQuestion", function(request, response) {
 		});
 	break;
 	case 4:
-		var newQuestion = new Parse.Object("Question");
-		newQuestion.set("asker",asker);
-		newQuestion.set("askerUsername",asker_username);
-		newQuestion.set("country",country);
-		newQuestion.set("text",text);
-		newQuestion.set("approved",0);
-		newQuestion.set("rejected",0);
-		newQuestion.set("nbrAnswers",nbrAnswers);
-		newQuestion.set("answer1",request.params.answer1);
-		newQuestion.set("answer2",request.params.answer2);
 		newQuestion.set("answer3",request.params.answer3);
 		newQuestion.set("answer4",request.params.answer4);
 		newQuestion.set("answer5","");
-		newQuestion.set("nA",0);
-		newQuestion.set("nA1",0);
-		newQuestion.set("nA2",0);
-		newQuestion.set("nA3",0);
-		newQuestion.set("nA4",0);
-		newQuestion.set("nA5",0);
-		newQuestion.set("numberOfChannels",nbrChannels);
-		newQuestion.set("channels", []);
-		newQuestion.set("toSendForApproval",true);
-		newQuestion.set("published",false);
-		newQuestion.set("approvedAndSent",false);
-		newQuestion.set("international",international);
-		newQuestion.set("subscribersOnly",subscribersOnly);
-		newQuestion.set("nbrUsersTargeted",nbrUsersTargeted);
-		newQuestion.set("around",around);
-		newQuestion.set("radius",radius);
-		newQuestion.set("approvedOrRejectedBy",[]); // Initializing the approvedOrRejectedBy and answeredBy arrays to the empty array so that it is not null for the addAnswer and addApproval functions
-		newQuestion.set("answeredBy",[]); // Setting the question's fields and saving
 		newQuestion.save().then(function(){
 		response.success();
 		}, function(error){
@@ -678,37 +1203,9 @@ Parse.Cloud.define("newQuestion", function(request, response) {
 		});
 	break;
 	case 5:
-		var newQuestion = new Parse.Object("Question");
-		newQuestion.set("asker",asker);
-		newQuestion.set("askerUsername",asker_username);
-		newQuestion.set("country",country);
-		newQuestion.set("text",text);
-		newQuestion.set("approved",0);
-		newQuestion.set("rejected",0);
-		newQuestion.set("nbrAnswers",nbrAnswers);
-		newQuestion.set("answer1",request.params.answer1);
-		newQuestion.set("answer2",request.params.answer2);
 		newQuestion.set("answer3",request.params.answer3);
 		newQuestion.set("answer4",request.params.answer4);
 		newQuestion.set("answer5",request.params.answer5);
-		newQuestion.set("nA",0);
-		newQuestion.set("nA1",0);
-		newQuestion.set("nA2",0);
-		newQuestion.set("nA3",0);
-		newQuestion.set("nA4",0);
-		newQuestion.set("nA5",0);
-		newQuestion.set("numberOfChannels",nbrChannels);
-		newQuestion.set("channels", []);
-		newQuestion.set("toSendForApproval",true);
-		newQuestion.set("published",false);
-		newQuestion.set("approvedAndSent",false);
-		newQuestion.set("international",international);
-		newQuestion.set("subscribersOnly",subscribersOnly);
-		newQuestion.set("nbrUsersTargeted",nbrUsersTargeted);
-		newQuestion.set("around",around);
-		newQuestion.set("radius",radius);
-		newQuestion.set("approvedOrRejectedBy",[]); // Initializing the approvedOrRejectedBy and answeredBy arrays to the empty array so that it is not null for the addAnswer and addApproval functions
-		newQuestion.set("answeredBy",[]); // Setting the question's fields and saving
 		newQuestion.save().then(function(){
 		response.success();
 		}, function(error){
@@ -728,27 +1225,14 @@ Parse.Cloud.define("newQuestion", function(request, response) {
 Parse.Cloud.beforeSave("Question", function(request,response){
 	Parse.Cloud.useMasterKey();
 	var n = request.object.get("nbrAnswers");
-	var nI = request.object.get("approved");
 	var nA = request.object.get("nA");
 	var subscribersOnly = request.object.get("subscribersOnly");
-	var approvedAndSent = request.object.get("approvedAndSent");
 	var published = request.object.get("published");
 	var nbrUsersTargeted = request.object.get("nbrUsersTargeted"); // Getting the required values from the question
-	var minToA = Math.max(1,Math.floor((nbrUsersTargeted*3)/100)); // Calculating the minimum number of users who have to approve the question before it is broadcast: 50% of the targeted users
 	var minForR = Math.max(1,Math.floor((nbrUsersTargeted*50)/100)); // Calculating the minimum number of users who have to answer the question before the results are published: 50% of the targeted users
-	request.object.set("minToBeApproved",minToA); // Setting the two numbers
 	request.object.set("minForResults",minForR);
 	var now = new Date(); // Current date
 	request.object.set("lastUpdate",now.getTime()); // Setting the date of the question's lastUpdate
-	if (subscribersOnly) { // Bypassing the request for approval for questions to subscribers only
-		nI = minToA;
-		request.object.set("toSendForApproval",false);
-	}
-	if (nI == minToA && !approvedAndSent) { // If the number of users who approve the question is the required minToBeApproved and if the question hasn't been broadcast yet
-		request.object.set("toSendForAnswer",true); // The question needs to be broadcast to the targeted users so that they can answer
-		} else {
-		request.object.set("toSendForAnswer",false); // The question mustn't be broadcast yet or has already been broadcast
-		}
 	if (nA == minForR && !published) { // If the number of users who answered the question is the required minForResults and if the question hasn't been published yet
 		request.object.set("toSendForResults",true); // The question needs to be published
 		} else {
@@ -779,8 +1263,159 @@ Parse.Cloud.beforeSave("Question", function(request,response){
 
 ////
 
-
 //// Question afterSave
+
+// The core of the app: depending on the variables set in beforeSave, the question is either sent to users for approval, answers or to give them the results, or nothing happens
+Parse.Cloud.afterSave("Question", function(request){
+	Parse.Cloud.useMasterKey();
+	var time_for_answer = 3600000; // expiration time for notification requesting answers
+	var time_for_results = 86400000; // expiration time for notification giving results
+	
+	var toSend = request.object.get("toSend");
+	var toSendForResults = request.object.get("toSendForResults"); // Values set in question beforeSave to determine where the question is in its life cycle
+	
+	if (toSend) { // The question needs to be broadcast for answers
+	
+	var asker = request.object.get("asker");
+
+	Parse.Push.send({
+		channels: [request.object.get("channel")], // The channel targets all users of the chosen group or of the asker's subscribers
+		data: {
+			action: "com.spersio.opinion.ANSWER",
+			questionID: request.object.id,
+			questionText: request.object.get("text"),
+			nbrAnswers: request.object.get("nbrAnswers"),
+			answer1: request.object.get("answer1"),
+			answer2: request.object.get("answer2"),
+			answer3: request.object.get("answer3"),
+			answer4: request.object.get("answer4"),
+			answer5: request.object.get("answer5"),
+			group: request.object.get("group"),
+			groupname: request.object.get("groupname"),
+			subscribersOnly: request.object.get("subscribersOnly"),
+			askerUsername: request.object.get("askerUsername")
+		},
+		expiration_interval: time_for_answer
+		}, {
+		success: function(){
+			request.object.set("toSend",false); // The life cycle advances: the question has been sent
+			request.object.save();
+			console.log("Notification sent!")
+			},
+		error: function(error) {
+			console.error("Error sending question to subscribers or to group: questionID = " + request.object.id + " Error : " + error); // If there is an error, it is logged
+		}	
+	});
+	var pushAskerQuery = new Parse.Query(Parse.Installation); // Querying Installations
+	pushAskerQuery.equalTo("user",asker); // Finding the installations of the asker
+	Parse.Push.send({
+		where: pushAskerQuery, // Sending a notification to the asker
+		data: {
+			alert: request.object.get("text"),
+			title: "Question sent"
+		},
+		expiration_interval: time_for_answer 
+		}, {
+		success: function(){
+			},
+		error: function(error) {
+			console.error("Error telling asker the question has been sent (subscribers or group): questionID = " + request.object.id + " Error : " + error); // If there is an error, it is logged
+		}	
+	});
+	
+	}
+
+	if (toSendForResults) { // Enough users have answered, the results can be published to all the targeted users + the asker
+
+	var asker = request.object.get("asker");
+
+	Parse.Push.send({
+		channels: [request.object.get("channel")],
+		data: {
+			action: "com.spersio.opinion.RESULTS",
+			questionID: request.object.id,
+			createdAt: request.object.createdAt,
+			questionText: request.object.get("text"),
+			nbrAnswers: request.object.get("nbrAnswers"),
+			nA: request.object.get("nA"),
+			nA1: request.object.get("nA1"),
+			nA2: request.object.get("nA2"),
+			nA3: request.object.get("nA3"),
+			nA4: request.object.get("nA4"),
+			nA5: request.object.get("nA5"),
+			pcA1: request.object.get("pcA1"),
+			pcA2: request.object.get("pcA2"),
+			pcA3: request.object.get("pcA3"),
+			pcA4: request.object.get("pcA4"),
+			pcA5: request.object.get("pcA5"),
+			answer1: request.object.get("answer1"),
+			answer2: request.object.get("answer2"),
+			answer3: request.object.get("answer3"),
+			answer4: request.object.get("answer4"),
+			answer5: request.object.get("answer5"),
+			subscribersOnly: request.object.get("subscribersOnly"),
+			group: request.object.get("group"),
+			groupname: request.object.get("groupname"),
+			askerUsername: request.object.get("askerUsername")
+		},
+		expiration_interval: time_for_results
+		}, {
+		success: function(){
+			request.object.set("toSendForResults",false); // The life cycle reaches its end: the results of the question have been published
+			request.object.set("published",true);
+			request.object.save();
+			},
+		error: function(error) {
+			console.error("Error sending the results to the asker's subscribers or to a group: questionID = " + request.object.id + " Error : " + error); // If there is an error, it is logged
+		}	
+			});
+	var pushAskerQuery = new Parse.Query(Parse.Installation);
+	pushAskerQuery.equalTo("user",asker);
+	Parse.Push.send({
+		where: pushAskerQuery,
+		data: {
+			action: "com.spersio.opinion.RESULTS",
+			questionID: request.object.id,
+			createdAt: request.object.createdAt,
+			questionText: request.object.get("text"),
+			nbrAnswers: request.object.get("nbrAnswers"),
+			nA: request.object.get("nA"),
+			nA1: request.object.get("nA1"),
+			nA2: request.object.get("nA2"),
+			nA3: request.object.get("nA3"),
+			nA4: request.object.get("nA4"),
+			nA5: request.object.get("nA5"),
+			pcA1: request.object.get("pcA1"),
+			pcA2: request.object.get("pcA2"),
+			pcA3: request.object.get("pcA3"),
+			pcA4: request.object.get("pcA4"),
+			pcA5: request.object.get("pcA5"),
+			answer1: request.object.get("answer1"),
+			answer2: request.object.get("answer2"),
+			answer3: request.object.get("answer3"),
+			answer4: request.object.get("answer4"),
+			answer5: request.object.get("answer5"),
+			subscribersOnly: request.object.get("subscribersOnly"),
+			group: request.object.get("group"),
+			groupname: request.object.get("groupname"),
+			askerUsername: request.object.get("askerUsername")
+		},
+		expiration_interval: time_for_results
+		}, {
+		success: function(){
+			},
+		error: function(error) {
+			console.error("Error sending the results to the asker (subscribersOnly or group): questionID = " + request.object.id + " Error : " + error); // If there is an error, it is logged
+		}	
+		});
+
+	}
+
+});
+
+////
+
+/*//// Question afterSave
 
 // The core of the app: depending on the variables set in beforeSave, the question is either sent to users for approval, answers or to give them the results, or nothing happens
 Parse.Cloud.afterSave("Question", function(request){
@@ -1383,53 +2018,7 @@ Parse.Cloud.afterSave("Question", function(request){
 	}
 });
 
-////
-
-
-//// addapproval
-
-// Registering the approval or disapproval of the user for a question
-Parse.Cloud.define("addApproval", function(request, response) {
-  Parse.Cloud.useMasterKey();
-  var query = new Parse.Query("Question");
-  query.get(request.params.id, { // Getting the question whose ID has been given by the user's app
-	success: function(question) {
-
-  		var users = question.get("approvedOrRejectedBy");
-
-  		if (users.indexOf(request.user.id)!=-1) {
-  			response.error("Already approved or rejected question!"); // Testing to see if the user hasn't approved or rejected the question yet on another terminal
-  		} else {
-
-		if (request.params.approval == 1){ // If the user approves
-		question.increment("approved"); // approved is incremented
-		question.addUnique("approvedOrRejectedBy",request.user.id); // Updating the list of users who already approved or rejected the question
-		question.save().then(function() { // Saving the question
-		response.success();
-		}, function(error) {
-		response.error("Unable to register approval"); // If there is an error, it is sent back to the user
-		console.error("Error registering approval for questionID = " + request.params.id + " Error : " + error); // If there is an error, it is logged
-		});
-		} else { // It he/she disapproves
-		question.increment("rejected"); // rejected is incremented
-		question.addUnique("approvedOrRejectedBy",request.user.id);
-		question.save().then(function() { // Saving the question
-		response.success();
-		}, function(error) {
-		response.error("Unable to register lack of approval"); // If there is an error, it is sent back to the user
-		console.error("Error registering lack of approval for questionID = " + request.params.id + " Error : " + error); // If there is an error, it is logged
-		});
-		}
-	}
-	},
-	error: function() {
-      response.error("Unable to register approval or lack thereof"); // If there is an error, it is sent back to the user
-      console.error("Error registering approval or lack thereof for questionID = " + request.params.id + " Error : " + error); // If there is an error, it is logged
-    }
-	});
-});
-
-////
+////*/
 
 
 //// addAnswer
@@ -1518,7 +2107,7 @@ Parse.Cloud.define("addAnswer", function(request, response) {
 
 ////
 
-
+/*
 //// questionsDeleteForLackOfApproval
 
 // Deleting all obsolete questions for lack of approval after a certain amount of time
@@ -1645,6 +2234,24 @@ Parse.Cloud.job("checkFullChannels", function(request, status) {
 //
 
 ////
+*/
+/*Parse.Cloud.job("fillcountries", function(request, status) {
+	Parse.Cloud.useMasterKey();
+
+    var query = new Parse.Query("Country"); // Querying the Channels
+	query.each(function(country) { // For each channel
+
+		country.set("totalNbrUsers",0);
+		country.set("nbrUsers",{});
+		return country.save();
+			
+		}).then(function() {
+		status.success("Successfully updated countries."); // Reporting success of the job
+		}, function(error) {
+		status.error("Oops, something went wrong!"); // If there is an error, it is logged
+		});
+});*/
+
 
 //////
 

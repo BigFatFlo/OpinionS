@@ -9,7 +9,7 @@
 	android:background="@drawable/background_2" >
 	
 	<TextView
-	    android:id="@+id/username_yourSubscriptions"
+	    android:id="@+id/yourSubscriptions_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -25,18 +25,33 @@
         android:layout_weight="1"
         />
 	
-	<Button
+    <ImageButton
         android:id="@+id/unsubscribeFromSelection_button"
-		style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_unsubscribe_big"
+        android:contentDescription="@string/unsubscribe_selection" />
+    
+	<TextView
+	    android:id="@+id/unsubscribeFromSelection_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"
-        android:text="@string/unsubscribe_selection" 
+        android:text="@string/unsubscribe_selection"
+        android:textSize="16sp" 
         />
-	
-	<Button
-        android:id="@+id/backToMenu_SQ_button"
-		style="@style/ButtonStyle.LogOut"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/BTM" 
-        />
+    
+    <ImageButton
+        android:id="@+id/backToHome_YS_button"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_menu_home"
+        android:contentDescription="@string/BTH" />
 	
 </LinearLayout>

@@ -12,7 +12,6 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-
 public class Login extends Activity {
 	
 	private EditText usernameView;
@@ -68,8 +67,8 @@ public class Login extends Activity {
 
               // Set up a progress dialog
               final ProgressDialog dlg = new ProgressDialog(Login.this);
-              dlg.setTitle("Please wait.");
-              dlg.setMessage("Logging in. Please wait.");
+              dlg.setTitle(getResources().getString(R.string.please_wait));
+              dlg.setMessage(getResources().getString(R.string.logging_in));
               dlg.show();
 
               // Set up a new Parse user
@@ -83,11 +82,11 @@ public class Login extends Activity {
             	  public void done(ParseUser user, ParseException e) {
             		  dlg.dismiss();
             		  if (user != null) {
-            	    	Intent intent = new Intent(Login.this, com.spersio.opinions.Menu.class);
+            	    	Intent intent = new Intent(Login.this, com.spersio.opinions.Home.class);
             	    	intent.putExtra("fromLogin", true);
                         startActivity(intent);
             	    } else {
-            	    	Toast.makeText(Login.this, "Log in failed", Toast.LENGTH_LONG)
+            	    	Toast.makeText(Login.this, getResources().getString(R.string.login_failed), Toast.LENGTH_LONG)
                         .show();
             	    }
             	  }

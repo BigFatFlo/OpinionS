@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="savedQuestions">Saved questions</string>
+    <string name="older_questions">Load older questions</string>
+    <string name="newer_questions">Load newer questions</string>
+    <string name="askedBy">Asked by:</string>
+    
+    <string name="loading_questions">Loading questions. Please wait.</string>
+    <string name="no_saved_questions">No saved questions!</string>
+    <string name="unable_to_load_questions">Unable to load saved questions, please try again.</string>
+    <string name="unable_to_delete_questions">Unable to delete the required questions</string>
+    <string name="no_more_questions_to_load">No more questions to load!</string>
+    
+</resources>

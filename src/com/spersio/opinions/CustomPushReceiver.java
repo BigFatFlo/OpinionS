@@ -31,11 +31,9 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
   public static final String A4 = "com.spersio.opinion.A4";
   public static final String A5 = "com.spersio.opinion.A5";
   public static final String subscribersOnly = "com.spersio.opinion.subscribersOnly";
-  public static final String international = "com.spersio.opinion.international";
-  public static final String around = "com.spersio.opinion.around";
-  public static final String radius = "com.spersio.opinion.radius";
+  public static final String group = "com.spersio.opinion.group";
+  public static final String groupname = "com.spersio.opinion.groupname";
   public static final String askerUsername = "com.spersio.opinion.askerUsername";
-  public static final String approval = "com.spersio.opinion.approval";
   public static final String nID = "com.spersio.opinion.notificationId";
   public static final String tag = "com.spersio.opinion.notificationTag";
   public static final String nA1 = "com.spersio.opinion.nA1";
@@ -49,12 +47,11 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
   public static final String pcA4 = "com.spersio.opinion.pcA4";
   public static final String pcA5 = "com.spersio.opinion.pcA5";
   public static final String aID = "com.spersio.opinion.answerId";
-  public static final String saveOrSubscribe = "com.spersio.opinion.action";
+  public static final String saveOrUnsubscribeOrLeave = "com.spersio.opinion.action";
   public static final String savedQuestion = "com.spersio.opinion.savedQuestion";
   public static final String timeLeft = "com.spersio.opinion.timeLeft";
   public static final String createdAt = "com.spersio.opinion.createdAt";
   public static final String delete = "com.spersio.opinion.delete";
-  public static final String country = "com.spersio.opinion.country";
   public static CountDownTimer countDownTimerAp= null;
   public static CountDownTimer countDownTimerA= null;
 
@@ -88,7 +85,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
   
   @Override
 	public void onPushOpen(Context context, Intent intent) {
-		Intent launchIntent = new Intent(context, Menu.class);
+		Intent launchIntent = new Intent(context, Home.class);
 		launchIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(launchIntent);
 	};
@@ -111,9 +108,9 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			final String answer4 = json.getString("answer4");
 			final String answer5 = json.getString("answer5");
 			String askerU = json.getString("askerUsername");
-			Boolean inter = json.getBoolean("international");
-			Integer r = json.getInt("radius");
-			Boolean arnd = json.getBoolean("around");
+			String grpname = json.getString("groupname");
+			Boolean grp = json.getBoolean("group");
+			Boolean subOnly = json.getBoolean("subscribersOnly");
 			
 			// Creates an explicit intent for an Activity in your app
 			final Intent answerIntent = new Intent(ctx, Answer.class);
@@ -129,10 +126,10 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras.putString(A5, answer5);
 			extras.putInt(nID,notificationId);
 			extras.putString(tag,notificationTag);
-			extras.putInt(radius, r);
-			extras.putBoolean(international, inter);
-			extras.putBoolean(around, arnd);
+			extras.putBoolean(group, grp);
+			extras.putBoolean(subscribersOnly, subOnly);
 			extras.putString(askerUsername, askerU);
+			extras.putString(groupname, grpname);
 			
 			Intent quickIntent1 = new Intent(ctx, AnswerNotificationActivity.class);
 			final Bundle extras1 = new Bundle();
@@ -179,18 +176,15 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			quickIntent5.putExtras(extras5);
 			final PendingIntent btPendingIntent5 = PendingIntent.getBroadcast(ctx, 25, quickIntent5, PendingIntent.FLAG_UPDATE_CURRENT);
 			
-			final RemoteViews remoteView = new RemoteViews("com.spersio.opinion", R.layout.custom_notification);
+			final RemoteViews remoteView = new RemoteViews("com.spersio.opinions", R.layout.custom_notification);
 			
 			remoteView.setTextViewText(R.id.question_notif, qText);
-			
-			remoteView.setViewVisibility(R.id.approve_button_notif, View.GONE);
-			remoteView.setViewVisibility(R.id.reject_button_notif, View.GONE);
 			
 			final NotificationCompat.Builder mBuilder =
 			        new NotificationCompat.Builder(ctx)
 			        .setSmallIcon(R.drawable.ic_stat_question)
-			        .setTicker("60s to answer new question!")
-			        .setContentTitle(askerU + " needs your Opinion")
+			        .setTicker(ctx.getResources().getString(R.string.time_to_answer))
+			        .setContentTitle(askerU + ctx.getResources().getString(R.string.needs_opinion))
 			        .setContentText(qText);
 			
 			Intent deleteIntent = new Intent(ctx, DeleteNotificationActivity.class);
@@ -699,13 +693,11 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			Double pcAnswer3 = json.getDouble("pcA3");
 			Double pcAnswer4 = json.getDouble("pcA4");
 			Double pcAnswer5 = json.getDouble("pcA5");
+			String grpname = json.getString("groupname");
+			Boolean grp = json.getBoolean("group");
 			String askerU = json.getString("askerUsername");
-			Boolean subscribersO = json.getBoolean("subscribersOnly");
-			Boolean inter = json.getBoolean("international");
-			Integer r = json.getInt("radius");
-			Boolean arnd = json.getBoolean("around");
+			Boolean subOnly = json.getBoolean("subscribersOnly");
 			String creationDate = json.get("createdAt").toString();
-			String countr = json.getString("country");
 			
 			// Creates an explicit intent for an Activity in your app
 			Intent resultsIntent = new Intent(ctx, Results.class);
@@ -713,7 +705,6 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			Bundle extras = new Bundle();
 			extras.putString(ID, questionId);
 			extras.putString(text, qText);
-			extras.putString(country, countr);
 			extras.putInt(nbrAnswers, nbrA);
 			extras.putString(A1, answer1);
 			extras.putString(A2, answer2);
@@ -733,11 +724,10 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras.putDouble(pcA5, pcAnswer5);
 			extras.putInt(nID,notificationId);
 			extras.putString(tag,notificationTag);
-			extras.putInt(radius, r);
-			extras.putBoolean(subscribersOnly, subscribersO);
-			extras.putBoolean(international, inter);
-			extras.putBoolean(around, arnd);
+			extras.putBoolean(group, grp);
+			extras.putBoolean(subscribersOnly, subOnly);
 			extras.putString(askerUsername, askerU);
+			extras.putString(groupname, grpname);
 			extras.putBoolean(savedQuestion, false);
 			extras.putString(createdAt, creationDate);
 			resultsIntent.putExtras(extras);
@@ -747,9 +737,11 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras1.putString(ID, questionId);
 			extras1.putInt(nID,notificationId);
 			extras1.putString(tag,notificationTag);
-			extras1.putBoolean(subscribersOnly, subscribersO);
+			extras1.putBoolean(subscribersOnly, subOnly);
+			extras1.putBoolean(group, grp);
 			extras1.putString(askerUsername, askerU);
-			extras1.putInt(saveOrSubscribe, 1);
+			extras1.putString(groupname, grpname);
+			extras1.putInt(saveOrUnsubscribeOrLeave, 1);
 			quickIntent1.putExtras(extras1);
 			PendingIntent btPendingIntent1 = PendingIntent.getBroadcast(ctx, 31, quickIntent1, PendingIntent.FLAG_UPDATE_CURRENT);
 			
@@ -758,20 +750,20 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras2.putString(ID, questionId);
 			extras2.putInt(nID,notificationId);
 			extras2.putString(tag,notificationTag);
-			extras2.putBoolean(subscribersOnly, subscribersO);
+			extras2.putBoolean(subscribersOnly, subOnly);
+			extras1.putBoolean(group, grp);
 			extras2.putString(askerUsername, askerU);
-			extras2.putInt(saveOrSubscribe, 2);
+			extras1.putString(groupname, grpname);
+			extras2.putInt(saveOrUnsubscribeOrLeave, 2);
 			quickIntent2.putExtras(extras2);
 			PendingIntent btPendingIntent2 = PendingIntent.getBroadcast(ctx, 32, quickIntent2, PendingIntent.FLAG_UPDATE_CURRENT);
 			
-			final RemoteViews remoteView = new RemoteViews("com.spersio.opinion", R.layout.custom_notification_results);
+			final RemoteViews remoteView = new RemoteViews("com.spersio.opinions", R.layout.custom_notification_results);
 			
 			remoteView.setTextViewText(R.id.question_view_r_notif, qText);
 			
-			if (subscribersO) {
-				remoteView.setImageViewResource(R.id.subscribe_button_notif, R.drawable.button_unsubscribe);
-			} else {
-				remoteView.setImageViewResource(R.id.subscribe_button_notif, R.drawable.button_subscribe);
+			if (subOnly | grp) {
+				remoteView.setImageViewResource(R.id.unsubscribe_button_notif, R.drawable.ic_unsubscribe);
 			}
 			
 			switch (nbrA) {
@@ -852,13 +844,13 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			}
 			
 			remoteView.setOnClickPendingIntent(R.id.saveResults_button_notif, btPendingIntent1);
-			remoteView.setOnClickPendingIntent(R.id.subscribe_button_notif, btPendingIntent2);
+			remoteView.setOnClickPendingIntent(R.id.unsubscribe_button_notif, btPendingIntent2);
 			
 			NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(ctx)
 		        .setSmallIcon(R.drawable.ic_stat_question)
-		        .setTicker("The results are in!")
-		        .setContentTitle("The results are in!")
+		        .setTicker(ctx.getResources().getString(R.string.results_are_in))
+		        .setContentTitle(ctx.getResources().getString(R.string.results_are_in))
 		        .setContentText(qText);
 			
 			mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });

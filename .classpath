@@ -5,7 +5,8 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="libs/Parse-1.7.1.jar"/>
+	<classpathentry kind="lib" path="/Users/florentremis/Development/workspace/OpinionS/libs/Parse-1.8.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/Users/florentremis/Downloads/facebook-android-sdk-3.20.0/facebook/bin/facebooksdk.jar" sourcepath="/FacebookSDK/src"/>
+	<classpathentry kind="lib" path="libs/ParseCrashReporting-1.8.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

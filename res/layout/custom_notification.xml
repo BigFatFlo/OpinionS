@@ -15,7 +15,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
 		android:layout_alignTop="@+id/question_notif"
-        android:contentDescription="@string/delete"       
+        android:contentDescription="@string/questionMark"       
         />
     
     <TextView
@@ -51,9 +51,9 @@
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
 		        android:layout_weight="10"
-		        android:src="@drawable/one"
+		        android:src="@drawable/ic_one"
 		        android:layout_gravity="center"
-		        android:contentDescription="@string/delete"       
+		        android:contentDescription="@string/one"       
 		        />
 		    
 		    <TextView
@@ -81,9 +81,9 @@
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
 		        android:layout_weight="10"
-		        android:src="@drawable/two"
+		        android:src="@drawable/ic_two"
 		        android:layout_gravity="center"
-		        android:contentDescription="@string/delete"       
+		        android:contentDescription="@string/two"       
 		        />
 		    
 		    <TextView
@@ -111,9 +111,9 @@
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
 		        android:layout_weight="10"
-		        android:src="@drawable/three"
+		        android:src="@drawable/ic_three"
 		        android:layout_gravity="center"
-		        android:contentDescription="@string/delete"       
+		        android:contentDescription="@string/three"       
 		        />
 		    
 		    <TextView
@@ -141,9 +141,9 @@
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
 		        android:layout_weight="10"
-		        android:src="@drawable/four"
+		        android:src="@drawable/ic_four"
 		        android:layout_gravity="center"
-		        android:contentDescription="@string/delete"       
+		        android:contentDescription="@string/four"       
 		        />
 		    
 		    <TextView
@@ -172,9 +172,9 @@
 		        android:layout_marginRight="5dp"
 		        android:layout_marginLeft="5dp"
 		        android:layout_weight="10"
-		        android:src="@drawable/five"
+		        android:src="@drawable/ic_five"
 		        android:layout_gravity="center"
-		        android:contentDescription="@string/delete"       
+		        android:contentDescription="@string/five"       
 		        />
 		    
 		    <TextView
@@ -188,39 +188,6 @@
 		        />
 		    
     	</LinearLayout>
-    
-    </LinearLayout>
-    
-    <LinearLayout
-    	android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal"
-    	android:layout_below="@id/notification_layout"
-    	>
-    
-    <ImageButton
-        android:id="@+id/approve_button_notif"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-		android:layout_weight="1"
-        android:background="@android:color/transparent"
-        android:padding="5dp"
-		android:layout_gravity="center"
-        android:src="@drawable/button_approve"
-        android:contentDescription="@string/delete"
-        />
-    
-    <ImageButton
-        android:id="@+id/reject_button_notif"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-		android:layout_weight="1"
-        android:background="@android:color/transparent"
-        android:padding="5dp"
-		android:layout_gravity="center"
-        android:src="@drawable/button_reject"
-        android:contentDescription="@string/delete"
-        />
     
     </LinearLayout>
     
@@ -241,8 +208,8 @@
         android:background="@android:color/transparent"
         android:padding="5dp"
 		android:layout_gravity="center"
-        android:src="@drawable/button_one"
-        android:contentDescription="@string/delete"
+        android:src="@drawable/ic_one_button"
+        android:contentDescription="@string/choose_one"
         />
     
     <ImageButton
@@ -253,8 +220,8 @@
         android:background="@android:color/transparent"
         android:padding="5dp"
 		android:layout_gravity="center"
-        android:src="@drawable/button_two"
-        android:contentDescription="@string/delete"
+        android:src="@drawable/ic_two_button"
+        android:contentDescription="@string/choose_two"
         />
     
     <ImageButton
@@ -265,8 +232,8 @@
         android:background="@android:color/transparent"
         android:padding="5dp"
 		android:layout_gravity="center"
-        android:src="@drawable/button_three"
-        android:contentDescription="@string/delete"
+        android:src="@drawable/ic_three_button"
+        android:contentDescription="@string/choose_three"
         />
     
     <ImageButton
@@ -277,8 +244,8 @@
         android:background="@android:color/transparent"
         android:padding="5dp"
 		android:layout_gravity="center"
-        android:src="@drawable/button_four"
-        android:contentDescription="@string/delete"
+        android:src="@drawable/ic_four_button"
+        android:contentDescription="@string/choose_four"
         />
     
     <ImageButton
@@ -289,8 +256,8 @@
         android:background="@android:color/transparent"
         android:padding="5dp"
 		android:layout_gravity="center"
-        android:src="@drawable/button_five"
-        android:contentDescription="@string/delete"
+        android:src="@drawable/ic_five_button"
+        android:contentDescription="@string/choose_five"
         />
     
     </LinearLayout>

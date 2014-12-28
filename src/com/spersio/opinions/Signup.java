@@ -12,7 +12,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-
 public class Signup extends Activity {
 	
 	private EditText usernameView;
@@ -87,8 +86,8 @@ public class Signup extends Activity {
 
               // Set up a progress dialog
               final ProgressDialog dlg = new ProgressDialog(Signup.this);
-              dlg.setTitle("Please wait.");
-              dlg.setMessage("Signing up. Please wait.");
+              dlg.setTitle(getResources().getString(R.string.please_wait));
+              dlg.setMessage(getResources().getString(R.string.signing_up));
               dlg.show();
 
               // Set up a new Parse user
@@ -97,11 +96,9 @@ public class Signup extends Activity {
               user.setEmail(emailView.getText().toString());
               user.setPassword(passwordView.getText().toString());
               user.put("country", "");
+              user.put("characteristicsNumber", -1);
               user.put("nbrQuestionsAsked", 0);
               user.put("nbrSubscribers", 0);
-              user.put("international", false);
-              user.put("internationalChannel", "");
-              user.put("useLocation", false);
               // Call the Parse signup method
               user.signUpInBackground(new SignUpCallback() {
 
@@ -113,7 +110,7 @@ public class Signup extends Activity {
                     Toast.makeText(Signup.this, e.getMessage(), Toast.LENGTH_LONG).show();
                   } else {
                     // Start an intent for the Profile activity
-                	  Intent intent = new Intent(Signup.this, Menu.class);
+                	  Intent intent = new Intent(Signup.this, Home.class);
           	    	intent.putExtra("fromLogin", true);
                     startActivity(intent);
                   }

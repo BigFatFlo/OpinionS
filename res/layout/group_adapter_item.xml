@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    
+	    <TextView
+	        android:id="@+id/owned_group_name_adapter"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_margin="10dp"
+	        android:padding="5dp"
+	        android:lines="1"
+	        android:layout_alignParentLeft="true"
+	    	android:text="@string/name"
+	    />
+	    
+	    <ImageButton
+	        android:id="@+id/details_adapter"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+		    android:layout_marginRight="5dp"
+		    android:layout_marginLeft="5dp"
+	        android:padding="5dp"
+	        android:layout_alignTop="@id/owned_group_name_adapter"
+	        android:layout_alignParentRight="true"
+	        android:background="@android:color/transparent"
+	        android:contentDescription="@string/details"
+	        android:src="@drawable/ic_details" 
+        />
+	    
+</RelativeLayout>

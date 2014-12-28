@@ -1,0 +1,441 @@
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:background="@drawable/background_2">
+
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="${packageName}.${activityClass}" >
+        
+     <TextView 
+        android:id="@+id/ask_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ask"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+     
+     <EditText
+        android:id="@+id/question_ask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ask_title"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/prompt_question"
+        android:textSize="16sp"
+        android:inputType="textMultiLine|textCapSentences"
+        android:maxLength="145"
+        android:minLines="1"
+        android:lines="3"
+        android:maxLines="10" />
+    
+    <ImageButton
+        android:id="@+id/question_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
+        android:padding="7dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/question_ask"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_add" 
+        android:contentDescription="@string/add"
+        />
+    
+    <TextView
+        android:id="@+id/possible_answers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/question_done"
+        android:layout_marginBottom="10dp"
+        android:text="@string/possible_answers"
+        android:textSize="18sp"
+        />
+    
+    <EditText
+        android:id="@+id/answer_ask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/possible_answers"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/prompt_answer"
+        android:textSize="16sp"
+        android:inputType="textMultiLine|textCapSentences"
+        android:maxLength="35"
+        android:minLines="1"
+        android:lines="3"
+        android:maxLines="5" />
+    
+    <ImageButton
+        android:id="@+id/answer_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="7dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/answer_ask"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_add"
+        android:contentDescription="@string/add"
+        />
+    
+    <TextView
+       android:id="@+id/divider1"
+       style="?android:listSeparatorTextViewStyle"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/answer_add"
+       />
+    
+    <ImageView
+        android:id="@+id/question_mark_ask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_question_mark"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+		android:layout_alignTop="@+id/question_preview"
+        android:contentDescription="@string/questionMark"       
+        />
+    
+    <TextView
+        android:id="@+id/question_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/question_mark_ask"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/divider1"
+        android:text="@string/question_preview"
+        android:paddingTop="20dp"
+        android:paddingBottom="30dp"
+        android:paddingRight="35dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+    
+    <TableLayout
+    	android:id="@+id/preview_layout"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@id/question_preview" 
+    	android:shrinkColumns="1"
+    	android:weightSum="100"
+    	>
+        
+        <TableRow 
+		    android:layout_marginBottom="10dp" >
+		    
+		    <ImageView
+		        android:id="@+id/one_ask"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_one"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/one"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer1_preview"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="80"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/answer1"
+		        android:textSize="16sp"
+		        android:focusable="true"
+		        android:focusableInTouchMode="true"
+		        />
+		    
+		    <ImageButton
+		        android:id="@+id/delete_answer1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="10"
+		        android:layout_gravity="center"
+		        android:background="@android:color/transparent"
+		        android:contentDescription="@string/delete"
+		        android:padding="8dp"
+		        android:src="@drawable/ic_reject" 
+		        />
+    
+    	</TableRow>
+    
+    	<TableRow 
+		    android:layout_marginBottom="10dp" >
+		    
+		    <ImageView
+		        android:id="@+id/two_ask"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_two"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/two"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer2_preview"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="80"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/answer2"
+		        android:textSize="16sp"
+		        android:focusable="true"
+		        android:focusableInTouchMode="true"
+		        />
+		    
+		    <ImageButton
+		        android:id="@+id/delete_answer2"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="10"
+		        android:padding="8dp"
+		        android:layout_gravity="center"
+		        android:background="@android:color/transparent"
+		        android:contentDescription="@string/delete"
+		        android:src="@drawable/ic_reject" 
+		        />
+		    
+    	</TableRow>
+    
+    	<TableRow  
+		    android:layout_marginBottom="10dp" >
+		    
+		    <ImageView
+		        android:id="@+id/three_ask"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_three"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/three"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer3_preview"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="80"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/answer3"
+		        android:textSize="16sp"
+		        android:focusable="true"
+		        android:focusableInTouchMode="true"
+		        />
+		    
+		    <ImageButton
+		        android:id="@+id/delete_answer3"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="10"
+		        android:padding="8dp"
+		        android:layout_gravity="center"
+		        android:background="@android:color/transparent"
+		        android:contentDescription="@string/delete"
+		        android:src="@drawable/ic_reject" 
+		        />
+		    
+    	</TableRow>
+    
+    	<TableRow  
+		    android:layout_marginBottom="10dp" >
+		    
+		    <ImageView
+		        android:id="@+id/four_ask"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_four"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/four"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer4_preview"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="80"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/answer4"
+		        android:textSize="16sp"
+		        android:focusable="true"
+		        android:focusableInTouchMode="true"
+		        />
+		    
+		    <ImageButton
+		        android:id="@+id/delete_answer4"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="10"
+		        android:padding="8dp"
+		        android:layout_gravity="center"
+		        android:background="@android:color/transparent"
+		        android:contentDescription="@string/delete"
+		        android:src="@drawable/ic_reject" 
+		        />
+    
+    	</TableRow>
+    
+
+    	<TableRow >
+		    
+		    <ImageView
+		        android:id="@+id/five_ask"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_five"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/five"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer5_preview"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="80"
+		        android:layout_gravity="center_vertical"
+		        android:text="@string/answer5"
+		        android:textSize="16sp"
+		        android:focusable="true"
+		        android:focusableInTouchMode="true"
+		        />
+		    
+		    <ImageButton
+		        android:id="@+id/delete_answer5"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="10"
+		        android:padding="8dp"
+		        android:layout_gravity="center"
+		        android:background="@android:color/transparent"
+		        android:contentDescription="@string/delete"
+		        android:src="@drawable/ic_reject" 
+		        />
+    
+    	</TableRow>
+    
+    </TableLayout>
+
+    <TextView
+       android:id="@+id/divider2"
+       style="?android:listSeparatorTextViewStyle"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/preview_layout"
+       android:layout_marginBottom="15dp"
+       />
+    
+    <TextView
+        android:id="@+id/subscribersOnly_ask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider2"
+        android:layout_alignParentLeft="true"
+        android:padding="10dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
+        android:text="@string/subscribersAsk"
+        android:textStyle="bold" 
+        />
+    
+    <TextView
+        android:id="@+id/group_ask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/subscribersOnly_ask"
+        android:padding="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+		android:text="@string/groupAsk"
+        android:textStyle="bold"
+        />
+	
+	<RadioButton
+	    android:id="@+id/subscribers_ask_radiobutton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="15dp"
+		android:drawablePadding="5dp"
+		android:layout_alignBaseline="@id/subscribersOnly_ask"
+		android:layout_alignParentRight="true"
+		android:button="@drawable/button_radio"
+		/>
+	
+	<RadioButton
+	    android:id="@+id/group_ask_radiobutton"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="15dp"
+		android:drawablePadding="5dp"
+		android:layout_alignBaseline="@id/group_ask"
+		android:layout_alignParentRight="true"
+		android:button="@drawable/button_radio"
+		/>
+	
+	<Spinner
+        android:id="@+id/groupsOwned_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/group_ask"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        />
+    
+	<TextView
+        android:id="@+id/users_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/groupsOwned_spinner"
+        android:layout_marginBottom="20dp"
+        android:text="@string/usersAvailable"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+    
+    <Button
+        android:id="@+id/ask_question_button"
+        style="@style/ButtonStyle"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/users_available"
+        android:text="@string/send"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" 
+        />
+
+</RelativeLayout>
+
+</ScrollView>
