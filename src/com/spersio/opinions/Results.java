@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -15,6 +14,8 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -32,7 +33,7 @@ import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
-public class Results extends Activity {
+public class Results extends ActionBarActivity {
 
 	TextView askerInfo= null;
 	TextView dateInfo= null;
@@ -89,6 +90,8 @@ public class Results extends Activity {
 		
 		questionID = null;
 		nId = 0;
+		
+		overridePendingTransition(0, 0);
 		
 		setContentView(R.layout.activity_results);
 
@@ -208,7 +211,11 @@ public class Results extends Activity {
 		
 		if (savedQuestion) {
 			backToHome.setVisibility(View.GONE);
+			ActionBar actionBar = getSupportActionBar();
+	        actionBar.setDisplayHomeAsUpEnabled(true);
 		} else {
+			ActionBar actionBar = getSupportActionBar();
+			actionBar.hide();
 			saveResults.setVisibility(View.VISIBLE);
 			saveResults_text.setVisibility(View.VISIBLE);
 		}

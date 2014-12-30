@@ -20,7 +20,7 @@
     <string name="euro_and">"€ and "</string>
     <string name="euro">€</string>
     <string name="and">" and "</string>
-    <string name="to_receive_international">" to receive international questions"</string>
+    <string name="to_receive_international">" to receive international questions."</string>
     <string name="do_you_confirm">"Do you confirm that you are "</string>
     
     <string name="loading_criteria">Loading criteria. Please wait.</string>

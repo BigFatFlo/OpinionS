@@ -150,7 +150,7 @@ android:background="@drawable/background_2"
         android:contentDescription="@string/leave_group"
         android:src="@drawable/ic_unsubscribe_big" />
     
-    <Button
+    <!--  <Button
         android:id="@+id/delete_group_button"
         style="@style/ButtonStyle.LogOut"
         android:layout_centerHorizontal="true"
@@ -162,8 +162,7 @@ android:background="@drawable/background_2"
         android:focusable="true"
         android:focusableInTouchMode="true" 
         />
-    
-    
+        -->      
     
 </RelativeLayout>
 

@@ -751,8 +751,8 @@ Parse.Cloud.define("addMember", function(request, response) {
 Parse.Cloud.define("subtractMember", function(request, response) {
   Parse.Cloud.useMasterKey();
   var query = new Parse.Query("Group");
-  query.containedIn("name",request.params.groupnames); // Querying the group whose name is in the parameters given by the app
-  query.each(function(group) {
+  query.equalTo("name",request.params.groupname); // Querying the group whose name is in the parameters given by the app
+  query.first().then(function(group) {
   	group.increment("nbrMembers",-1); // Updating the number of members
   	group.remove("members",Parse.User.current().get("username"));
   	return group.save(); // Saving the group
@@ -761,7 +761,7 @@ Parse.Cloud.define("subtractMember", function(request, response) {
   	},
 	function(error) {
       response.error("Unable to leave group");
-      console.error("Error leaving group " + request.params.groupnames + " Error : " + error); // If there is an error, it is logged
+      console.error("Error leaving group " + request.params.groupname + " Error : " + error); // If there is an error, it is logged
     });
 });
 
@@ -880,7 +880,24 @@ Parse.Cloud.define("addOwner", function(request, response) {
 							user.addUnique("ownedGroups",groupname); // and the new group to the new owner
 							return Parse.Object.saveAll([group,user]).then(function(){
 								
-								response.success(0);
+								var pushQuery = new Parse.Query(Parse.Installation); // Querying Installations
+								pushQuery.equalTo("user",user); // Finding the installations of the new owner
+								return Parse.Push.send({
+									where: pushQuery, // Sending a notification to the asker
+									data: {
+										alert: "Group" + groupname,
+										title: username + " made you an owner!"
+									}
+									}, {
+									success: function(){
+										response.success(0); // new owner was added and notified
+										},
+									error: function(error) {
+										response.success(0); // new owner was added but couldn't be notified
+										console.error("Error telling user " + newOwnerUsername + " he's a new owner for group: " + groupname + " Error : " + error); // If there is an error, it is logged
+									}	
+								});
+
 							});
 
 						} else {

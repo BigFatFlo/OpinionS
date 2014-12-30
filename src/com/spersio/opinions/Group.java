@@ -1,17 +1,13 @@
 package com.spersio.opinions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,10 +17,8 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +30,7 @@ import com.parse.ParseUser;
 
 public class Group extends ActionBarActivity{
 	
+	TextView groupName = null;
 	TextView memberOrOwner = null;
 	TextView listOfOwners = null;
 	TextView addOwner = null;
@@ -48,7 +43,7 @@ public class Group extends ActionBarActivity{
 	ImageButton addOwnerButton = null;
 	ImageButton leaveGroupButton = null;
 	
-	Button deleteGroup = null;
+	// Button deleteGroup = null;
 	
 	Spinner owners = null;
 	Spinner members = null;
@@ -63,6 +58,8 @@ public class Group extends ActionBarActivity{
         
         setContentView(R.layout.activity_group);
         
+        groupName = (TextView) findViewById(R.id.group_title);
+        
         memberOrOwner = (TextView) findViewById(R.id.member_or_owner);
         listOfOwners = (TextView) findViewById(R.id.list_owners_text);
         addOwner = (TextView) findViewById(R.id.addOwner);
@@ -75,7 +72,7 @@ public class Group extends ActionBarActivity{
         addOwnerButton = (ImageButton) findViewById(R.id.addOwner_button);
         leaveGroupButton = (ImageButton) findViewById(R.id.leaveGroup_button);
         
-        deleteGroup = (Button) findViewById(R.id.delete_group_button);
+        // deleteGroup = (Button) findViewById(R.id.delete_group_button);
         
         owners = (Spinner) findViewById(R.id.list_owners_spinner);
         members = (Spinner) findViewById(R.id.list_members_spinner);
@@ -92,12 +89,14 @@ public class Group extends ActionBarActivity{
         listOfOwners.setVisibility(View.GONE);
         listOfMembers.setVisibility(View.GONE);
         memberOrOwner.setVisibility(View.GONE);
+        addOwnerButton.setVisibility(View.GONE);
+        addOwnerUsername.setVisibility(View.GONE);
         addOwner.setVisibility(View.GONE);
         owners.setVisibility(View.GONE);
         members.setVisibility(View.GONE);
         leaveGroup.setVisibility(View.GONE);
         leaveGroupButton.setVisibility(View.GONE);
-        deleteGroup.setVisibility(View.GONE);
+        // deleteGroup.setVisibility(View.GONE);
         
         final ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser!=null) {
@@ -120,6 +119,8 @@ public class Group extends ActionBarActivity{
 					  
 					   dlg.dismiss();
 					   
+					   groupName.setText(groupname);
+					   
 					   Boolean isOwner = (Boolean) data.get("isOwner");
 					   Boolean isMember = (Boolean) data.get("isMember");
 					   
@@ -128,10 +129,12 @@ public class Group extends ActionBarActivity{
 						    listOfOwners.setVisibility(View.VISIBLE);
 					        listOfMembers.setVisibility(View.VISIBLE);
 					        memberOrOwner.setVisibility(View.VISIBLE);
+					        addOwnerButton.setVisibility(View.VISIBLE);
+					        addOwnerUsername.setVisibility(View.VISIBLE);
 					        addOwner.setVisibility(View.VISIBLE);
 					        owners.setVisibility(View.VISIBLE);
 					        members.setVisibility(View.VISIBLE);
-					        deleteGroup.setVisibility(View.VISIBLE);
+					        // deleteGroup.setVisibility(View.VISIBLE);
 					        
 					        if (isMember) {
 						    memberOrOwner.setText(getResources().getString(R.string.you_are_an_owner_and_a_member));
@@ -162,6 +165,8 @@ public class Group extends ActionBarActivity{
 					        leaveGroupButton.setVisibility(View.VISIBLE);
 					        
 					        memberOrOwner.setText(getResources().getString(R.string.you_are_a_member));
+					        
+					        nbrMembers.setText(getResources().getString(R.string.nbrMembers) + ": " + String.valueOf((int) data.get("nbrMembers")));
 					        
 					        ArrayAdapter<String> adapterOwners = new ArrayAdapter<String>(Group.this,
 									android.R.layout.simple_spinner_item , (List<String>) data.get("owners"));
@@ -287,7 +292,7 @@ public class Group extends ActionBarActivity{
 			}
 		});
         	
-        	deleteGroup.setOnClickListener(new OnClickListener() {
+        	/*deleteGroup.setOnClickListener(new OnClickListener() {
     			
     			@Override
     			public void onClick(View v) {
@@ -347,7 +352,78 @@ public class Group extends ActionBarActivity{
 					    .setNegativeButton("No", dialogClickListener).show();
     				
     			}
-        	});
+        	});*/
+        	
+        	leaveGroupButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+        	
+				if (leaveGroup.getText().toString().equals(getResources().getString(R.string.leave_group))) {
+					
+				final ProgressDialog dlg = new ProgressDialog(Group.this);
+			    dlg.setTitle(getResources().getString(R.string.please_wait));
+			    dlg.setMessage(getResources().getString(R.string.leaving));
+			    dlg.show();
+			    
+				HashMap<String, Object> params = new HashMap<String, Object>();
+				params.put("groupname", groupname);
+				ParseCloud.callFunctionInBackground("subtractMember", params, new FunctionCallback<Object>() {
+					   public void done(Object object, ParseException e) {
+						   if (e == null) {
+							   
+							    List<String> list = currentUser.getList("joinedGroups");
+								
+								list.remove(groupname);
+								currentUser.put("joinedGroups", list);
+								
+								currentUser.saveInBackground();
+								
+							leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));
+							leaveGroup.setText(getResources().getString(R.string.rejoin_group));
+							dlg.dismiss();
+							Toast.makeText(Group.this, getResources().getString(R.string.left_group) + groupname, Toast.LENGTH_SHORT)
+							.show();
+						   } else {
+							dlg.dismiss();
+							Toast.makeText(Group.this, getResources().getString(R.string.unable_to_leave) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+							.show();
+						   }
+					   }
+					});
+				
+			} else if (leaveGroup.getText().toString().equals(getResources().getString(R.string.rejoin_group))){
+				
+				final ProgressDialog dlg = new ProgressDialog(Group.this);
+			    dlg.setTitle(getResources().getString(R.string.please_wait));
+			    dlg.setMessage(getResources().getString(R.string.rejoining));
+			    dlg.show();
+				HashMap<String, Object> params = new HashMap<String, Object>();
+				params.put("groupname", groupname);
+				ParseCloud.callFunctionInBackground("addMember", params, new FunctionCallback<Object>() {
+					   public void done(Object object, ParseException e) {
+						   if (e == null) {
+							    
+						    currentUser.addUnique("joinedGroups", groupname);
+						    
+							currentUser.saveInBackground();
+							
+							leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
+							leaveGroup.setText(getResources().getString(R.string.leave_group));
+							dlg.dismiss();
+							Toast.makeText(Group.this, getResources().getString(R.string.rejoined_group) + groupname, Toast.LENGTH_SHORT)
+							.show();
+						   } else {
+							dlg.dismiss();
+							Toast.makeText(Group.this, getResources().getString(R.string.unable_to_rejoin) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+							.show();
+						   }
+					   }
+					});
+			}
+		}
+		
+		});
 		
 		} else {
         	Toast.makeText(Group.this, getResources().getString(R.string.not_logged_in), Toast.LENGTH_LONG)
