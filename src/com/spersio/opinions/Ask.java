@@ -669,6 +669,7 @@ public class Ask extends ActionBarActivity {
 						groupName = parent.getItemAtPosition(pos).toString();
 						HashMap<String, Object> params = new HashMap<String, Object>();
 						params.put("groupname", groupName);
+						params.put("username", currentUser.getUsername());
 						ParseCloud.callFunctionInBackground("nbrMembersInGroup", params, new FunctionCallback<Integer>() {
 							   public void done(Integer number, ParseException e) {
 								   if (e == null) {

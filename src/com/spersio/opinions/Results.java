@@ -465,9 +465,12 @@ public class Results extends ActionBarActivity {
 					   if (e == null) {
 						   
 						    List<String> list = currentUser.getList("subscribedUsers");
-							
+						    List<String> listChannels = currentUser.getList("channels");
+						    
 							list.remove(askerUsername);
+							listChannels.remove("User_" + askerUsername);
 							currentUser.put("subscribedUsers", list);
+							currentUser.put("channels", listChannels);
 							
 							currentUser.saveInBackground();
 							
@@ -499,6 +502,7 @@ public class Results extends ActionBarActivity {
 					   if (e == null) {
 						    
 					    currentUser.addUnique("subscribedUsers", askerUsername);
+					    currentUser.addUnique("channels", "User_" + askerUsername);
 					    
 						currentUser.saveInBackground();
 						
@@ -530,8 +534,11 @@ public class Results extends ActionBarActivity {
 						   if (e == null) {
 							   
 							    List<String> list = currentUser.getList("joinedGroups");
+							    List<String> listChannels = currentUser.getList("channels");
 								
+							    listChannels.remove("Group_" + groupname);
 								list.remove(groupname);
+								currentUser.put("channels", listChannels);
 								currentUser.put("joinedGroups", list);
 								
 								currentUser.saveInBackground();
@@ -564,6 +571,7 @@ public class Results extends ActionBarActivity {
 						   if (e == null) {
 							    
 						    currentUser.addUnique("joinedGroups", groupname);
+						    currentUser.addUnique("channels", "Group_" + groupname);
 						    
 							currentUser.saveInBackground();
 							
@@ -633,12 +641,15 @@ public class Results extends ActionBarActivity {
 					   public void done(Object object, ParseException e) {
 						   if (e == null) {
 							
-							List<String> list = currentUser.getList("subscribedUsers");
-							
-							list.remove(asker_username);
-							currentUser.put("subscribedUsers", list);
-							
-							currentUser.saveInBackground();
+								List<String> list = currentUser.getList("subscribedUsers");
+								List<String> listChannels = currentUser.getList("channels");
+								
+								list.remove(asker_username);
+								listChannels.remove("User_" + asker_username);
+								currentUser.put("subscribedUsers", list);
+								currentUser.put("channels", listChannels);
+								
+								currentUser.saveInBackground();
 							
 							Toast.makeText(context, context.getResources().getString(R.string.unsubscribed_from) + asker_username + context.getResources().getString(R.string.s_questions), Toast.LENGTH_SHORT)
 							.show();
@@ -669,12 +680,15 @@ public class Results extends ActionBarActivity {
 					   public void done(Object object, ParseException e) {
 						   if (e == null) {
 							
-							List<String> list = currentUser.getList("joinedGroups");
-							
-							list.remove(group_name);
-							currentUser.put("joinedGroups", list);
-							
-							currentUser.saveInBackground();
+							    List<String> list = currentUser.getList("joinedGroups");
+							    List<String> listChannels = currentUser.getList("channels");
+								
+							    listChannels.remove("Group_" + group_name);
+								list.remove(group_name);
+								currentUser.put("channels", listChannels);
+								currentUser.put("joinedGroups", list);
+								
+								currentUser.saveInBackground();
 							
 							Toast.makeText(context, context.getResources().getString(R.string.left_group) + group_name , Toast.LENGTH_SHORT)
 							.show();

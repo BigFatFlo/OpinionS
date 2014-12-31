@@ -373,8 +373,11 @@ public class Group extends ActionBarActivity{
 						   if (e == null) {
 							   
 							    List<String> list = currentUser.getList("joinedGroups");
+							    List<String> listChannels = currentUser.getList("channels");
 								
+							    listChannels.remove("Group_" + groupname);
 								list.remove(groupname);
+								currentUser.put("channels", listChannels);
 								currentUser.put("joinedGroups", list);
 								
 								currentUser.saveInBackground();
@@ -405,6 +408,7 @@ public class Group extends ActionBarActivity{
 						   if (e == null) {
 							    
 						    currentUser.addUnique("joinedGroups", groupname);
+						    currentUser.addUnique("channels", "Group_" + groupname);
 						    
 							currentUser.saveInBackground();
 							

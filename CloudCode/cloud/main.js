@@ -810,7 +810,7 @@ Parse.Cloud.define("nbrMembersInGroup", function(request, response) {
   		response.success(-1);
   	} else {
   		var owners = group.get("owners");
-  		if (owners.indexOf(request.user.id)!=-1) {
+  		if (owners.indexOf(request.params.username)!=-1) {
   			response.success(group.get("nbrMembers"));
   		} else {
   			response.success(-2);
@@ -885,8 +885,8 @@ Parse.Cloud.define("addOwner", function(request, response) {
 								return Parse.Push.send({
 									where: pushQuery, // Sending a notification to the asker
 									data: {
-										alert: "Group" + groupname,
-										title: username + " made you an owner!"
+										alert: username + " made you an owner!",
+										title: "Group " + groupname
 									}
 									}, {
 									success: function(){
