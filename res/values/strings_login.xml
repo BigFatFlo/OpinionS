@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="log_in">Log In!</string>
+    <string name="no_account">No account yet?</string>
+    <string name="password_forgotten">Forgot Password?</string>
+    
+    <string name="logging_in">Logging In. Please wait.</string>
+    <string name="login_failed">Log in failed</string>
+    
+</resources>

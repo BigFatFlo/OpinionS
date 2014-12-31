@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="ask">Ask a question!</string>
+    <string name="prompt_question">Enter your question</string>
+    <string name="add">Add</string>
+    <string name="possible_answers">Add 2 to 5 possible answers</string>
+    <string name="prompt_answer">Enter a possible answer</string>
+    <string name="question_preview">Here you can see a preview of your question</string>
+    <string name="subscribersAsk">Ask your subscribers</string>
+    <string name="groupAsk">Ask a group</string>
+    <string name="usersAvailable">0 users available</string>
+    
+    <string name="questions_must_be">Questions must be more than 8 characters and less than 135</string>
+    <string name="question_added">Question added</string>
+    <string name="answer_added">Answer added</string>
+    <string name="answers_max">You can\'t add more than 5 answers!</string>
+    <string name="need_to_type">You need to type something!</string>
+    <string name="no_answer_to_delete">There is no answer to delete!</string>
+    <string name="here_you_can_see">Here you can see a preview of your question</string>
+    <string name="no_subscribers">You don\'t seem to have any subscribers</string>
+    <string name="send_to">"Send to "</string>
+    <string name="subscribers">" subscribers"</string>
+    <string name="need_to_add">You need to add a question and 2 to 5 answers first!</string>
+    <string name="no_groups">You don\'t seem to own any groups</string>
+    <string name="not_owner">You\'re not an owner of this group!</string>
+    <string name="group_not_exist">This group doesn\'t seem to exist!</string>
+    <string name="group_empty">This group seems to be empty!</string>
+    <string name="send_to_the">"Send to the "</string>
+    <string name="members_of">" members of "</string>
+    <string name="no_info_group">Unable to find info for this group, please try again.</string>
+    <string name="no_targeted_users">You have to select target users!</string>
+    <string name="no_users_criteria">No users available for your criteria</string>
+    <string name="no_group">You have to select a group!</string>
+    <string name="need_to_add_answers">You have to add at least 2 possible answers!</string>
+    <string name="unable_to_send">Unable to send the question, please try again</string>
+    <string name="sending_question">Sending question. Please wait.</string>
+    <string name="question_sent">Question sent!</string>
+    
+</resources>

@@ -1,0 +1,169 @@
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:background="@drawable/background_grey_black" >
+
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="${packageName}.${activityClass}" >
+    
+    <TextView
+        android:id="@+id/group_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="12dp"
+        android:text="@string/group"
+        android:textStyle="bold"
+        android:textSize="18sp"
+         />
+ 
+    <TextView
+        android:id="@+id/nbrMembers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/group_title"
+        android:padding="10dp"
+        android:text="@string/nbrMembers" />
+    
+    <TextView
+        android:id="@+id/member_or_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/nbrMembers"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="@string/member_or_owner"
+        />
+    
+    <TextView
+        android:id="@+id/list_owners_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/member_or_owner"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="@string/list_of_owners"
+        />
+    
+    <Spinner
+        android:id="@+id/list_owners_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list_owners_text"
+        android:layout_centerHorizontal="true"
+        />
+    
+    <TextView
+        android:id="@+id/addOwner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/list_owners_spinner"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="@string/addOwner"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+    
+    <EditText
+        android:id="@+id/addOwnerUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addOwner"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/prompt_username"
+        android:inputType="textEmailAddress"
+        android:maxLength="40"
+        android:maxLines="1"
+        android:singleLine="true" />
+    
+    <ImageButton
+        android:id="@+id/addOwner_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addOwnerUsername"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/addOwner"
+        android:src="@drawable/ic_create" />
+    
+    <TextView
+        android:id="@+id/list_members_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/addOwner_button"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="@string/list_of_members"
+        />
+    
+    <Spinner
+        android:id="@+id/list_members_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list_members_text"
+        android:layout_centerHorizontal="true"
+        />
+    
+    <TextView
+        android:id="@+id/leaveGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/list_members_spinner"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="@string/leave_group"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+    
+    <ImageButton
+        android:id="@+id/leaveGroup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/leaveGroup"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/leave_group"
+        android:src="@drawable/ic_unsubscribe_big" />
+    
+    <!--  <Button
+        android:id="@+id/delete_group_button"
+        style="@style/ButtonStyle.LogOut"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/leaveGroup_button"
+        android:text="@string/deleteGroup"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" 
+        />
+        -->      
+    
+</RelativeLayout>
+
+
+</ScrollView>

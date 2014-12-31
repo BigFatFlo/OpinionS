@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.spersio.opinion"
+    package="com.spersio.opinions"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="20" />
-    
+        android:targetSdkVersion="21" />
+
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -21,146 +21,170 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission android:protectionLevel="signature"
-        android:name="com.spersio.opinion.permission.C2D_MESSAGE" />
-    <uses-permission android:name="com.spersio.opinion.permission.C2D_MESSAGE" />
+    <permission
+        android:name="com.spersio.opinions.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.spersio.opinions.permission.C2D_MESSAGE" />
     
-	<application
-        android:name="com.spersio.opinion.Opinion"
+    <application
+        android:name=".OpinionS"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
         <activity
-            android:name="com.spersio.opinion.Signup"
+            android:name=".Signup"
             android:label="@string/app_name" >
-        
         </activity>
-        
-        <activity
-            android:name="com.spersio.opinion.Menu"
-            android:label="@string/app_name" 
-			android:launchMode="singleTop"
-			>
-            
+        <activity 
+            android:name=".Home"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" 
+            android:screenOrientation="fullSensor"
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
-            android:name="com.spersio.opinion.Submit"
+            android:name=".Ask"
             android:label="@string/app_name"
-			android:launchMode="singleTop"	
-			>
-        
+            android:launchMode="singleTop"
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
         </activity>
-        
         <activity
-            android:name="com.spersio.opinion.WiFiDirect"
+            android:name=".Profile"
             android:label="@string/app_name"
-			android:launchMode="singleTop"	
-			>
-        
+            android:launchMode="singleTop"  
+            android:screenOrientation="fullSensor"
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
         </activity>
-        
         <activity
-            android:name="com.spersio.opinion.Interested"
+            android:name=".Answer"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" 
+            android:screenOrientation="fullSensor" >
+        </activity>
+        <activity
+            android:name=".Results"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" 
+            android:screenOrientation="fullSensor" 
+            android:parentActivityName="com.spersio.opinions.SavedQuestions" >
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.spersio.opinions.YourGroups" />
+        </activity>
+        <activity
+            android:name=".SavedQuestions"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" 
+            android:screenOrientation="fullSensor" 
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
+        </activity>
+        <activity
+            android:name=".YourSubscriptions"
+            android:label="@string/app_name"
+            android:launchMode="singleTop" 
+            android:screenOrientation="fullSensor" 
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
+        </activity>
+        <activity
+            android:name=".YourGroups"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"  
+            android:screenOrientation="fullSensor"
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
+        </activity>
+        <activity
+            android:name=".Group"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"  
+            android:screenOrientation="fullSensor"
+            android:uiOptions="splitActionBarWhenNarrow" 
+            android:parentActivityName="com.spersio.opinions.YourGroups">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.spersio.opinions.YourGroups" />
+            <meta-data android:name="android.support.UI_OPTIONS"
+                   android:value="splitActionBarWhenNarrow" /> >
+        </activity>
+        <activity
+            android:name=".Login"
             android:label="@string/app_name" 
-			android:launchMode="singleTop"
-			>
-        
+            android:screenOrientation="fullSensor" >
         </activity>
-        
         <activity
-            android:name="com.spersio.opinion.CountryChange"
+            android:name=".ResetPassword"
             android:label="@string/app_name" 
-			android:launchMode="singleTop"
-			>
-        
-        </activity>
-        
-        <activity
-            android:name="com.spersio.opinion.Answer"
-            android:label="@string/app_name" 
-			android:launchMode="singleTop"
-			>
-        
-        </activity>
-        
-        <activity
-            android:name="com.spersio.opinion.Results"
-            android:label="@string/app_name" 
-			android:launchMode="singleTop"
-			>
-            
-        </activity>
-        
-        <activity
-            android:name="com.spersio.opinion.SavedQuestions"
-            android:label="@string/app_name" 
-			android:launchMode="singleTop"
-			>
-            
-        </activity>
-        
-        <activity
-            android:name="com.spersio.opinion.Login"
-            android:label="@string/app_name" >
-            
+            android:screenOrientation="fullSensor" >
         </activity>
         
         <receiver
-            android:name="com.spersio.opinion.WiFiDirectBroadcastReceiver"
+            android:name=".AnswerNotificationActivity"
             android:exported="false" >
         </receiver>
-        
-        <receiver 
-            android:name="com.spersio.opinion.InterestNotificationActivity"
+        <receiver
+            android:name=".ResultsNotificationActivity"
             android:exported="false" >
         </receiver>
-        
-        <receiver 
-            android:name="com.spersio.opinion.AnswerNotificationActivity"
+        <receiver
+            android:name=".DeleteNotificationActivity"
             android:exported="false" >
         </receiver>
-        
-         <receiver 
-            android:name="com.spersio.opinion.ResultsNotificationActivity"
-            android:exported="false" >
-        </receiver>
-        
+
         <service android:name="com.parse.PushService" />
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".CustomPushReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.spersio.opinions" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="com.parse.push.notification_icon"
+            android:resource="@drawable/ic_stat_question" />
         
-		<receiver android:name="com.parse.ParseBroadcastReceiver">
-		  <intent-filter>
-		    <action android:name="android.intent.action.BOOT_COMPLETED" />
-		    <action android:name="android.intent.action.USER_PRESENT" />
-		  </intent-filter>
-		</receiver>
-		
-		<receiver android:name="com.spersio.opinion.CustomPushReceiver"
-		    android:exported="false">
-		  <intent-filter>
-		    <action android:name="com.parse.push.intent.RECEIVE" />
-		    <action android:name="com.parse.push.intent.DELETE" />
-		    <action android:name="com.parse.push.intent.OPEN" />
-		    </intent-filter>
-		</receiver>
-		
-		<receiver android:name="com.parse.GcmBroadcastReceiver"
-		    android:permission="com.google.android.c2dm.permission.SEND">
-		  <intent-filter>
-		    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-		    <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-		    <category android:name="com.spersio.opinion" />
-		  </intent-filter>
-		</receiver>
-		
-		<meta-data android:name="com.parse.push.notification_icon" android:resource= "@drawable/ic_stat_question" />
-         
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
     </application>
 
 </manifest>

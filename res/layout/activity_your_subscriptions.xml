@@ -1,0 +1,57 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${packageName}.${activityClass}"
+    android:id="@+id/yourSubscriptions_linearLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:background="@drawable/background_grey_black" >
+	
+	<TextView
+	    android:id="@+id/yourSubscriptions_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:text="@string/yourSubscriptions" 
+        />
+	
+	<ListView
+        android:id="@+id/yourSubscriptions"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+	
+    <ImageButton
+        android:id="@+id/unsubscribeFromSelection_button"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_unsubscribe_big"
+        android:contentDescription="@string/unsubscribe_selection" />
+    
+	<TextView
+	    android:id="@+id/unsubscribeFromSelection_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/unsubscribe_selection"
+        android:textSize="16sp" 
+        />
+    
+    <ImageButton
+        android:id="@+id/backToHome_YS_button"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_menu_home"
+        android:contentDescription="@string/BTH" />
+	
+</LinearLayout>

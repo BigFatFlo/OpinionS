@@ -1,0 +1,186 @@
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:background="@drawable/background_grey_black" >
+
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="${packageName}.${activityClass}" >
+    
+    <TextView 
+        android:id="@+id/profile_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/complete_profile"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+    
+    <TextView 
+        android:id="@+id/actual_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/profile_title"
+        android:layout_centerHorizontal="true"
+        android:text="@string/profile"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+   
+    <TextView 
+        android:id="@+id/change_profile_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/actual_profile"
+        android:layout_centerHorizontal="true"
+        android:text="@string/change_profile"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        />
+    
+    <ImageButton
+        android:id="@+id/change_profile_button"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/change_profile_text"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_menu_profile"
+        android:contentDescription="@string/profile" />
+    
+    <TextView
+        android:id="@+id/country_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_title"
+        android:layout_margin="10dp"
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/select_country" />
+    
+    
+    <Spinner
+        android:id="@+id/list_countries_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/country_change"
+        android:layout_centerHorizontal="true"
+        />
+		
+	<TextView
+        android:id="@+id/international"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_below="@id/list_countries_spinner"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:text="@string/international" />
+    
+    <ToggleButton
+        android:id="@+id/international_button"
+        style="@style/ButtonStyle.Toggle"
+        android:layout_below="@id/international"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textOn="Yes"
+        android:textOff="No"
+        />
+    
+    <TextView
+        android:id="@+id/sex_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/international_button"
+        android:padding="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="16sp"
+        android:layout_alignParentLeft="true"
+        android:text="@string/select_sex" />
+    
+    <Spinner
+        android:id="@+id/sexes_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/sex_change"
+        android:layout_alignTop="@id/sex_change"
+        />
+    
+    <TextView
+        android:id="@+id/date_of_birth_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_below="@id/sex_change"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="16sp"
+        android:layout_alignParentLeft="true"
+        android:text="@string/select_date_of_birth" />
+    
+    <Spinner
+        android:id="@+id/dates_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/date_of_birth_change"
+        android:layout_alignTop="@id/date_of_birth_change"
+        />
+    
+    <TextView
+        android:id="@+id/salary_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_below="@id/date_of_birth_change"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="16sp"
+        android:layout_alignParentLeft="true"
+        android:text="@string/select_salary" />
+    
+    
+    <Spinner
+        android:id="@+id/salaries_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/salary_change"
+        android:layout_alignTop="@id/salary_change"
+        />
+    
+    <ImageButton
+        android:id="@+id/save_profile_button"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/salary_change"
+        android:padding="15dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_save_big"
+        android:contentDescription="@string/save_profile" />
+
+    
+</RelativeLayout>
+
+</ScrollView>
+

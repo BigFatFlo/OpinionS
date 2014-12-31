@@ -3,21 +3,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${packageName}.${activityClass}" >
+    tools:context="${packageName}.${activityClass}"
+	android:background="@drawable/background_grey_black" >
+    
     
 	<TextView
-        android:id="@+id/username_savedQuestions"
+        android:id="@+id/savedQuestions_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/submit_button"
-        android:text="@string/prompt_username" />
+        android:layout_margin="10dp"
+        android:text="@string/savedQuestions"
+        android:textSize="16sp" />
+	
+    
+	<TextView
+	    android:id="@+id/newerSavedQuestions_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/savedQuestions_title"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/newer_questions"
+        android:textSize="16sp" 
+        />
+	
+    <ImageButton
+        android:id="@+id/newerSavedQuestions_button"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/newerSavedQuestions_text"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_refresh_big"
+        android:contentDescription="@string/newer_questions" />
+	
+	<LinearLayout 
+	    android:id="@+id/savedQuestions_linearLayout"
+	    android:orientation="vertical"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_below="@id/newerSavedQuestions_button"
+	    >
 	
 	<ListView
         android:id="@+id/savedQuestions"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/username_savedQuestions"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         />
+	
+    <ImageButton
+        android:id="@+id/olderSavedQuestions_button"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_refresh_big"
+        android:contentDescription="@string/older_questions" />
+    
+	<TextView
+	    android:id="@+id/olderSavedQuestions_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/older_questions"
+        android:textSize="16sp" 
+        />
+	
+    <ImageButton
+        android:id="@+id/backToHome_SQ_button"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_menu_home"
+        android:contentDescription="@string/BTH" />
+	
+	</LinearLayout>
     
 </RelativeLayout>

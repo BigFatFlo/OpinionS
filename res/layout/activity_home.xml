@@ -1,0 +1,174 @@
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:background="@drawable/background_grey_black"
+>
+
+<RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="${packageName}.${activityClass}" >
+    
+    <TextView
+        android:id="@+id/username_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="12dp"
+        android:text="@string/prompt_username"
+        android:textStyle="bold"
+        android:textSize="18sp"
+         />
+ 
+    <TextView
+        android:id="@+id/nbrSubscribers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/username_profile"
+        android:padding="10dp"
+        android:text="@string/nbrSubscribers" />
+    
+    <ImageButton
+        android:id="@+id/nbrSubscribersRefresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/nbrSubscribers"
+        android:layout_toRightOf="@id/nbrSubscribers"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/refresh"
+        android:src="@drawable/ic_refresh"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+    
+    <TextView
+        android:id="@+id/profile_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/nbrSubscribers"
+        android:layout_marginTop="10dp"
+        android:padding="12dp"
+        android:text="@string/uncomplete_profile"
+        android:textColor="@color/red"
+        />
+    
+    <ImageButton
+        android:id="@+id/profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_status"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/profile"
+        android:src="@drawable/ic_menu_profile" />
+    
+    <TextView
+        android:id="@+id/subscribeToUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profile_button"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="@string/subscribeToUser"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+    
+    <EditText
+        android:id="@+id/subscribeToUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subscribeToUser"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/prompt_username"
+        android:inputType="textEmailAddress"
+        android:maxLength="40"
+        android:maxLines="1"
+        android:singleLine="true" />
+    
+    <ImageButton
+        android:id="@+id/subscribeToUser_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subscribeToUsername"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/subscribeToUser"
+        android:src="@drawable/ic_subscribe_big" />
+    
+    <TextView
+        android:id="@+id/joinGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/subscribeToUser_button"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="@string/joinGroup"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+    
+    <EditText
+        android:id="@+id/joinGroupname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/joinGroup"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/prompt_groupname"
+        android:inputType="textEmailAddress"
+        android:maxLength="40"
+        android:maxLines="1"
+        android:singleLine="true" />
+    
+    <LinearLayout
+        android:id="@+id/groupButtons"
+       	android:orientation="horizontal"
+        android:layout_below="@id/joinGroupname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+        
+    <ImageButton
+        android:id="@+id/joinGroup_button"
+        android:padding="5dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/joinGroup"
+        android:src="@drawable/ic_subscribe_big" />
+    
+    <ImageButton
+        android:id="@+id/createGroup_button"
+        android:padding="5dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/createGroup"
+        android:src="@drawable/ic_create" />
+    
+    </LinearLayout>
+    
+    
+</RelativeLayout>
+
+
+</ScrollView>

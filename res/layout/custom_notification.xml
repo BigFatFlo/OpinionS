@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    
+    <ImageView
+        android:id="@+id/question_mark_notif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_stat_question"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+		android:layout_alignTop="@+id/question_notif"
+        android:contentDescription="@string/questionMark"       
+        />
+    
+    <TextView
+        android:id="@+id/question_notif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/question_mark_notif"
+        android:text="@string/question_preview"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        />
+    
+    <LinearLayout
+    	android:id="@+id/notification_layout"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_below="@id/question_notif"
+    	>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+		    
+		    <ImageView
+		        android:id="@+id/one_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_one"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/one"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer1_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="90"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer1"
+		        />
+		    
+    	</LinearLayout>
+    
+    	<LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+		    
+		    <ImageView
+		        android:id="@+id/two_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_two"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/two"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer2_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="90"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer2"
+		        />
+		    
+    	</LinearLayout>
+    
+    	<LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+		    
+		    <ImageView
+		        android:id="@+id/three_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_three"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/three"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer3_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="90"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer3"
+		        />
+		    
+    	</LinearLayout>
+    
+    	<LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+		    
+		    <ImageView
+		        android:id="@+id/four_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_four"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/four"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer4_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="90"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer4"
+		        />
+		    
+    	</LinearLayout>
+    
+
+    	<LinearLayout
+            android:layout_width="match_parent"
+    		android:layout_height="wrap_content"
+    		android:orientation="horizontal"
+		    android:layout_marginBottom="5dp" >
+		    
+		    <ImageView
+		        android:id="@+id/five_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="5dp"
+		        android:layout_marginLeft="5dp"
+		        android:layout_weight="10"
+		        android:src="@drawable/ic_five"
+		        android:layout_gravity="center"
+		        android:contentDescription="@string/five"       
+		        />
+		    
+		    <TextView
+		        android:id="@+id/answer5_notif"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="90"
+		        android:layout_gravity="center_vertical"
+		        android:gravity="left"
+		        android:text="@string/answer5"
+		        />
+		    
+    	</LinearLayout>
+    
+    </LinearLayout>
+    
+    <LinearLayout
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_marginRight="15dp"
+    	android:layout_marginLeft="15dp"
+    	android:orientation="horizontal"
+    	android:layout_below="@id/notification_layout"
+    	>
+    
+    <ImageButton
+        android:id="@+id/one_button_notif"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+		android:layout_gravity="center"
+        android:src="@drawable/ic_one_button"
+        android:contentDescription="@string/choose_one"
+        />
+    
+    <ImageButton
+        android:id="@+id/two_button_notif"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+		android:layout_gravity="center"
+        android:src="@drawable/ic_two_button"
+        android:contentDescription="@string/choose_two"
+        />
+    
+    <ImageButton
+        android:id="@+id/three_button_notif"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+		android:layout_gravity="center"
+        android:src="@drawable/ic_three_button"
+        android:contentDescription="@string/choose_three"
+        />
+    
+    <ImageButton
+        android:id="@+id/four_button_notif"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+		android:layout_gravity="center"
+        android:src="@drawable/ic_four_button"
+        android:contentDescription="@string/choose_four"
+        />
+    
+    <ImageButton
+        android:id="@+id/five_button_notif"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+		android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:padding="5dp"
+		android:layout_gravity="center"
+        android:src="@drawable/ic_five_button"
+        android:contentDescription="@string/choose_five"
+        />
+    
+    </LinearLayout>
+    
+</RelativeLayout>

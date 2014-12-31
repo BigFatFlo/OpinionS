@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="results_title">Here are the results!</string>
+    <string name="question_asked_by">"Question asked by "</string>
+    <string name="to_subscribers">" to his/her subscribers"</string>
+    <string name="to_group">" to the group "</string>
+    <string name="unsubscribe_from">"Unsubscribe from "</string>
+    <string name="leave_group">"Leave group "</string>
+    <string name="total">Total</string>
+    <string name="date_info">Date</string>
+    <string name="share_email">Share by e-mail</string>
+    <string name="share_facebook">Share with Facebook</string>
+    <string name="need_facebook_app">You need the Facebook app to share</string>
+    <string name="share_twitter">Share with Twitter</string>
+    <string name="share_google">Share with Google+</string>
+    <string name="check_out_results">Check out these results!</string>
+    <string name="poll_results">Poll results</string>
+    <string name="send_email">Send email</string>
+    <string name="resubscribe_to">"Resubscribe to "</string>
+    <string name="rejoin_group">"Rejoin group "</string>
+    
+    <string name="no_email_clients">There are no email clients installed.</string>
+    <string name="saving_results">Saving results. Please wait.</string>
+    <string name="results_saved">Results saved!</string>
+    <string name="unsubscribing">Unsubscribing. Please wait.</string>
+    <string name="unsubscribed_from">"Unsubscribed from "</string>
+    <string name="unable_to_unsubscribe_from">"Unable to unsubscribe from "</string>
+    <string name="resubscribed_to">"Resubscribed to "</string>
+    <string name="unable_to_resubscribe">"Unable to resubscribe to "</string>
+    <string name="resubscribing">Resubscribing. Please wait.</string>
+    <string name="leaving">Leaving. Please wait.</string>
+    <string name="left_group">"Left group "</string>
+    <string name="unable_to_leave">"Unable to leave group "</string>
+    <string name="rejoining">Rejoining. Please wait.</string>
+    <string name="rejoined_group">"Rejoined group "</string>
+    <string name="unable_to_rejoin">"Unable to rejoin group "</string>
+    <string name="log_in_and_try_again">Log in and try again.</string>
+    <string name="results_shared">Results shared!</string>
+    
+</resources>

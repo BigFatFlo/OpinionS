@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    
+    <string name="signup_title">Please fill in this information to sign up</string>
+    <string name="prompt_password_again">Password Again</string>
+    <string name="prompt_email">Email</string>
+    
+    <string name="signing_up">Signing up. Please wait.</string>
+    
+</resources>

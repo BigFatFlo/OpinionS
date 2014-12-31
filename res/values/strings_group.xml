@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="groupname">Groupname</string>
+    <string name="nbrMembers">Number of Members</string>
+    <string name="member_or_owner">Member or Owner</string>
+    <string name="addOwner">Add a new owner</string>
+    <string name="deleteGroup">Delete this group</string>
+    <string name="loading_group_data">Loading data for this group. Please wait.</string>
+    <string name="list_of_owners">List of the owners:</string>
+    <string name="list_of_members">List of the members:</string>
+    <string name="unable_to_load_group_data">Unable to load data for this group, please try again.</string>
+    <string name="not_member_nor_owner">You are neither a member nor an owner of this group!</string>
+    <string name="you_are_an_owner">You are an owner of this group</string>
+    <string name="you_are_a_member">You are a member of this group</string>
+    <string name="you_are_an_owner_and_a_member">You are a an owner and a member of this group</string>
+    <string name="already_an_owner">" is already an owner of the group "</string>
+    <string name="successfully_added">"Successfully added user "</string>
+    <string name="as_an_owner_of_the_group">" as an owner of the group "</string>
+    <string name="unable_to_add_owner">"Unable to add an owner to the group "</string>
+    <string name="deleting_group">Deleting group. Please wait.</string>
+    <string name="group_deleted">Group deleted</string>
+    <string name="could_not_delete_group">Couldn\'t delete this group, please try again.</string>
+    <string name="are_you_sure">"Are you sure you want to delete the group "</string>
+    <string name="there_is_no_undo">" There is no undo."</string>
+    
+</resources>

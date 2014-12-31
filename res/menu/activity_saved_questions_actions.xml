@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	  xmlns:spersiopinions="http://schemas.android.com/apk/res-auto" >
+    <item android:id="@+id/action_home"
+          android:icon="@drawable/ic_menu_home"
+          android:title="@string/action_ask"
+          spersiopinions:showAsAction="ifRoom" />
+    <item android:id="@+id/action_ask"
+          android:icon="@drawable/ic_menu_add"
+          android:title="@string/action_ask" 
+          spersiopinions:showAsAction="ifRoom" />
+    <item android:id="@+id/action_profile"
+          android:icon="@drawable/ic_menu_profile"
+          android:title="@string/action_profile" 
+          spersiopinions:showAsAction="ifRoom" />
+    <item android:id="@+id/action_subscriptions"
+          android:icon="@drawable/ic_menu_subscriptions"
+          android:title="@string/action_subscriptions" 
+          spersiopinions:showAsAction="ifRoom" />
+    <item android:id="@+id/action_groups"
+          android:icon="@drawable/ic_menu_groups"
+          android:title="@string/action_groups" 
+          spersiopinions:showAsAction="ifRoom" />
+    <item android:id="@+id/action_logOut"
+          android:icon="@drawable/ic_menu_logout"
+          android:title="@string/action_log_out"
+          spersiopinions:showAsAction="ifRoom" />
+</menu>

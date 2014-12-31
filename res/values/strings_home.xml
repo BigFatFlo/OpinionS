@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="nbrSubscribers">You have no subscribers</string>
+    <string name="refresh">Refresh</string>
+    <string name="uncomplete_profile">Your Profile is incomplete!</string>
+    <string name="profile_complete">Your Profile is complete</string>
+    <string name="prompt_groupname">Group name</string>
+    <string name="subscribeToUser">Subscribe to a user\'s questions!</string>
+    <string name="joinGroup">Join or create a group!</string>
+    <string name="createGroup">Create a group!</string>
+    
+    <string name="profile_is_complete">Your Profile is complete!</string>
+    <string name="refreshing_data">Refreshing data. Please wait.</string>
+    <string name="you_have">"You have "</string>
+    <string name="unable_to_refresh">Unable to refresh your number of subscribers, please try again.</string>
+    <string name="checking_username">Checking username. Please wait.</string>
+    <string name="already_subscriber">Already a subscriber! To unsubscribe, go to Your Subscriptions.</string>
+    <string name="successfully_subscribed">"Successfully subscribed to "</string>
+    <string name="s_questions">\'s questions!</string>
+    <string name="unable_to_subscribe">"Unable to subscribe to "</string>
+    <string name="s_questions_please">\'s questions, please try again.</string>
+    <string name="user">"User "</string>
+    <string name="not_exist">" doesn\'t seem to exist"</string>
+    <string name="checking_groupname">Checking group name. Please wait.</string>
+    <string name="already_member">Already a member of this group! To leave it, go to Your Groups</string>
+    <string name="successfully_joined">"Successfully joined the group "</string>
+    <string name="unable_to_join">"Unable to join the group "</string>
+    <string name="please_try_again">, please try again.</string>
+    <string name="the_group">"The group "</string>
+    <string name="a_group_called">"A group called "</string>
+    <string name="already_exists">" already exists!"</string>
+    <string name="group">"Group "</string>
+    <string name="successfully_created">" successfully created! You and other users can now join it."</string>
+    <string name="unable_to_create">Unable to create the group, please try again.</string>
+      
+</resources>

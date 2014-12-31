@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpinionS</title>
+  </head>
+  <body>
+    <h1 align='center'>OpinionS</h1>
+    <p align='center'>Here are the results!</p>
+    <p align='center'>
+
+    <% if (around) {
+
+    	%> Question asked to users within <%= radius %> km of <%= askerUsername %> <%
+
+    } else {
+
+    %> Question asked by <%= askerUsername %> to 
+    
+    <% if (subscribersOnly) {
+
+     %> subscribers <%
+
+     } else if (international) {
+
+    %> the world <%
+
+    } else {
+
+    %> <%= country %> <%
+
+   	} %>
+
+   	<%
+
+   	} %> 
+
+    on <%= date %><p>
+
+    <p align='center'> <%= questionText %> </p>
+
+    <p>
+    <% 
+    var cols = 3;
+    var rows = nbrAnswers+1;
+
+    var answers = [answer1,answer2,answer3,answer4,answer5];
+    var nAs = [nA1,nA2,nA3,nA4,nA5];
+    var pcs = [pcA1,pcA2,pcA3,pcA4,pcA5]
+
+    c = 0;
+    r = 0;
+     var table = "<table border cellspacing=1 align='center' cellpadding=6>\n";
+     table += "<tr><th>Answers</th><th>Users</th><th>%</th></tr>";
+     while(r < rows-1) {
+      c=0;
+       table += "\t<tr>\n";
+       while (c < cols) {
+       	switch (c) {
+       		case 0:
+       			table += "\t<td align='left'>" + answers[r] + "</td>\n";
+       		break;
+       		case 1:
+       			table += "\t<td align='right'>" + nAs[r] + "</td>\n";
+       		break;
+       		case 2:
+       			table += "\t<td align='right'>" + Math.round(pcs[r]*100)/100 + "%" + "</td>\n";
+       		break;
+       	}
+         c++;
+       }
+      table += "\t</tr>\n";
+       r++;
+     }
+     table += "\t<tr >\n" + "\t<td align='left' cellpadding='5'>" + "Total" + "</td>\n" + "\t<td align='right' rowspan='2'>" + nA + "</td>\n" + "\t<td align='right' rowspan='2'>" + "100%" + "</td>\n" + "\t</tr>\n";
+     table += "</table>";
+  	 %><%- table %>
+  	 </p>
+
+  </body>
+</html>
