@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="ask">Posez une question!</string>
+    <string name="prompt_question">Entrer votre question</string>
+    <string name="add">Ajouter</string>
+    <string name="possible_answers">Ajouter 2 à 5 réponses possibles</string>
+    <string name="prompt_answer">Entrer une réponse possible</string>
+    <string name="question_preview">Vous voyez ici un aperçu de votre question</string>
+    <string name="subscribersAsk">Envoyer à vos abonnés</string>
+    <string name="groupAsk">Envoyer à un groupe</string>
+    <string name="usersAvailable">0 utilisateur disponible</string>
+    
+    <string name="questions_must_be">Une question doit contenir entre 8 et 135 caractères</string>
+    <string name="question_added">Question ajoutée</string>
+    <string name="answer_added">Réponse ajoutée</string>
+    <string name="answers_max">Vous ne pouvez pas ajouter plus de 5 réponses!</string>
+    <string name="need_to_type">Vous devez taper quelque chose!</string>
+    <string name="no_answer_to_delete">Aucune réponse à supprimer!</string>
+    <string name="here_you_can_see">Vous voyez ici un aperçu de votre question</string>
+    <string name="no_subscribers">Vous semblez ne pas avoir d'abonné</string>
+    <string name="send_to">"Envoyer à "</string>
+    <string name="subscribers">" abonnés"</string>
+    <string name="need_to_add">Vous devez ajouter une question et de 2 à 5 réponses!</string>
+    <string name="no_groups">Vous semblez n'être propriétaire d'aucun groupe</string>
+    <string name="not_owner">Vous n'êtes pas un propriétaire de ce groupe!</string>
+    <string name="group_not_exist">Ce groupe semble ne pas exister!</string>
+    <string name="group_empty">Ce groupe semble vide!</string>
+    <string name="send_to_the">"Envoyer aux "</string>
+    <string name="members_of">" membres de "</string>
+    <string name="no_info_group">Impossible de trouver d'info sur ce groupe, veuillez réessayer.</string>
+    <string name="no_targeted_users">Vous devez sélectionner une cible!</string>
+    <string name="no_users_criteria">Aucun utilisateur disponible pour vos critères</string>
+    <string name="no_group">Vous devez sélectionner un groupe!</string>
+    <string name="need_to_add_answers">Vous devez ajouter au moins 2 réponses possibles!</string>
+    <string name="unable_to_send">Impossible d'envoyer la question, veuillez réessayer</string>
+    <string name="sending_question">Envoi de la question. Veuillez patienter.</string>
+    <string name="question_sent">Question envoyée!</string>
+    
+</resources>

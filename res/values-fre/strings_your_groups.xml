@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="yourGroups">Vos groupes</string>
+    <string name="owned_groups">Groupes possédés</string>
+    <string name="joined_groups">Groupes rejoints</string>
+    <string name="leave_selection">Quitter la sélection</string>
+    
+    <string name="loading_groups">Chargement des groupes. Veuillez patienter.</string>
+    <string name="dont_belong_to_groups">Vous n\'appartenez à aucun groupe!</string>
+    <string name="leaving_groups">Sortie des groupes. Veuillez patienter.</string>
+    <string name="left_selection">Vous avez quitté la sélection</string>
+    <string name="unable_to_leave_selection">Impossible de quitter la sélection, veuillez réessayer.</string>
+    <string name="no_groups_checked">Vous n\'avez sélectionné aucun groupe à quitter!</string>
+    
+    <string name="dont_own_groups">Vous ne possédez aucun groupe!</string>
+    
+    <string name="details">Détails</string>
+    
+</resources>

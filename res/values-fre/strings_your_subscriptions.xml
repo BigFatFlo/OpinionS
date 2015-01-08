@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="unsubscribe_selection">Se désabonner de la sélection</string>
+    <string name="yourSubscriptions">Vos abonnements</string>
+    
+    <string name="loading_subscriptions">Chargement des abonnements. Veuillez patienter.</string>
+    <string name="no_subscriptions">Vous n\'avez aucun abonnement!</string>
+    <string name="unsubscribed_from_selection">Vous avez été désabonné(e) de la sélection!</string>
+    <string name="unable_to_unsubscribe_from_selection">Impossible de vous désabonner de la sélection, veuillez réessayer.</string>
+    <string name="no_subscriptions_checked">Vous n\'avez sélectionné aucun abonnement à supprimer!</string>
+    
+</resources>

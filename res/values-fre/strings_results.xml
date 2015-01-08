@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="results_title">Voilà les résultats!</string>
+    <string name="question_asked_by">"Question posée par "</string>
+    <string name="to_subscribers">" à ses abonnés"</string>
+    <string name="to_group">" au groupe "</string>
+    <string name="unsubscribe_from">"Se désabonner des questions de "</string>
+    <string name="leave_group">"Quitter le groupe "</string>
+    <string name="total">Total</string>
+    <string name="date_info">Date</string>
+    <string name="share_email">Partager par e-mail</string>
+    <string name="share_facebook">Partager sur Facebook</string>
+    <string name="need_facebook_app">Vous avez besoin de l'application Facebook pour partager!</string>
+    <string name="share_twitter">Partager avec Twitter</string>
+    <string name="share_google">Partager avec Google+</string>
+    <string name="check_out_results">Regardez ces résultats!</string>
+    <string name="poll_results">Résultats de sondage</string>
+    <string name="send_email">Envoyer email</string>
+    <string name="resubscribe_to">"Se réabonner aux questions de "</string>
+    <string name="rejoin_group">"Rejoindre le groupe "</string>
+    
+    <string name="no_email_clients">Aucun client email installé.</string>
+    <string name="saving_results">Sauvegarde des résultats. Veuillez patienter.</string>
+    <string name="results_saved">Résultats sauvegardés!</string>
+    <string name="unsubscribing">Désabonnement. Veuillez patienter.</string>
+    <string name="unsubscribed_from">"Désabonné(e) des questions de "</string>
+    <string name="unable_to_unsubscribe_from">"Impossible de se désabonner des questions de "</string>
+    <string name="resubscribed_to">"Réabonné(e) aux questions de "</string>
+    <string name="unable_to_resubscribe">"Impossible de se réabonner aux questions de "</string>
+    <string name="resubscribing">Réabonnement. Veuillez patienter.</string>
+    <string name="leaving">Sortie. Veuillez patienter.</string>
+    <string name="left_group">"Quitté() le groupe "</string>
+    <string name="unable_to_leave">"Impossible de quitter le groupe "</string>
+    <string name="rejoining">Réentrée. Veuillez patienter.</string>
+    <string name="rejoined_group">"Rejoint le groupe "</string>
+    <string name="unable_to_rejoin">"Impossible de rejoindre le groupe "</string>
+    <string name="log_in_and_try_again">Connectez-vous et réessayer.</string>
+    <string name="results_shared">Résultats partagés!</string>
+    
+</resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="save_profile">Sauvegarder le Profile</string>
+    <string name="man">un homme</string>
+    <string name="woman">une femme</string>
+    <string name="select_sex">Etes vous un homme ou une femme?</string>
+    <string name="select_date_of_birth">Quelle est votre année de naissance?</string>
+    <string name="select_salary">Quel est votre salaire annuel?</string>
+    <string name="complete_profile">Compléter votre Profile!</string>
+    <string name="international">Voulez-vous recevoir des questions internationales (en anglais)?</string>
+    <string name="select_country">Veuillez sélectionner votre pays</string>
+    <string name="change_profile">Modifier votre Profile</string>
+    <string name="want">voulez</string>
+    <string name="dont_want">ne voulez pas</string>
+    <string name="you_are">"Vous êtes "</string>
+    <string name="born_in">", né(e) en "</string>
+    <string name="living_in">", vivez en "</string>
+    <string name="have_a_salary">", touchez un salaire annuel compris entre "</string>
+    <string name="euro_and">"€ et "</string>
+    <string name="euro">€</string>
+    <string name="and">" et "</string>
+    <string name="to_receive_international">" recevoir les questions internationales."</string>
+    <string name="do_you_confirm">"Confirmez-vous que vous êtes "</string>
+    
+    <string name="loading_criteria">Chargement des critères. Veuillez patienter.</string>
+    <string name="unable_to_load_criteria">Impossible de charger les critères</string>
+    <string name="your_profile_is_not_complete">Votre Profile est incomplet!</string>
+    <string name="saving_profile">Sauvegarde du Profile. Veuillez patienter.</string>
+    <string name="profile_saved">Profile sauvegardé</string>
+    <string name="could_not_save_profile">Impossible de sauvegarder le Profile, veuillez réessayer.</string>
+    <string name="no_changes">Aucun changement, pas besoin de sauvegarder!</string>
+    
+</resources>

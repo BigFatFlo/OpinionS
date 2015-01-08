@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="savedQuestions">Questions sauvegardées</string>
+    <string name="older_questions">Charger des questions plus anciennes</string>
+    <string name="newer_questions">Charger des questions plus récentes</string>
+    <string name="askedBy">Posée par:</string>
+    
+    <string name="loading_questions">Chargement des questions. Veuillez patienter.</string>
+    <string name="no_saved_questions">Pas de questions sauvegardées!</string>
+    <string name="unable_to_load_questions">Impossible de charger les questions sauvegardées, veuillez réessayer.</string>
+    <string name="unable_to_delete_questions">Impossible de supprimer les questions sélectionnées</string>
+    <string name="no_more_questions_to_load">Plus de questions à charger!</string>
+    
+</resources>

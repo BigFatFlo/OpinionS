@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    
+    <string name="signup_title">Veuillez remplir les champs suivants pour créer un compte</string>
+    <string name="prompt_password_again">Mot de passe à nouveau</string>
+    <string name="prompt_email">Email</string>
+    
+    <string name="signing_up">Création du compte. Veuillez patienter.</string>
+    
+</resources>

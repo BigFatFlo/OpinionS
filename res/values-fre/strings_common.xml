@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">OpinionS</string>
+    <string name="facebook_app_id">758477814206679</string>
+    
+    <string name="prompt_username">Pseudo</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="sign_up">Créer un compte!</string>
+    <string name="countdown">Compte à rebours</string>
+    <string name="questionMark">Point d'interrogation</string>
+    <string name="send">Envoyer</string>
+    <string name="profile">Profile</string>
+    <string name="BTH">Retour au menu</string>
+    <string name="delete">Supprimer</string>
+    <string name="name">Nom</string>
+    
+    <string name="asker_info">Aucune info sur l'émetteur!</string>
+    <string name="question_view">La question n\'est pas encore chargée!</string>
+    <string name="answer1">Réponse 1</string>
+    <string name="answer2">Réponse 2</string>
+    <string name="answer3">Réponse 3</string>
+    <string name="answer4">Réponse 4</string>
+    <string name="answer5">Réponse 5</string>
+    <string name="one">Une</string>
+    <string name="two">Deux</string>
+    <string name="three">Trois</string>
+    <string name="four">Quatre</string>
+    <string name="five">Cinq</string>
+    
+    <string name="saveResults">Sauvegarder les résultats</string>
+    <string name="unsubscribe">Se désabonner des questions de cet utilisateur</string>
+    
+    <string name="action_ask">Posez une question</string>
+    <string name="action_subscriptions">Vos Abonnements</string>
+    <string name="action_groups">Vos Groupes</string>
+    <string name="action_joined_groups">Groupes Rejoints</string>
+    <string name="action_owned_groups">Groupes Possédés</string>
+    <string name="action_savedQuestions">Questions Sauvegardées</string>
+    <string name="action_profile">Profile</string>
+    <string name="action_home">Menu</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="action_log_out">Déconnexion</string>
+    
+    <string name="not_logged_in">Vous n'êtes pas connecté(e)</string>
+    <string name="error">"Erreur: "</string>
+    <string name="oops">Oops, il y a eu un problème</string>
+    <string name="logged_out">Vous êtes déconnecté(e)</string>
+    <string name="please_wait">Veuillez patienter.</string>
+    <string name="error_please">"Veuillez "</string>
+    <string name="error_no_username">entrer un pseudo</string>
+    <string name="error_no_password">entrer un mot de passe</string>
+    <string name="error_and">" et "</string>
+    <string name="error_end">.</string>
+    <string name="error_passwords_diff">confirmer le mot de passe</string>
+    <string name="error_no_email">entrer une adresse email valide</string>
+    <string name="time_to_answer">60s pour répondre à une question!</string>
+    <string name="needs_opinion">" a besoin de votre opinion!"</string>
+    <string name="results_are_in">Les résultats sont là!</string>
+    
+</resources>
