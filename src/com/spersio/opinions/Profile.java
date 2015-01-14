@@ -152,8 +152,6 @@ public class Profile extends ActionBarActivity {
 			
 			int charNumber = currentUser.getInt("characteristicsNumber");
 			
-			Log.d("CharNumber", String.valueOf(charNumber));
-			
 			if (charNumber != -1) {
 				
 				String sex = null;

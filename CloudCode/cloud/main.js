@@ -385,6 +385,10 @@ Parse.Cloud.define("changeOfProfile", function(request, response) {
   var changeOfInternational = request.params.changeOfInternational;
   var international = request.params.international;
 
+  if (request.params.newCharNumber>1999) {
+  	response.error("Invalid newCharNumber");
+  }
+
   if (newProfile) {
 
   	var countryQuery = new Parse.Query("Country");
