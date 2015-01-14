@@ -11,7 +11,7 @@
     <string name="date_info">Date</string>
     <string name="share_email">Partager par e-mail</string>
     <string name="share_facebook">Partager sur Facebook</string>
-    <string name="need_facebook_app">Vous avez besoin de l'application Facebook pour partager!</string>
+    <string name="need_facebook_app">Vous avez besoin de l\'application Facebook pour partager!</string>
     <string name="share_twitter">Partager avec Twitter</string>
     <string name="share_google">Partager avec Google+</string>
     <string name="check_out_results">Regardez ces résultats!</string>

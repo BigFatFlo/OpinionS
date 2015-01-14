@@ -8,14 +8,14 @@
     <string name="prompt_password">Mot de passe</string>
     <string name="sign_up">Créer un compte!</string>
     <string name="countdown">Compte à rebours</string>
-    <string name="questionMark">Point d'interrogation</string>
+    <string name="questionMark">Point d\'interrogation</string>
     <string name="send">Envoyer</string>
     <string name="profile">Profile</string>
     <string name="BTH">Retour au menu</string>
     <string name="delete">Supprimer</string>
     <string name="name">Nom</string>
     
-    <string name="asker_info">Aucune info sur l'émetteur!</string>
+    <string name="asker_info">Aucune info sur l\'émetteur!</string>
     <string name="question_view">La question n\'est pas encore chargée!</string>
     <string name="answer1">Réponse 1</string>
     <string name="answer2">Réponse 2</string>
@@ -42,7 +42,7 @@
     <string name="action_settings">Paramètres</string>
     <string name="action_log_out">Déconnexion</string>
     
-    <string name="not_logged_in">Vous n'êtes pas connecté(e)</string>
+    <string name="not_logged_in">Vous n\'êtes pas connecté(e)</string>
     <string name="error">"Erreur: "</string>
     <string name="oops">Oops, il y a eu un problème</string>
     <string name="logged_out">Vous êtes déconnecté(e)</string>

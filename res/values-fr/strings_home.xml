@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="nbrSubscribers">Vous n'avez pas d'abonné</string>
+    <string name="nbrSubscribers">Vous n\'avez pas d\'abonné</string>
     <string name="refresh">Rafraichir</string>
     <string name="uncomplete_profile">Votre Profile est incomplet!</string>
     <string name="profile_complete">Votre Profile est complet!</string>
     <string name="prompt_groupname">Nom du groupe</string>
-    <string name="subscribeToUser">Abonnez-vous aux questions d'un utilisateur!</string>
+    <string name="subscribeToUser">Abonnez-vous aux questions d\'un utilisateur!</string>
     <string name="joinGroup">Rejoignez ou créez un groupe!</string>
     <string name="createGroup">Créez un groupe!</string>
     
@@ -18,9 +18,9 @@
     <string name="already_subscriber">Déjà abonné(e)! Pour vous désabonner, aller dans Vos Abonnements.</string>
     <string name="successfully_subscribed">"Abonné(e) aux questions de "</string>
     <string name="s_questions"></string>
-    <string name="unable_to_subscribe">"Impossible de s'abonner aux questions de "</string>
+    <string name="unable_to_subscribe">"Impossible de s\'abonner aux questions de "</string>
     <string name="s_questions_please">, veuillez réessayer.</string>
-    <string name="user">"L'utilisateur "</string>
+    <string name="user">"L\'utilisateur "</string>
     <string name="not_exist">" semble ne pas exister"</string>
     <string name="checking_groupname">Vérification du nom du groupe. Veuillez patienter.</string>
     <string name="already_member">Déjà membre! Pour quitter le groupe, aller dans Vos Groupes.</string>

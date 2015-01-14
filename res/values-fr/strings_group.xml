@@ -10,18 +10,18 @@
     <string name="list_of_owners">Liste des propriétaires:</string>
     <string name="list_of_members">Liste des membres:</string>
     <string name="unable_to_load_group_data">Impossible de charger les données de ce groupe, veuillez réessayer.</string>
-    <string name="not_member_nor_owner">Vous n'êtes ni membre ni propriétaire de ce groupe!</string>
+    <string name="not_member_nor_owner">Vous n\'êtes ni membre ni propriétaire de ce groupe!</string>
     <string name="you_are_an_owner">Vous êtes un propriétaire de ce groupe</string>
     <string name="you_are_a_member">Vous êtes un membre de ce groupe</string>
     <string name="you_are_an_owner_and_a_member">Vous êtes un membre et un propriétaire de ce groupe</string>
     <string name="already_an_owner">" est déjà un propriétaire du groupe "</string>
-    <string name="successfully_added">"L'utilisateur "</string>
+    <string name="successfully_added">"L\'utilisateur "</string>
     <string name="as_an_owner_of_the_group">" ajouté comme propriétaire du groupe "</string>
-    <string name="unable_to_add_owner">"Impossible d'ajouter un propriétaire au groupe "</string>
+    <string name="unable_to_add_owner">"Impossible d\'ajouter un propriétaire au groupe "</string>
     <string name="deleting_group">Suppression du groupe. Veuillez patienter.</string>
     <string name="group_deleted">Groupe supprimé</string>
     <string name="could_not_delete_group">Impossible de supprimer ce groupe, veuillez réessayer.</string>
     <string name="are_you_sure">"Voulez-vous vraiment supprimer le groupe "</string>
-    <string name="there_is_no_undo">" Pas d'annulation possible."</string>
+    <string name="there_is_no_undo">" Pas d\'annulation possible."</string>
     
 </resources>
