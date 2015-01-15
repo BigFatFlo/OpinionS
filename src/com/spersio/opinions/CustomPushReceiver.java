@@ -347,32 +347,19 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras.putString(createdAt, creationDate);
 			resultsIntent.putExtras(extras);
 			
-			Intent[] quickIntents = new Intent[2];
-			PendingIntent[] btPendingIntents = new PendingIntent[2];
+			Intent quickIntent = new Intent(ctx, ResultsNotificationActivity.class);
 
 			final Bundle extras1 = new Bundle();
 			extras1.putString(ID, questionId);
 			extras1.putInt(nID,notificationId);
 			extras1.putString(tag,notificationTag);
-			extras1.putBoolean(subscribersOnly, subOnly);
-			extras1.putBoolean(group, grp);
-			extras1.putString(askerUsername, askerU);
-			extras1.putString(groupname, grpname);
+			quickIntent.putExtras(extras1);
 			
-			for (int j = 0; j < 2; j++) {
-				quickIntents[j] = new Intent(ctx, ResultsNotificationActivity.class);
-				extras1.putInt(saveOrUnsubscribeOrLeave, j+1);
-				quickIntents[j].putExtras(extras1);
-				btPendingIntents[j] = PendingIntent.getBroadcast(ctx, 31+j, quickIntents[j], PendingIntent.FLAG_UPDATE_CURRENT);
-			}
+			PendingIntent btPendingIntent = PendingIntent.getBroadcast(ctx, 31, quickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			
 			final RemoteViews remoteView = new RemoteViews("com.spersio.opinions", R.layout.custom_notification_results);
 
 			remoteView.setTextViewText(R.id.question_view_r_notif, qText);
-			
-			if (subOnly | grp) {
-				remoteView.setImageViewResource(R.id.unsubscribe_button_notif, R.drawable.ic_unsubscribe);
-			}
 			
 			int[] answerNotifs = {R.id.answer1_r_notif, R.id.answer2_r_notif, R.id.answer3_r_notif, R.id.answer4_r_notif, R.id.answer5_r_notif};
 			int[] numberNotifs = {R.id.one_r_notif, R.id.two_r_notif, R.id.three_r_notif, R.id.four_r_notif, R.id.five_r_notif};
@@ -394,8 +381,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 				remoteView.setViewVisibility(nAnswerNotifs[j], View.GONE);
 			}
 			
-			remoteView.setOnClickPendingIntent(R.id.saveResults_button_notif, btPendingIntents[0]);
-			remoteView.setOnClickPendingIntent(R.id.unsubscribe_button_notif, btPendingIntents[1]);
+			remoteView.setOnClickPendingIntent(R.id.saveResults_button_notif, btPendingIntent);
 			
 			NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(ctx)

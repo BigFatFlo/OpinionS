@@ -26,25 +26,6 @@
         />
 	
     <ImageButton
-        android:id="@+id/leaveSelection_button"
-        android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_unsubscribe_big"
-        android:contentDescription="@string/leave_selection" />
-    
-	<TextView
-	    android:id="@+id/leaveSelection_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/leave_selection"
-        android:textSize="16sp" 
-        />
-	
-    <ImageButton
         android:id="@+id/backToHome_YG_button"
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"

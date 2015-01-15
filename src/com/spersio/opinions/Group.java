@@ -114,7 +114,8 @@ public class Group extends ActionBarActivity{
 		params.put("username", currentUser.getUsername());
         
         ParseCloud.callFunctionInBackground("groupData", params, new FunctionCallback<HashMap<String, Object>>() {
-			   public void done(HashMap<String, Object> data, ParseException e) {
+			@SuppressWarnings("unchecked")
+			public void done(HashMap<String, Object> data, ParseException e) {
 				   if (e == null) {
 					  
 					   dlg.dismiss();
@@ -224,73 +225,73 @@ public class Group extends ActionBarActivity{
         	
         	addOwnerButton.setOnClickListener(new OnClickListener() {
 			
-			@Override
-			public void onClick(View v) {
-				
-				findViewById(R.id.addOwner).requestFocus();
-				
-				final ProgressDialog dlg = new ProgressDialog(Group.this);
-				dlg.setTitle(getResources().getString(R.string.please_wait));
-				dlg.setMessage(getResources().getString(R.string.checking_username));
-				dlg.show();
-				
-				final HashMap<String, Object> params = new HashMap<String, Object>();
-				final String new_owner_username = addOwnerUsername.getText().toString();
-				params.put("newOwnerUsername", new_owner_username);
-				params.put("username", currentUser.getUsername());
-				params.put("groupname", groupname);
-				
-				ParseCloud.callFunctionInBackground("addOwner", params, new FunctionCallback<Integer>() {
-					   public void done(Integer result, ParseException e) {
-						   
-						   dlg.dismiss();
-						   
-						   if (e == null) {
+				@Override
+				public void onClick(View v) {
+					
+					findViewById(R.id.addOwner).requestFocus();
+					
+					final ProgressDialog dlg = new ProgressDialog(Group.this);
+					dlg.setTitle(getResources().getString(R.string.please_wait));
+					dlg.setMessage(getResources().getString(R.string.checking_username));
+					dlg.show();
+					
+					final HashMap<String, Object> params = new HashMap<String, Object>();
+					final String new_owner_username = addOwnerUsername.getText().toString();
+					params.put("newOwnerUsername", new_owner_username);
+					params.put("username", currentUser.getUsername());
+					params.put("groupname", groupname);
+					
+					ParseCloud.callFunctionInBackground("addOwner", params, new FunctionCallback<Integer>() {
+						   public void done(Integer result, ParseException e) {
 							   
-							   switch (result) {
-							   case -4:
+							   dlg.dismiss();
+							   
+							   if (e == null) {
 								   
-								   Toast.makeText(Group.this, getResources().getString(R.string.not_owner), Toast.LENGTH_LONG)
+								   switch (result) {
+								   case -4:
+									   
+									   Toast.makeText(Group.this, getResources().getString(R.string.not_owner), Toast.LENGTH_LONG)
+							            .show();
+									   
+								   break;
+								   case -3:
+									   
+									   Toast.makeText(Group.this, getResources().getString(R.string.user) + new_owner_username + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
+							            .show();
+									   
+								   break;
+								   case -2:
+									   
+									   Toast.makeText(Group.this, getResources().getString(R.string.user) + new_owner_username + getResources().getString(R.string.already_an_owner) + groupname, Toast.LENGTH_LONG)
+							            .show();
+									   
+								   break;
+								   case -1:
+									   
+									   Toast.makeText(Group.this, getResources().getString(R.string.the_group) + groupname + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
+							            .show();
+									   
+								   break;
+								   case 0:
+									   
+									   Toast.makeText(Group.this, getResources().getString(R.string.successfully_added) + new_owner_username + getResources().getString(R.string.as_an_owner_of_the_group) + groupname, Toast.LENGTH_LONG)
+							            .show();
+									   
+								   break;
+								   }
+								   
+							   } else {
+								   
+								   Toast.makeText(Group.this, getResources().getString(R.string.unable_to_add_owner) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
 						            .show();
 								   
-							   break;
-							   case -3:
-								   
-								   Toast.makeText(Group.this, getResources().getString(R.string.user) + new_owner_username + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
-						            .show();
-								   
-							   break;
-							   case -2:
-								   
-								   Toast.makeText(Group.this, getResources().getString(R.string.user) + new_owner_username + getResources().getString(R.string.already_an_owner) + groupname, Toast.LENGTH_LONG)
-						            .show();
-								   
-							   break;
-							   case -1:
-								   
-								   Toast.makeText(Group.this, getResources().getString(R.string.the_group) + groupname + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
-						            .show();
-								   
-							   break;
-							   case 0:
-								   
-								   Toast.makeText(Group.this, getResources().getString(R.string.successfully_added) + new_owner_username + getResources().getString(R.string.as_an_owner_of_the_group) + groupname, Toast.LENGTH_LONG)
-						            .show();
-								   
-							   break;
 							   }
-							   
-						   } else {
-							   
-							   Toast.makeText(Group.this, getResources().getString(R.string.unable_to_add_owner) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
-					            .show();
-							   
 						   }
-					   }
-				});
-				
-			}
-		});
+					});
+					
+				}
+        	});
         	
         	/*deleteGroup.setOnClickListener(new OnClickListener() {
     			
@@ -359,78 +360,78 @@ public class Group extends ActionBarActivity{
 				@Override
 				public void onClick(View v) {
         	
-				if (leaveGroup.getText().toString().equals(getResources().getString(R.string.leave_group))) {
+					if (leaveGroup.getText().toString().equals(getResources().getString(R.string.leave_group))) {
+						
+						final ProgressDialog dlg = new ProgressDialog(Group.this);
+					    dlg.setTitle(getResources().getString(R.string.please_wait));
+					    dlg.setMessage(getResources().getString(R.string.leaving));
+					    dlg.show();
+					    
+						HashMap<String, Object> params = new HashMap<String, Object>();
+						params.put("groupname", groupname);
+						
+						ParseCloud.callFunctionInBackground("subtractMember", params, new FunctionCallback<Object>() {
+							   public void done(Object object, ParseException e) {
+								   if (e == null) {
+									   
+									    List<String> list = currentUser.getList("joinedGroups");
+									    List<String> listChannels = currentUser.getList("channels");
+										
+									    listChannels.remove("Group_" + groupname);
+										list.remove(groupname);
+										currentUser.put("channels", listChannels);
+										currentUser.put("joinedGroups", list);
+										
+										currentUser.saveInBackground();
+										
+										leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));
+										leaveGroup.setText(getResources().getString(R.string.rejoin_group));
+										dlg.dismiss();
+										Toast.makeText(Group.this, getResources().getString(R.string.left_group) + groupname, Toast.LENGTH_SHORT)
+										.show();
+								   } else {
+										dlg.dismiss();
+										Toast.makeText(Group.this, getResources().getString(R.string.unable_to_leave) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+										.show();
+								   }
+							   }
+						});
 					
-					final ProgressDialog dlg = new ProgressDialog(Group.this);
-				    dlg.setTitle(getResources().getString(R.string.please_wait));
-				    dlg.setMessage(getResources().getString(R.string.leaving));
-				    dlg.show();
-				    
-					HashMap<String, Object> params = new HashMap<String, Object>();
-					params.put("groupname", groupname);
+					} else if (leaveGroup.getText().toString().equals(getResources().getString(R.string.rejoin_group))){
 					
-					ParseCloud.callFunctionInBackground("subtractMember", params, new FunctionCallback<Object>() {
-						   public void done(Object object, ParseException e) {
-							   if (e == null) {
-								   
-								    List<String> list = currentUser.getList("joinedGroups");
-								    List<String> listChannels = currentUser.getList("channels");
-									
-								    listChannels.remove("Group_" + groupname);
-									list.remove(groupname);
-									currentUser.put("channels", listChannels);
-									currentUser.put("joinedGroups", list);
-									
+						final ProgressDialog dlg = new ProgressDialog(Group.this);
+					    dlg.setTitle(getResources().getString(R.string.please_wait));
+					    dlg.setMessage(getResources().getString(R.string.rejoining));
+					    dlg.show();
+						
+					    HashMap<String, Object> params = new HashMap<String, Object>();
+						params.put("groupname", groupname);
+						
+						ParseCloud.callFunctionInBackground("addMember", params, new FunctionCallback<Object>() {
+							   public void done(Object object, ParseException e) {
+								   if (e == null) {
+									    
+								    currentUser.addUnique("joinedGroups", groupname);
+								    currentUser.addUnique("channels", "Group_" + groupname);
+								    
 									currentUser.saveInBackground();
 									
-									leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));
-									leaveGroup.setText(getResources().getString(R.string.rejoin_group));
+									leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
+									leaveGroup.setText(getResources().getString(R.string.leave_group));
 									dlg.dismiss();
-									Toast.makeText(Group.this, getResources().getString(R.string.left_group) + groupname, Toast.LENGTH_SHORT)
+									Toast.makeText(Group.this, getResources().getString(R.string.rejoined_group) + groupname, Toast.LENGTH_SHORT)
 									.show();
-							   } else {
+								   } else {
 									dlg.dismiss();
-									Toast.makeText(Group.this, getResources().getString(R.string.unable_to_leave) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+									Toast.makeText(Group.this, getResources().getString(R.string.unable_to_rejoin) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
 									.show();
+								   }
 							   }
-						   }
-					});
-				
-				} else if (leaveGroup.getText().toString().equals(getResources().getString(R.string.rejoin_group))){
-				
-					final ProgressDialog dlg = new ProgressDialog(Group.this);
-				    dlg.setTitle(getResources().getString(R.string.please_wait));
-				    dlg.setMessage(getResources().getString(R.string.rejoining));
-				    dlg.show();
-					
-				    HashMap<String, Object> params = new HashMap<String, Object>();
-					params.put("groupname", groupname);
-					
-					ParseCloud.callFunctionInBackground("addMember", params, new FunctionCallback<Object>() {
-						   public void done(Object object, ParseException e) {
-							   if (e == null) {
-								    
-							    currentUser.addUnique("joinedGroups", groupname);
-							    currentUser.addUnique("channels", "Group_" + groupname);
-							    
-								currentUser.saveInBackground();
-								
-								leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
-								leaveGroup.setText(getResources().getString(R.string.leave_group));
-								dlg.dismiss();
-								Toast.makeText(Group.this, getResources().getString(R.string.rejoined_group) + groupname, Toast.LENGTH_SHORT)
-								.show();
-							   } else {
-								dlg.dismiss();
-								Toast.makeText(Group.this, getResources().getString(R.string.unable_to_rejoin) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
-								.show();
-							   }
-						   }
-					});
+						});
+					}
 				}
-		}
 		
-		});
+        	});
 		
 		} else {
         	Toast.makeText(Group.this, getResources().getString(R.string.not_logged_in), Toast.LENGTH_LONG)

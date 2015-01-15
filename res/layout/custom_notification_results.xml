@@ -313,37 +313,16 @@
     
     </LinearLayout>
     
-    <LinearLayout
-        android:layout_width="match_parent"
-   		android:layout_height="wrap_content"
-       	android:layout_below="@id/results_notification_layout"
-   		android:orientation="horizontal"
-   		>
-    
     <ImageButton
         android:id="@+id/saveResults_button_notif"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:layout_weight="1"
+		android:layout_below="@id/results_notification_layout"
         android:background="@android:color/transparent"
         android:padding="5dp"
-		android:layout_gravity="center"
+		android:layout_centerHorizontal="true"
         android:src="@drawable/ic_save"
         android:contentDescription="@string/delete"
         />
-    
-    <ImageButton
-        android:id="@+id/unsubscribe_button_notif"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-		android:layout_weight="1"
-        android:background="@android:color/transparent"
-        android:padding="5dp"
-		android:layout_gravity="center"
-        android:src="@drawable/ic_unsubscribe"
-        android:contentDescription="@string/delete"
-        />
-    
-    </LinearLayout>
     
 </RelativeLayout>

@@ -98,7 +98,6 @@ public class SavedQuestionsCustomSimpleAdapter extends SimpleAdapter {
 					
 					HashMap<String, Object> question = SavedQuestionsCustomSimpleAdapter.listMap.get(holder.position);
 					
-					
 					Intent intent = new Intent(context, Results.class);
 					
 					Bundle extras = new Bundle();

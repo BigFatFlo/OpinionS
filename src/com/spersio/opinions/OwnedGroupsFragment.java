@@ -38,9 +38,6 @@ public class OwnedGroupsFragment extends Fragment{
 
         yourGroupsTitle = (TextView) v.findViewById(R.id.yourGroups_title);
         yourGroupsTitle.setText(getActivity().getResources().getString(R.string.owned_groups));
-        
-        v.findViewById(R.id.leaveSelection_button).setVisibility(View.GONE);
-        v.findViewById(R.id.leaveSelection_text).setVisibility(View.GONE);
        
         final ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser!=null) {

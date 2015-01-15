@@ -52,20 +52,20 @@ public class YourSubscriptions extends ActionBarActivity{
 		    
 		    if (list!=null) {
 		    
-		    if (list.isEmpty()) {
-		    	
-			    yourSubscriptionsView.setVisibility(View.GONE);
-			    findViewById(R.id.unsubscribeFromSelection_text).setVisibility(View.GONE);
-		    	findViewById(R.id.unsubscribeFromSelection_button).setVisibility(View.GONE);
-		    	Toast.makeText(YourSubscriptions.this, getResources().getString(R.string.no_subscriptions), Toast.LENGTH_LONG)
-	            .show();
-			    dlg.dismiss();
+			    if (list.isEmpty()) {
 			    	
+				    yourSubscriptionsView.setVisibility(View.GONE);
+				    findViewById(R.id.unsubscribeFromSelection_text).setVisibility(View.GONE);
+			    	findViewById(R.id.unsubscribeFromSelection_button).setVisibility(View.GONE);
+			    	Toast.makeText(YourSubscriptions.this, getResources().getString(R.string.no_subscriptions), Toast.LENGTH_LONG)
+		            .show();
+				    dlg.dismiss();
+				    	
 			    } else {
 			
-			SubscriptionsCustomArrayAdapter adapter = new SubscriptionsCustomArrayAdapter(YourSubscriptions.this, R.layout.subscriptions_adapter_item, R.id.subscription_username_adapter , list);
-		    yourSubscriptionsView.setAdapter(adapter);
-		    dlg.dismiss();
+					SubscriptionsCustomArrayAdapter adapter = new SubscriptionsCustomArrayAdapter(YourSubscriptions.this, R.layout.subscriptions_adapter_item, R.id.subscription_username_adapter , list);
+				    yourSubscriptionsView.setAdapter(adapter);
+				    dlg.dismiss();
 			    
 			    }
 		    
