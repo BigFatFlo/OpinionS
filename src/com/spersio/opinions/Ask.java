@@ -1,5 +1,6 @@
 package com.spersio.opinions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -214,68 +215,48 @@ public class Ask extends ActionBarActivity {
 		        }
 		    });
 
+			final ArrayList<TextView> answerTextViews = new ArrayList<TextView>();
+			answerTextViews.add(answer1);
+			answerTextViews.add(answer2);
+			answerTextViews.add(answer3);
+			answerTextViews.add(answer4);
+			answerTextViews.add(answer5);
+
+			final ArrayList<ImageButton> deleteImageButtons = new ArrayList<ImageButton>();
+			deleteImageButtons.add(delete1);
+			deleteImageButtons.add(delete2);
+			deleteImageButtons.add(delete3);
+			deleteImageButtons.add(delete4);
+			deleteImageButtons.add(delete5);
+
+			final ArrayList<ImageView> numberImageViews = new ArrayList<ImageView>();
+			numberImageViews.add(one);
+			numberImageViews.add(two);
+			numberImageViews.add(three);
+			numberImageViews.add(four);
+			numberImageViews.add(five);
+			
 			findViewById(R.id.answer_add).setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
+					
 					if (!answerSubmit.getText().toString().equals("") && answerSubmit.getText().toString() != null){
-						switch (nbrAnswers)
-						{
-						  case 0:
-							  	Toast.makeText(Ask.this, getResources().getString(R.string.answer_added), Toast.LENGTH_SHORT)
-								.show();	
-							  	answer1.setText(answerSubmit.getText().toString());
-							  	answer1.setVisibility(View.VISIBLE);
-							  	delete1.setVisibility(View.VISIBLE);
-							  	one.setVisibility(View.VISIBLE);
-							  	nbrAnswers=nbrAnswers+1;
-							  	break;
-						  case 1:
-							  	Toast.makeText(Ask.this, getResources().getString(R.string.answer_added), Toast.LENGTH_SHORT)
-								.show();	
-							    answer2.setText(answerSubmit.getText().toString());
-							    answer2.setVisibility(View.VISIBLE);
-							  	answer2.requestFocus();
-							    delete2.setVisibility(View.VISIBLE);
-							  	two.setVisibility(View.VISIBLE);
-							    nbrAnswers=nbrAnswers+1;
-							    break;
-						  case 2:
-							  	Toast.makeText(Ask.this, getResources().getString(R.string.answer_added), Toast.LENGTH_SHORT)
-								.show();	
-							    answer3.setText(answerSubmit.getText().toString());
-							    answer3.setVisibility(View.VISIBLE);
-							  	answer3.requestFocus();
-							    delete3.setVisibility(View.VISIBLE);
-							  	three.setVisibility(View.VISIBLE);
-							    nbrAnswers=nbrAnswers+1;
-							    break;
-						  case 3:
-							  	Toast.makeText(Ask.this, getResources().getString(R.string.answer_added), Toast.LENGTH_SHORT)
-								.show();	
-							    answer4.setText(answerSubmit.getText().toString());
-							    answer4.setVisibility(View.VISIBLE);
-							  	answer4.requestFocus();
-							    delete4.setVisibility(View.VISIBLE);
-							  	four.setVisibility(View.VISIBLE);
-							    nbrAnswers=nbrAnswers+1;
-							    break;
-						  case 4:
-							  	Toast.makeText(Ask.this, getResources().getString(R.string.answer_added), Toast.LENGTH_SHORT)
-								.show();	
-							    answer5.setText(answerSubmit.getText().toString());
-							    answer5.setVisibility(View.VISIBLE);
-							  	answer5.requestFocus();
-							    delete5.setVisibility(View.VISIBLE);
-							  	five.setVisibility(View.VISIBLE);
-							    nbrAnswers=nbrAnswers+1;
-							    break;
-						  case 5:
-							  Toast.makeText(Ask.this, getResources().getString(R.string.answers_max), Toast.LENGTH_LONG)
-								.show();
-							    break;
-						  default:
-							  Toast.makeText(Ask.this, getResources().getString(R.string.oops), Toast.LENGTH_LONG)
-								.show();;             
+						
+						if (nbrAnswers<5) {
+							Toast.makeText(Ask.this, getResources().getString(R.string.answer_added), Toast.LENGTH_SHORT)
+							.show();	
+						  	answerTextViews.get(nbrAnswers).setText(answerSubmit.getText().toString());
+						  	answerTextViews.get(nbrAnswers).setVisibility(View.VISIBLE);
+						  	if (nbrAnswers > 0) {
+						  		answerTextViews.get(nbrAnswers).requestFocus();
+						  	}
+						  	deleteImageButtons.get(nbrAnswers).setVisibility(View.VISIBLE);
+						  	numberImageViews.get(nbrAnswers).setVisibility(View.VISIBLE);
+						  	nbrAnswers=nbrAnswers+1;
+						} else {
+							Toast.makeText(Ask.this, getResources().getString(R.string.answers_max), Toast.LENGTH_LONG)
+							.show();
 						}
+					
 					} else {
 						Toast.makeText(Ask.this, getResources().getString(R.string.need_to_type), Toast.LENGTH_LONG)
 						.show();
@@ -285,211 +266,31 @@ public class Ask extends ActionBarActivity {
 			
 			findViewById(R.id.delete_answer1).setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
-					if (!answer1.getText().toString().equals("") && answer1.getText().toString()!=null ){
-					switch (nbrAnswers)
-					{
-					  case 1:
-						    answer1.setText("");
-						    answer1.setVisibility(View.GONE);
-						    delete1.setVisibility(View.GONE);
-						  	one.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 2:
-						    answer1.setText(answer2.getText().toString());
-						  	answer2.setText("");
-						  	answer2.setVisibility(View.GONE);
-						  	delete2.setVisibility(View.GONE);
-						  	two.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 3:
-						  	answer1.setText(answer2.getText().toString());
-						  	answer2.setText(answer3.getText().toString());
-						  	answer3.setText("");
-						  	answer3.setVisibility(View.GONE);
-						  	delete3.setVisibility(View.GONE);
-						  	three.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 4:
-						  	answer1.setText(answer2.getText().toString());
-						  	answer2.setText(answer3.getText().toString());
-						  	answer3.setText(answer4.getText().toString());
-						  	answer4.setText("");
-						  	answer4.setVisibility(View.GONE);
-						  	delete4.setVisibility(View.GONE);
-						  	four.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 5:
-						  	answer1.setText(answer2.getText().toString());
-						  	answer2.setText(answer3.getText().toString());
-						  	answer3.setText(answer4.getText().toString());
-						  	answer4.setText(answer5.getText().toString());
-						  	answer5.setText("");
-						  	answer5.setVisibility(View.GONE);
-						  	delete5.setVisibility(View.GONE);
-						  	five.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  default:
-						  Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-							.show();
-					    ;
-					}
-				} else {
-					Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-					.show();	
-				}
+					nbrAnswers = delete_answer(1,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
 				}
 			});
 			
 			findViewById(R.id.delete_answer2).setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
-					if (!answer2.getText().toString().equals("") && answer2.getText().toString()!=null ){
-					switch (nbrAnswers)
-					{
-					  case 2:
-						  	answer2.setText("");
-						  	answer2.setVisibility(View.GONE);
-						  	delete2.setVisibility(View.GONE);
-						  	two.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 3:
-						  	answer2.setText(answer3.getText().toString());
-						  	answer3.setText("");
-						  	answer3.setVisibility(View.GONE);
-						  	delete3.setVisibility(View.GONE);
-						  	three.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 4:
-						  	answer2.setText(answer3.getText().toString());
-						  	answer3.setText(answer4.getText().toString());
-						  	answer4.setText("");
-						  	answer4.setVisibility(View.GONE);
-						  	delete4.setVisibility(View.GONE);
-						  	four.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 5:
-						  	answer2.setText(answer3.getText().toString());
-						  	answer3.setText(answer4.getText().toString());
-						  	answer4.setText(answer5.getText().toString());
-						  	answer5.setText("");
-						  	answer5.setVisibility(View.GONE);
-						  	delete5.setVisibility(View.GONE);
-						  	five.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  default:
-						  Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-							.show();
-					    ;
-					}
-				} else {
-					Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-					.show();	
-				}
+					nbrAnswers = delete_answer(2,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
 				}
 			});
 			
 			findViewById(R.id.delete_answer3).setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
-					if (!answer3.getText().toString().equals("") && answer3.getText().toString()!=null ){
-					switch (nbrAnswers)
-					{
-					  case 3:
-						  	answer3.setText("");
-						  	answer3.setVisibility(View.GONE);
-						  	delete3.setVisibility(View.GONE);
-						  	three.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 4:
-						  	answer3.setText(answer4.getText().toString());
-						  	answer4.setText("");
-						  	answer4.setVisibility(View.GONE);
-						  	delete4.setVisibility(View.GONE);
-						  	four.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 5:
-						  	answer3.setText(answer4.getText().toString());
-						  	answer4.setText(answer5.getText().toString());
-						  	answer5.setText("");
-						  	answer5.setVisibility(View.GONE);
-						  	delete5.setVisibility(View.GONE);
-						  	five.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  default:
-						  Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-							.show();
-					    ;
-					}
-				} else {
-					Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-					.show();	
-				}
+					nbrAnswers = delete_answer(3,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
 				}
 			});
 			
 			findViewById(R.id.delete_answer4).setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
-					if (!answer4.getText().toString().equals("") && answer4.getText().toString()!=null ){
-					switch (nbrAnswers)
-					{
-					  case 4:
-						  	answer4.setText("");
-						  	answer4.setVisibility(View.GONE);
-						  	delete4.setVisibility(View.GONE);
-						  	four.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  case 5:
-						  	answer4.setText(answer5.getText().toString());
-						  	answer5.setText("");
-						  	answer5.setVisibility(View.GONE);
-						  	delete5.setVisibility(View.GONE);
-						  	five.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  default:
-						  Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-							.show();
-					    ;
-					}
-				} else {
-					Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-					.show();	
-				}
+					nbrAnswers = delete_answer(4,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
 				}
 			});
 			
 			findViewById(R.id.delete_answer5).setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
-					if (!answer5.getText().toString().equals("") && answer5.getText().toString()!=null ){
-					switch (nbrAnswers)
-					{
-					  case 5:
-						  	answer5.setText("");
-						  	answer5.setVisibility(View.GONE);
-						  	delete5.setVisibility(View.GONE);
-						  	five.setVisibility(View.GONE);
-						    nbrAnswers=nbrAnswers-1;
-						    break;
-					  default:
-						  Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-							.show();
-					    ;
-					}
-				} else {
-					Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
-					.show();	
-				}
+					nbrAnswers = delete_answer(5,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
 				}
 			});
 			
@@ -500,54 +301,18 @@ public class Ask extends ActionBarActivity {
 					// TODO Auto-generated method stub
 					if (isChecked) {
 						if (questionText.getText().toString().length() > 8  && nbrAnswers > 1 && nbrAnswers < 6 && !(questionText.getText().toString().equals(getResources().getString(R.string.here_you_can_see)))) {
-						ask_type = 0;
-						askGroup.setChecked(false);
-						groupsOwned.setVisibility(View.GONE);
-						currentUser.fetchInBackground(new GetCallback<ParseObject>() {
-	            			  public void done(ParseObject user, ParseException e) {
-	            			    if (e == null) {
-	    		            		nbrSubscribers = user.getInt("nbrSubscribers");
-	    		            		if (nbrSubscribers <= 0) {
-	    		            			Toast.makeText(Ask.this, getResources().getString(R.string.no_subscribers), Toast.LENGTH_LONG)
-	    								  .show();
-	    								askSubscribers.setChecked(false);
-	    								askGroup.setChecked(false);
-	    								ask_type = -1;
-	    								nbrUsersTargeted = 0;
-	    								groupName = "";
-	    								usersAvailable.setVisibility(View.GONE);
-										askButton.setVisibility(View.GONE);
-	    		            		} else {
-		    		            	nbrUsersTargeted = nbrSubscribers;
-		    		            	groupName = "";
-	    		            		usersAvailable.setText(getResources().getString(R.string.send_to) + nbrSubscribers + getResources().getString(R.string.subscribers));
-	    							usersAvailable.setVisibility(View.VISIBLE);
-									askButton.setVisibility(View.VISIBLE);
-	    							askButton.requestFocus();
-	    		            		}
-	            			    } else {
-	    		            		nbrSubscribers = currentUser.getInt("nbrSubscribers");
-	    		            		if (nbrSubscribers <= 0) {
-	    		            			Toast.makeText(Ask.this, getResources().getString(R.string.no_subscribers), Toast.LENGTH_LONG)
-	    								  .show();
-	    								askSubscribers.setChecked(false);
-	    								askGroup.setChecked(false);
-	    								ask_type = -1;
-	    								nbrUsersTargeted = 0;
-	    								groupName = "";
-	    								usersAvailable.setVisibility(View.GONE);
-	    								askButton.setVisibility(View.GONE);
-	    		            		} else {
-		    		            	nbrUsersTargeted = nbrSubscribers;
-		    		            	groupName = "";
-	    		            		usersAvailable.setText(getResources().getString(R.string.send_to) + nbrSubscribers + getResources().getString(R.string.subscribers));
-	    							usersAvailable.setVisibility(View.VISIBLE);
-									askButton.setVisibility(View.VISIBLE);
-	    							askButton.requestFocus();
-	    		            		}
-	            			    }
-	            			  }
-	            			});
+							ask_type = 0;
+							askGroup.setChecked(false);
+							groupsOwned.setVisibility(View.GONE);
+							currentUser.fetchInBackground(new GetCallback<ParseObject>() {
+		            			  public void done(ParseObject user, ParseException e) {
+		            			    if (e == null) {
+		    		            		sendToSubscribers(user);
+		            			    } else {
+		            			    	sendToSubscribers(currentUser);
+		            			    }
+		            			  }
+		            			});
 						} else {
 							askSubscribers.setChecked(false);
 							askGroup.setChecked(false);
@@ -571,81 +336,17 @@ public class Ask extends ActionBarActivity {
 					// TODO Auto-generated method stub
 					if (isChecked) {
 						if (questionText.getText().toString().length() > 8  && nbrAnswers > 1 && nbrAnswers < 6 && !(questionText.getText().toString().equals(getResources().getString(R.string.here_you_can_see)))) {
-						ask_type = 1;
-						askSubscribers.setChecked(false);
-						currentUser.fetchInBackground(new GetCallback<ParseObject>() {
-	            			  public void done(ParseObject user, ParseException e) {
-	            			    if (e == null) {
-	    		            		listGroups = user.getList("ownedGroups");
-	    		            		if (listGroups != null) {
-		    		            		if (listGroups.isEmpty()) {
-		    		            			Toast.makeText(Ask.this, getResources().getString(R.string.no_groups), Toast.LENGTH_LONG)
-		    								  .show();
-		    								askSubscribers.setChecked(false);
-		    								askGroup.setChecked(false);
-		    								ask_type = -1;
-		    								nbrUsersTargeted = 0;
-		    								groupName = "";
-		    								usersAvailable.setVisibility(View.GONE);
-											askButton.setVisibility(View.GONE);
-											groupsOwned.setVisibility(View.GONE);
-		    		            		} else {
-	    								ArrayAdapter<String> adapterG = new ArrayAdapter<String>(Ask.this,
-	    										android.R.layout.simple_spinner_item , listGroups);
-	    								adapterG.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    								groupsOwned.setAdapter(adapterG);
-	    								groupsOwned.setVisibility(View.VISIBLE);
-		    							groupsOwned.requestFocus();
-		    		            		}
-	    		            		} else {
-	    		            			Toast.makeText(Ask.this, getResources().getString(R.string.no_groups), Toast.LENGTH_LONG)
-	    								  .show();
-	    								askSubscribers.setChecked(false);
-	    								askGroup.setChecked(false);
-	    								ask_type = -1;
-	    								nbrUsersTargeted = 0;
-	    								groupName = "";
-	    								usersAvailable.setVisibility(View.GONE);
-										askButton.setVisibility(View.GONE);
-										groupsOwned.setVisibility(View.GONE);
-	    		            		}
-	            			    } else {
-	            			    	listGroups = currentUser.getList("ownedGroups");
-	            			    	if (listGroups != null) {
-		            			    	if (listGroups.isEmpty()) {
-		    		            			Toast.makeText(Ask.this, getResources().getString(R.string.no_groups), Toast.LENGTH_LONG)
-		    								  .show();
-		    								askSubscribers.setChecked(false);
-		    								askGroup.setChecked(false);
-		    								ask_type = -1;
-		    								nbrUsersTargeted = 0;
-		    								groupName = "";
-		    								usersAvailable.setVisibility(View.GONE);
-											askButton.setVisibility(View.GONE);
-											groupsOwned.setVisibility(View.GONE);
-		    		            		} else {
-	    								ArrayAdapter<String> adapterG = new ArrayAdapter<String>(Ask.this,
-	    										android.R.layout.simple_spinner_item , listGroups);
-	    								adapterG.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    								groupsOwned.setAdapter(adapterG);
-	    								groupsOwned.setVisibility(View.VISIBLE);
-		    							groupsOwned.requestFocus();
-		    		            		}
-	            			    	} else {
-	            			    		Toast.makeText(Ask.this, getResources().getString(R.string.no_groups), Toast.LENGTH_LONG)
-	    								  .show();
-	    								askSubscribers.setChecked(false);
-	    								askGroup.setChecked(false);
-	    								ask_type = -1;
-	    								nbrUsersTargeted = 0;
-	    								groupName = "";
-	    								usersAvailable.setVisibility(View.GONE);
-										askButton.setVisibility(View.GONE);
-										groupsOwned.setVisibility(View.GONE);
-	            			    	}
-	            			    }
-	            			  }
-	            			});
+							ask_type = 1;
+							askSubscribers.setChecked(false);
+							currentUser.fetchInBackground(new GetCallback<ParseObject>() {
+		            			  public void done(ParseObject user, ParseException e) {
+		            			    if (e == null) {
+		    		            		sendToGroup(user);
+		            			    } else {
+		            			    	sendToGroup(currentUser);
+		            			    }
+		            			  }
+		            			});
 						} else {
 							askSubscribers.setChecked(false);
 							askGroup.setChecked(false);
@@ -664,50 +365,53 @@ public class Ask extends ActionBarActivity {
 			});	
 			
 			groupsOwned.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-				public void onItemSelected(AdapterView<?> parent, View view, 
-			            int pos, long id) {
+				public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+						
 						groupName = parent.getItemAtPosition(pos).toString();
 						HashMap<String, Object> params = new HashMap<String, Object>();
 						params.put("groupname", groupName);
 						params.put("username", currentUser.getUsername());
+						
 						ParseCloud.callFunctionInBackground("nbrMembersInGroup", params, new FunctionCallback<Integer>() {
 							   public void done(Integer number, ParseException e) {
 								   if (e == null) {
 									   
 									   switch (number) {
-									   case -2:
-										   Toast.makeText(Ask.this, getResources().getString(R.string.not_owner), Toast.LENGTH_LONG)
-											.show();
-										   nbrUsersTargeted = 0;
-										   groupName = "";
-			    						   usersAvailable.setVisibility(View.GONE);
-										   askButton.setVisibility(View.GONE);
-									   break;
-									   case -1:
-										   Toast.makeText(Ask.this, getResources().getString(R.string.group_not_exist), Toast.LENGTH_LONG)
-											.show();
-										   nbrUsersTargeted = 0;
-										   groupName = "";
-			    						   usersAvailable.setVisibility(View.GONE);
-										   askButton.setVisibility(View.GONE);
-									   break;
-									   case 0:
-										   Toast.makeText(Ask.this, getResources().getString(R.string.group_empty), Toast.LENGTH_LONG)
-											.show();
-										   nbrUsersTargeted = 0;
-										   groupName = "";
-			    						   usersAvailable.setVisibility(View.GONE);
-										   askButton.setVisibility(View.GONE);
-									   break;
-									   default:
-										   nbrUsersTargeted = number;
-										   usersAvailable.setText(getResources().getString(R.string.send_to_the) + number + getResources().getString(R.string.members_of) + groupName);
-			    						   usersAvailable.setVisibility(View.VISIBLE);
-										   askButton.setVisibility(View.VISIBLE);
-			    						   askButton.requestFocus();
+									   
+										   case -2:
+											   Toast.makeText(Ask.this, getResources().getString(R.string.not_owner), Toast.LENGTH_LONG)
+												.show();
+											   nbrUsersTargeted = 0;
+											   groupName = "";
+				    						   usersAvailable.setVisibility(View.GONE);
+											   askButton.setVisibility(View.GONE);
+										   break;
+										   case -1:
+											   Toast.makeText(Ask.this, getResources().getString(R.string.group_not_exist), Toast.LENGTH_LONG)
+												.show();
+											   nbrUsersTargeted = 0;
+											   groupName = "";
+				    						   usersAvailable.setVisibility(View.GONE);
+											   askButton.setVisibility(View.GONE);
+										   break;
+										   case 0:
+											   Toast.makeText(Ask.this, getResources().getString(R.string.group_empty), Toast.LENGTH_LONG)
+												.show();
+											   nbrUsersTargeted = 0;
+											   groupName = "";
+				    						   usersAvailable.setVisibility(View.GONE);
+											   askButton.setVisibility(View.GONE);
+										   break;
+										   default:
+											   nbrUsersTargeted = number;
+											   usersAvailable.setText(getResources().getString(R.string.send_to_the) + number + getResources().getString(R.string.members_of) + groupName);
+				    						   usersAvailable.setVisibility(View.VISIBLE);
+											   askButton.setVisibility(View.VISIBLE);
+				    						   askButton.requestFocus();
 									   }
 									   
 								   } else {
+									   
 									   nbrUsersTargeted = 0;
 									   groupName = "";
 									   Toast.makeText(Ask.this, getResources().getString(R.string.no_info_group), Toast.LENGTH_LONG)
@@ -732,100 +436,81 @@ public class Ask extends ActionBarActivity {
 			findViewById(R.id.ask_question_button).setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
 					if (ask_type == -1) {
-					Toast.makeText(Ask.this, getResources().getString(R.string.no_targeted_users), Toast.LENGTH_LONG)
-					.show();
-					} else {
-					if  (nbrUsersTargeted == 0) {
-					Toast.makeText(Ask.this, getResources().getString(R.string.no_users_criteria), Toast.LENGTH_LONG)
-					.show();
-					} else {
-					if (questionText.getText().toString().length() > 8 && !(questionText.getText().toString().equals(getResources().getString(R.string.here_you_can_see)))){
-					// change to 10, 15, ..????
-					HashMap<String, Object> params = new HashMap<String, Object>();
-					params.put("text", questionText.getText().toString());
-					params.put("nbrAnswers", nbrAnswers);
-					params.put("nbrUsersTargeted", nbrUsersTargeted);
-					switch (ask_type) {
-						case 0:
-						params.put("group", false);
-						params.put("groupname", groupName);
-						params.put("subscribersOnly", true);
+						
+						Toast.makeText(Ask.this, getResources().getString(R.string.no_targeted_users), Toast.LENGTH_LONG)
+						.show();
+						
+					} else if (nbrUsersTargeted == 0) {
+						
+						Toast.makeText(Ask.this, getResources().getString(R.string.no_users_criteria), Toast.LENGTH_LONG)
+						.show();
+						
+					} else if (questionText.getText().toString().length() > 8 && !(questionText.getText().toString().equals(getResources().getString(R.string.here_you_can_see)))){
+						
+						HashMap<String, Object> params = new HashMap<String, Object>();
+						params.put("text", questionText.getText().toString());
+						params.put("nbrAnswers", nbrAnswers);
 						params.put("nbrUsersTargeted", nbrUsersTargeted);
-						break;
-						case 1:
-						if (groupName.equals("")) {						
-							Toast.makeText(Ask.this, getResources().getString(R.string.no_group), Toast.LENGTH_LONG)
-							.show();
-						} else {
-						params.put("groupname", groupName);
-						params.put("group",true);
-						params.put("subscribersOnly", false);
-						params.put("nbrUsersTargeted", nbrUsersTargeted);
+						
+						switch (ask_type) {
+							
+							case 0:
+								params.put("group", false);
+								params.put("groupname", groupName);
+								params.put("subscribersOnly", true);
+								params.put("nbrUsersTargeted", nbrUsersTargeted);
+							break;
+							case 1:
+								if (groupName.equals("")) {						
+									Toast.makeText(Ask.this, getResources().getString(R.string.no_group), Toast.LENGTH_LONG)
+									.show();
+								} else {
+									params.put("groupname", groupName);
+									params.put("group",true);
+									params.put("subscribersOnly", false);
+									params.put("nbrUsersTargeted", nbrUsersTargeted);
+								}
+							break;
 						}
-						break;
-					}
-					switch (nbrAnswers)
-					{
-					case 2:
-						params.put("answer1", answer1.getText().toString());
-						params.put("answer2", answer2.getText().toString());
-						break;
-					case 3:
-						params.put("answer1", answer1.getText().toString());
-						params.put("answer2", answer2.getText().toString());
-						params.put("answer3", answer3.getText().toString());
-						break;
-					case 4:
-						params.put("answer1", answer1.getText().toString());
-						params.put("answer2", answer2.getText().toString());
-						params.put("answer3", answer3.getText().toString());
-						params.put("answer4", answer4.getText().toString());
-						break;
-					case 5:
-						params.put("answer1", answer1.getText().toString());
-						params.put("answer2", answer2.getText().toString());
-						params.put("answer3", answer3.getText().toString());
-						params.put("answer4", answer4.getText().toString());
-						params.put("answer5", answer5.getText().toString());
-						break;
-					default:
-						Toast.makeText(Ask.this, getResources().getString(R.string.need_to_add_answers), Toast.LENGTH_LONG)
-						.show();
-					}
-					if (nbrAnswers > 1 && nbrAnswers < 6) {
-					final ProgressDialog dlg = new ProgressDialog(Ask.this);
-					dlg.setTitle(getResources().getString(R.string.please_wait));
-					dlg.setMessage(getResources().getString(R.string.please_wait));
-					dlg.show();
-					ParseCloud.callFunctionInBackground("newQuestion", params, new FunctionCallback<Object>() {
-						   public void done(Object object, ParseException e) {
-							   if (e == null) {
-								dlg.dismiss();
-								Toast.makeText(Ask.this, getResources().getString(R.string.question_sent), Toast.LENGTH_SHORT)
-								.show();
-								Intent intent = new Intent(Ask.this,Home.class);
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								startActivity(intent);
-							   } else {
-								dlg.dismiss();
-								Toast.makeText(Ask.this, getResources().getString(R.string.unable_to_send), Toast.LENGTH_LONG)
-								.show();
-							   }
-						   }
-						});
+						
+						if (nbrAnswers > 1 && nbrAnswers < 6) {
+							
+							for (int i = 1; i < nbrAnswers +1; i ++) {
+								params.put("answer" + i, answerTextViews.get(i-1).getText().toString());
+							}
+							
+							final ProgressDialog dlg = new ProgressDialog(Ask.this);
+							dlg.setTitle(getResources().getString(R.string.please_wait));
+							dlg.setMessage(getResources().getString(R.string.please_wait));
+							dlg.show();
+							
+							ParseCloud.callFunctionInBackground("newQuestion", params, new FunctionCallback<Object>() {
+								   public void done(Object object, ParseException e) {
+									   if (e == null) {
+											dlg.dismiss();
+											Toast.makeText(Ask.this, getResources().getString(R.string.question_sent), Toast.LENGTH_SHORT)
+											.show();
+											Intent intent = new Intent(Ask.this,Home.class);
+											intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+											startActivity(intent);
+									   } else {
+											dlg.dismiss();
+											Toast.makeText(Ask.this, getResources().getString(R.string.unable_to_send), Toast.LENGTH_LONG)
+											.show();
+									   }
+								   }
+								});
+							
+						} else {
+							Toast.makeText(Ask.this, getResources().getString(R.string.need_to_add_answers), Toast.LENGTH_LONG)
+							.show();
+						}
+						
 					} else {
-						Toast.makeText(Ask.this, getResources().getString(R.string.need_to_add_answers), Toast.LENGTH_LONG)
+						Toast.makeText(Ask.this, getResources().getString(R.string.questions_must_be), Toast.LENGTH_LONG)
 						.show();
 					}
 				}
-				else 
-				{
-				Toast.makeText(Ask.this, getResources().getString(R.string.questions_must_be), Toast.LENGTH_LONG)
-				.show();
-				}
-			}
-			}
-			}
 		});
 
 		} else {
@@ -891,5 +576,87 @@ public class Ask extends ActionBarActivity {
         }
         
     }
+    
+
+	public int delete_answer(int answer, int nbrAnswers, ArrayList<TextView> answerTextViews, List<ImageButton> deleteImageButtons, List<ImageView> numberImageViews) {
+		if (!answerTextViews.get(answer - 1).getText().toString().equals("") && answerTextViews.get(answer - 1).getText().toString()!=null ){
+			if (nbrAnswers > 0 && nbrAnswers < 6) {
+				for (int i = answer-1; i < nbrAnswers - 1; i++) {
+					answerTextViews.get(i).setText(answerTextViews.get(i+1).getText().toString());
+				}
+				answerTextViews.get(nbrAnswers-1).setText("");
+				answerTextViews.get(nbrAnswers-1).setVisibility(View.GONE);
+				deleteImageButtons.get(nbrAnswers-1).setVisibility(View.GONE);
+				numberImageViews.get(nbrAnswers-1).setVisibility(View.GONE);
+				return nbrAnswers - 1;
+			} else {
+				Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
+				.show();
+				return nbrAnswers;
+			}
+		} else {
+			Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
+			.show();
+			return nbrAnswers;
+		}
+	};
+	
+	public void sendToSubscribers(ParseObject user) {
+		nbrSubscribers = user.getInt("nbrSubscribers");
+		if (nbrSubscribers <= 0) {
+			Toast.makeText(Ask.this, getResources().getString(R.string.no_subscribers), Toast.LENGTH_LONG)
+			  .show();
+			askSubscribers.setChecked(false);
+			askGroup.setChecked(false);
+			ask_type = -1;
+			nbrUsersTargeted = 0;
+			groupName = "";
+			usersAvailable.setVisibility(View.GONE);
+			askButton.setVisibility(View.GONE);
+		} else {
+    	nbrUsersTargeted = nbrSubscribers;
+    	groupName = "";
+		usersAvailable.setText(getResources().getString(R.string.send_to) + nbrSubscribers + getResources().getString(R.string.subscribers));
+		usersAvailable.setVisibility(View.VISIBLE);
+		askButton.setVisibility(View.VISIBLE);
+		askButton.requestFocus();
+		}
+	};
+	
+	public void sendToGroup(ParseObject user) {
+		listGroups = user.getList("ownedGroups");
+		if (listGroups != null) {
+    		if (listGroups.isEmpty()) {
+    			Toast.makeText(Ask.this, getResources().getString(R.string.no_groups), Toast.LENGTH_LONG)
+				  .show();
+				askSubscribers.setChecked(false);
+				askGroup.setChecked(false);
+				ask_type = -1;
+				nbrUsersTargeted = 0;
+				groupName = "";
+				usersAvailable.setVisibility(View.GONE);
+				askButton.setVisibility(View.GONE);
+				groupsOwned.setVisibility(View.GONE);
+    		} else {
+			ArrayAdapter<String> adapterG = new ArrayAdapter<String>(Ask.this,
+					android.R.layout.simple_spinner_item , listGroups);
+			adapterG.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			groupsOwned.setAdapter(adapterG);
+			groupsOwned.setVisibility(View.VISIBLE);
+			groupsOwned.requestFocus();
+    		}
+		} else {
+			Toast.makeText(Ask.this, getResources().getString(R.string.no_groups), Toast.LENGTH_LONG)
+			  .show();
+			askSubscribers.setChecked(false);
+			askGroup.setChecked(false);
+			ask_type = -1;
+			nbrUsersTargeted = 0;
+			groupName = "";
+			usersAvailable.setVisibility(View.GONE);
+			askButton.setVisibility(View.GONE);
+			groupsOwned.setVisibility(View.GONE);
+		}
+	}
 	
 }
