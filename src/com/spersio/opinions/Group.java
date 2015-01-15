@@ -137,12 +137,12 @@ public class Group extends ActionBarActivity{
 					        // deleteGroup.setVisibility(View.VISIBLE);
 					        
 					        if (isMember) {
-						    memberOrOwner.setText(getResources().getString(R.string.you_are_an_owner_and_a_member));
-					        leaveGroup.setVisibility(View.VISIBLE);
-					        leaveGroupButton.setVisibility(View.VISIBLE);
+							    memberOrOwner.setText(getResources().getString(R.string.you_are_an_owner_and_a_member));
+						        leaveGroup.setVisibility(View.VISIBLE);
+						        leaveGroupButton.setVisibility(View.VISIBLE);
 					        } else {
-					        memberOrOwner.setText(getResources().getString(R.string.you_are_an_owner));
-					        }
+						        memberOrOwner.setText(getResources().getString(R.string.you_are_an_owner));
+						    }
 					        
 					        nbrMembers.setText(getResources().getString(R.string.nbrMembers) + ": " + String.valueOf((int) data.get("nbrMembers")));
 					        
@@ -361,70 +361,73 @@ public class Group extends ActionBarActivity{
         	
 				if (leaveGroup.getText().toString().equals(getResources().getString(R.string.leave_group))) {
 					
-				final ProgressDialog dlg = new ProgressDialog(Group.this);
-			    dlg.setTitle(getResources().getString(R.string.please_wait));
-			    dlg.setMessage(getResources().getString(R.string.leaving));
-			    dlg.show();
-			    
-				HashMap<String, Object> params = new HashMap<String, Object>();
-				params.put("groupname", groupname);
-				ParseCloud.callFunctionInBackground("subtractMember", params, new FunctionCallback<Object>() {
-					   public void done(Object object, ParseException e) {
-						   if (e == null) {
-							   
-							    List<String> list = currentUser.getList("joinedGroups");
-							    List<String> listChannels = currentUser.getList("channels");
-								
-							    listChannels.remove("Group_" + groupname);
-								list.remove(groupname);
-								currentUser.put("channels", listChannels);
-								currentUser.put("joinedGroups", list);
-								
+					final ProgressDialog dlg = new ProgressDialog(Group.this);
+				    dlg.setTitle(getResources().getString(R.string.please_wait));
+				    dlg.setMessage(getResources().getString(R.string.leaving));
+				    dlg.show();
+				    
+					HashMap<String, Object> params = new HashMap<String, Object>();
+					params.put("groupname", groupname);
+					
+					ParseCloud.callFunctionInBackground("subtractMember", params, new FunctionCallback<Object>() {
+						   public void done(Object object, ParseException e) {
+							   if (e == null) {
+								   
+								    List<String> list = currentUser.getList("joinedGroups");
+								    List<String> listChannels = currentUser.getList("channels");
+									
+								    listChannels.remove("Group_" + groupname);
+									list.remove(groupname);
+									currentUser.put("channels", listChannels);
+									currentUser.put("joinedGroups", list);
+									
+									currentUser.saveInBackground();
+									
+									leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));
+									leaveGroup.setText(getResources().getString(R.string.rejoin_group));
+									dlg.dismiss();
+									Toast.makeText(Group.this, getResources().getString(R.string.left_group) + groupname, Toast.LENGTH_SHORT)
+									.show();
+							   } else {
+									dlg.dismiss();
+									Toast.makeText(Group.this, getResources().getString(R.string.unable_to_leave) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+									.show();
+							   }
+						   }
+					});
+				
+				} else if (leaveGroup.getText().toString().equals(getResources().getString(R.string.rejoin_group))){
+				
+					final ProgressDialog dlg = new ProgressDialog(Group.this);
+				    dlg.setTitle(getResources().getString(R.string.please_wait));
+				    dlg.setMessage(getResources().getString(R.string.rejoining));
+				    dlg.show();
+					
+				    HashMap<String, Object> params = new HashMap<String, Object>();
+					params.put("groupname", groupname);
+					
+					ParseCloud.callFunctionInBackground("addMember", params, new FunctionCallback<Object>() {
+						   public void done(Object object, ParseException e) {
+							   if (e == null) {
+								    
+							    currentUser.addUnique("joinedGroups", groupname);
+							    currentUser.addUnique("channels", "Group_" + groupname);
+							    
 								currentUser.saveInBackground();
 								
-							leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));
-							leaveGroup.setText(getResources().getString(R.string.rejoin_group));
-							dlg.dismiss();
-							Toast.makeText(Group.this, getResources().getString(R.string.left_group) + groupname, Toast.LENGTH_SHORT)
-							.show();
-						   } else {
-							dlg.dismiss();
-							Toast.makeText(Group.this, getResources().getString(R.string.unable_to_leave) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
-							.show();
+								leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
+								leaveGroup.setText(getResources().getString(R.string.leave_group));
+								dlg.dismiss();
+								Toast.makeText(Group.this, getResources().getString(R.string.rejoined_group) + groupname, Toast.LENGTH_SHORT)
+								.show();
+							   } else {
+								dlg.dismiss();
+								Toast.makeText(Group.this, getResources().getString(R.string.unable_to_rejoin) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+								.show();
+							   }
 						   }
-					   }
 					});
-				
-			} else if (leaveGroup.getText().toString().equals(getResources().getString(R.string.rejoin_group))){
-				
-				final ProgressDialog dlg = new ProgressDialog(Group.this);
-			    dlg.setTitle(getResources().getString(R.string.please_wait));
-			    dlg.setMessage(getResources().getString(R.string.rejoining));
-			    dlg.show();
-				HashMap<String, Object> params = new HashMap<String, Object>();
-				params.put("groupname", groupname);
-				ParseCloud.callFunctionInBackground("addMember", params, new FunctionCallback<Object>() {
-					   public void done(Object object, ParseException e) {
-						   if (e == null) {
-							    
-						    currentUser.addUnique("joinedGroups", groupname);
-						    currentUser.addUnique("channels", "Group_" + groupname);
-						    
-							currentUser.saveInBackground();
-							
-							leaveGroupButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
-							leaveGroup.setText(getResources().getString(R.string.leave_group));
-							dlg.dismiss();
-							Toast.makeText(Group.this, getResources().getString(R.string.rejoined_group) + groupname, Toast.LENGTH_SHORT)
-							.show();
-						   } else {
-							dlg.dismiss();
-							Toast.makeText(Group.this, getResources().getString(R.string.unable_to_rejoin) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
-							.show();
-						   }
-					   }
-					});
-			}
+				}
 		}
 		
 		});

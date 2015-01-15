@@ -131,50 +131,20 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras.putString(askerUsername, askerU);
 			extras.putString(groupname, grpname);
 			
-			Intent quickIntent1 = new Intent(ctx, AnswerNotificationActivity.class);
+			Intent[] quickIntents = new Intent[5];
+			PendingIntent[] btPendingIntents = new PendingIntent[5];
+
 			final Bundle extras1 = new Bundle();
 			extras1.putString(ID, questionId);
-			extras1.putInt(aID,1);
 			extras1.putInt(nID,notificationId);
 			extras1.putString(tag,notificationTag);
-			quickIntent1.putExtras(extras1);
-			final PendingIntent btPendingIntent1 = PendingIntent.getBroadcast(ctx, 21, quickIntent1, PendingIntent.FLAG_UPDATE_CURRENT);
 			
-			Intent quickIntent2 = new Intent(ctx, AnswerNotificationActivity.class);
-			final Bundle extras2 = new Bundle();
-			extras2.putString(ID, questionId);
-			extras2.putInt(aID,2);
-			extras2.putInt(nID,notificationId);
-			extras2.putString(tag,notificationTag);
-			quickIntent2.putExtras(extras2);
-			final PendingIntent btPendingIntent2 = PendingIntent.getBroadcast(ctx, 22, quickIntent2, PendingIntent.FLAG_UPDATE_CURRENT);
-			
-			Intent quickIntent3 = new Intent(ctx, AnswerNotificationActivity.class);
-			final Bundle extras3 = new Bundle();
-			extras3.putString(ID, questionId);
-			extras3.putInt(aID,3);
-			extras3.putInt(nID,notificationId);
-			extras3.putString(tag,notificationTag);
-			quickIntent3.putExtras(extras3);
-			final PendingIntent btPendingIntent3 = PendingIntent.getBroadcast(ctx, 23, quickIntent3, PendingIntent.FLAG_UPDATE_CURRENT);
-			
-			Intent quickIntent4 = new Intent(ctx, AnswerNotificationActivity.class);
-			final Bundle extras4 = new Bundle();
-			extras4.putString(ID, questionId);
-			extras4.putInt(aID,4);
-			extras4.putInt(nID,notificationId);
-			extras4.putString(tag,notificationTag);
-			quickIntent4.putExtras(extras4);
-			final PendingIntent btPendingIntent4 = PendingIntent.getBroadcast(ctx, 24, quickIntent4, PendingIntent.FLAG_UPDATE_CURRENT);
-			
-			Intent quickIntent5 = new Intent(ctx, AnswerNotificationActivity.class);
-			final Bundle extras5 = new Bundle();
-			extras5.putString(ID, questionId);
-			extras5.putInt(aID,5);
-			extras5.putInt(nID,notificationId);
-			extras5.putString(tag,notificationTag);;
-			quickIntent5.putExtras(extras5);
-			final PendingIntent btPendingIntent5 = PendingIntent.getBroadcast(ctx, 25, quickIntent5, PendingIntent.FLAG_UPDATE_CURRENT);
+			for (int j = 0; j < 5; j++) {
+				quickIntents[j] = new Intent(ctx, AnswerNotificationActivity.class);
+				extras1.putInt(aID,j+1);
+				quickIntents[j].putExtras(extras1);
+				btPendingIntents[j] = PendingIntent.getBroadcast(ctx, 21+j, quickIntents[j], PendingIntent.FLAG_UPDATE_CURRENT);
+			}
 			
 			final RemoteViews remoteView = new RemoteViews("com.spersio.opinions", R.layout.custom_notification);
 			
@@ -191,475 +161,120 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			final PendingIntent deletePendingIntent = PendingIntent.getBroadcast(ctx, 29, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 			mBuilder.setDeleteIntent(deletePendingIntent);
 			
-			switch (nbrA) {
-			case 2:
-				
-				remoteView.setTextViewText(R.id.answer1_notif,answer1);
-				remoteView.setTextViewText(R.id.answer2_notif,answer2);
-				remoteView.setViewVisibility(R.id.answer3_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.answer4_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.answer5_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.three_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.four_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.five_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.three_button_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.four_button_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.five_button_notif, View.GONE);
-				
-				remoteView.setOnClickPendingIntent(R.id.one_button_notif, btPendingIntent1);
-				remoteView.setOnClickPendingIntent(R.id.two_button_notif, btPendingIntent2);
-				
-				
-				countDownTimerA = new CountDownTimer(60800, 1000) {
-
-				     public void onTick(long millisUntilFinished) {
-				    	 
-				    	extras.putLong(timeLeft, millisUntilFinished);
-						answerIntent.putExtras(extras);
-				    	 
-				    	 if ((int) (millisUntilFinished/1000) == 60) {
-								
-								mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
-								// The stack builder object will contain an artificial back stack for the
-										// started Activity.
-										// This ensures that navigating backward from the Activity leads out of
-										// your application to the Home screen.
-										TaskStackBuilder stackBuilder2 = TaskStackBuilder.create(ctx);
-										// Adds the back stack for the Intent (but not the Intent itself)
-										stackBuilder2.addParentStack(Answer.class);
-										// Adds the Intent that starts the Activity to the top of the stack
-										stackBuilder2.addNextIntent(answerIntent);
-										PendingIntent answerPendingIntent2 =
-												stackBuilder2.getPendingIntent(
-													0,
-													PendingIntent.FLAG_UPDATE_CURRENT
-												);
-										mBuilder.setContentIntent(answerPendingIntent2);
-										Notification notification = mBuilder.build();
-					    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
-					    				notification.bigContentView = remoteView;
-					    				}
-										NotificationManager mNotificationManager2 =
-											(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-										// notificationId allows you to update the notification later on.
-										mNotificationManager2.notify(notificationTag, notificationId, notification);
-						} else {
-				    	 
-						    	 switch((int) (millisUntilFinished / 1000)) {
-					    	 		case 50:
-					    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
-								        mBuilder.setTicker("50s");
-						    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 		break;
-					    	 		case 40:
-						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
-								        mBuilder.setTicker("40s");
-						    	 		mBuilder.setVibrate(new long[] { 0, 150});
-						    	 	break;
-					    	 		case 30:
-						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
-								        mBuilder.setTicker("30s");
-						    	 		mBuilder.setVibrate(new long[] { 0, 150});
-						    	 	break;
-					    	 		case 20:
-						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
-								        mBuilder.setTicker("20s");
-						    	 		mBuilder.setVibrate(new long[] { 0, 150});
-						    	 	break;
-					    	 		case 10:
-					    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
-								        mBuilder.setTicker("10s");
-						    	 		mBuilder.setVibrate(new long[] { 0, 150});
-						    	 	break;
-						    	 	default: 
-						    	 		mBuilder.setVibrate(new long[] { 0, 0});
-					    	 		}
-				    	 
-								// The stack builder object will contain an artificial back stack for the
-										// started Activity.
-										// This ensures that navigating backward from the Activity leads out of
-										// your application to the Home screen.
-										TaskStackBuilder stackBuilder2 = TaskStackBuilder.create(ctx);
-										// Adds the back stack for the Intent (but not the Intent itself)
-										stackBuilder2.addParentStack(Answer.class);
-										// Adds the Intent that starts the Activity to the top of the stack
-										stackBuilder2.addNextIntent(answerIntent);
-										PendingIntent answerPendingIntent2 =
-												stackBuilder2.getPendingIntent(
-													0,
-													PendingIntent.FLAG_UPDATE_CURRENT
-												);
-										mBuilder.setContentIntent(answerPendingIntent2);
-										Notification notification = mBuilder.build();
-					    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
-					    				notification.bigContentView = remoteView;
-					    				}
-										NotificationManager mNotificationManager2 =
-											(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-										// notificationId allows you to update the notification later on.
-										mNotificationManager2.notify(notificationTag, notificationId, notification);
-						}
-				     }
-
-				     public void onFinish() {
-				    	 
-				    	 NotificationManager manager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-				 		manager.cancel(notificationTag, notificationId);
-				    			
-				     }
-				  }.start();
-						
-				break;
-				
-			case 3:	
-				
-				remoteView.setTextViewText(R.id.answer1_notif,answer1);
-				remoteView.setTextViewText(R.id.answer2_notif,answer2);
-				remoteView.setTextViewText(R.id.answer3_notif,answer3);
-				remoteView.setViewVisibility(R.id.answer4_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.answer5_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.four_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.five_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.four_button_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.five_button_notif, View.GONE);
-				
-				remoteView.setOnClickPendingIntent(R.id.one_button_notif, btPendingIntent1);
-				remoteView.setOnClickPendingIntent(R.id.two_button_notif, btPendingIntent2);
-				remoteView.setOnClickPendingIntent(R.id.three_button_notif, btPendingIntent3);
-				
-				countDownTimerA = new CountDownTimer(60800, 1000) {
-
-				     public void onTick(long millisUntilFinished) {
-				    	 
-				    	 	extras.putLong(timeLeft, millisUntilFinished);
-							answerIntent.putExtras(extras);
-					    	 
-					    	 if ((int) (millisUntilFinished/1000) == 60) {
-				 				
-				 				mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
-				 				// The stack builder object will contain an artificial back stack for the
-				 						// started Activity.
-				 						// This ensures that navigating backward from the Activity leads out of
-				 						// your application to the Home screen.
-				 						TaskStackBuilder stackBuilder3 = TaskStackBuilder.create(ctx);
-				 						// Adds the back stack for the Intent (but not the Intent itself)
-				 						stackBuilder3.addParentStack(Answer.class);
-				 						// Adds the Intent that starts the Activity to the top of the stack
-				 						stackBuilder3.addNextIntent(answerIntent);
-				 						PendingIntent answerPendingIntent3 =
-				 								stackBuilder3.getPendingIntent(
-				 									0,
-				 									PendingIntent.FLAG_UPDATE_CURRENT
-				 								);
-				 						mBuilder.setContentIntent(answerPendingIntent3);
-				 						Notification notification = mBuilder.build();
-					    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
-					    				notification.bigContentView = remoteView;
-					    				}
-				 						NotificationManager mNotificationManager3 =
-				 							(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-				 						// notificationId allows you to update the notification later on.
-				 						mNotificationManager3.notify(notificationTag, notificationId, notification);
-				    		 
-				    	 } else { 
-				    	 
-				    		 switch((int) (millisUntilFinished / 1000)) {
-				    	 		case 50:
-				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
-							        mBuilder.setTicker("50s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-				    	 		break;
-				    	 		case 40:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
-							        mBuilder.setTicker("40s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 30:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
-							        mBuilder.setTicker("30s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 20:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
-							        mBuilder.setTicker("20s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 10:
-				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
-							        mBuilder.setTicker("10s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-					    	 	default: 
-					    	 		mBuilder.setVibrate(new long[] { 0, 0});
-				    	 		}
-				    		 
-				    		 
-								// The stack builder object will contain an artificial back stack for the
-										// started Activity.
-										// This ensures that navigating backward from the Activity leads out of
-										// your application to the Home screen.
-										TaskStackBuilder stackBuilder3 = TaskStackBuilder.create(ctx);
-										// Adds the back stack for the Intent (but not the Intent itself)
-										stackBuilder3.addParentStack(Answer.class);
-										// Adds the Intent that starts the Activity to the top of the stack
-										stackBuilder3.addNextIntent(answerIntent);
-										PendingIntent answerPendingIntent3 =
-												stackBuilder3.getPendingIntent(
-													0,
-													PendingIntent.FLAG_UPDATE_CURRENT
-												);
-										mBuilder.setContentIntent(answerPendingIntent3);
-										Notification notification = mBuilder.build();
-					    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
-					    				notification.bigContentView = remoteView;
-					    				}
-										NotificationManager mNotificationManager3 =
-											(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-										// notificationId allows you to update the notification later on.
-										mNotificationManager3.notify(notificationTag, notificationId, notification);
-				    	 }
-				     }
-
-				     public void onFinish() {
-				    	 
-				    	 NotificationManager manager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-				 		manager.cancel(notificationTag, notificationId);
-				    			
-				     }
-				  }.start();
-						
-				break;
-			case 4:
-						
-				remoteView.setTextViewText(R.id.answer1_notif,answer1);
-				remoteView.setTextViewText(R.id.answer2_notif,answer2);
-				remoteView.setTextViewText(R.id.answer3_notif,answer3);
-				remoteView.setTextViewText(R.id.answer4_notif,answer4);
-				remoteView.setViewVisibility(R.id.answer5_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.five_notif, View.GONE);
-				remoteView.setViewVisibility(R.id.five_button_notif, View.GONE);
-				
-				remoteView.setOnClickPendingIntent(R.id.one_button_notif, btPendingIntent1);
-				remoteView.setOnClickPendingIntent(R.id.two_button_notif, btPendingIntent2);
-				remoteView.setOnClickPendingIntent(R.id.three_button_notif, btPendingIntent3);
-				remoteView.setOnClickPendingIntent(R.id.four_button_notif, btPendingIntent4);
-				
-				countDownTimerA = new CountDownTimer(60800, 1000) {
-
-				     public void onTick(long millisUntilFinished) {
-				    	 
-				    	 	extras.putLong(timeLeft, millisUntilFinished);
-							answerIntent.putExtras(extras);
-					    	 
-					    	 if ((int) (millisUntilFinished/1000) == 60) {
-								
-								mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
-								// The stack builder object will contain an artificial back stack for the
-										// started Activity.
-										// This ensures that navigating backward from the Activity leads out of
-										// your application to the Home screen.
-										TaskStackBuilder stackBuilder4 = TaskStackBuilder.create(ctx);
-										// Adds the back stack for the Intent (but not the Intent itself)
-										stackBuilder4.addParentStack(Answer.class);
-										// Adds the Intent that starts the Activity to the top of the stack
-										stackBuilder4.addNextIntent(answerIntent);
-										PendingIntent answerPendingIntent4 =
-												stackBuilder4.getPendingIntent(
-													0,
-													PendingIntent.FLAG_UPDATE_CURRENT
-												);
-										mBuilder.setContentIntent(answerPendingIntent4);
-										Notification notification = mBuilder.build();
-					    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
-					    				notification.bigContentView = remoteView;
-					    				}
-										NotificationManager mNotificationManager4 =
-											(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-										// notificationId allows you to update the notification later on.
-										mNotificationManager4.notify(notificationTag, notificationId, notification);
-										
-				    	 } else {
-				    	 
-				    		 switch((int) (millisUntilFinished / 1000)) {
-				    	 		case 50:
-				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
-							        mBuilder.setTicker("50s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-				    	 		break;
-				    	 		case 40:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
-							        mBuilder.setTicker("40s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 30:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
-							        mBuilder.setTicker("30s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 20:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
-							        mBuilder.setTicker("20s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 10:
-				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
-							        mBuilder.setTicker("10s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-					    	 	default: 
-					    	 		mBuilder.setVibrate(new long[] { 0, 0});
-				    	 		}
-				    		 
-				    		 			// The stack builder object will contain an artificial back stack for the
-										// started Activity.
-										// This ensures that navigating backward from the Activity leads out of
-										// your application to the Home screen.
-										TaskStackBuilder stackBuilder4 = TaskStackBuilder.create(ctx);
-										// Adds the back stack for the Intent (but not the Intent itself)
-										stackBuilder4.addParentStack(Answer.class);
-										// Adds the Intent that starts the Activity to the top of the stack
-										stackBuilder4.addNextIntent(answerIntent);
-										PendingIntent answerPendingIntent4 =
-												stackBuilder4.getPendingIntent(
-													0,
-													PendingIntent.FLAG_UPDATE_CURRENT
-												);
-										mBuilder.setContentIntent(answerPendingIntent4);
-										Notification notification = mBuilder.build();
-					    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
-					    				notification.bigContentView = remoteView;
-					    				}
-										NotificationManager mNotificationManager4 =
-											(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-										// notificationId allows you to update the notification later on.
-										mNotificationManager4.notify(notificationTag, notificationId, notification);
-				    	 }
-				     }
-
-				     public void onFinish() {
-				    	 
-				    	 NotificationManager manager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-				 		manager.cancel(notificationTag, notificationId);
-				    			
-				     }
-				  }.start();
-				
-				break;
-			case 5:
-				
-				remoteView.setTextViewText(R.id.answer1_notif,answer1);
-				remoteView.setTextViewText(R.id.answer2_notif,answer2);
-				remoteView.setTextViewText(R.id.answer3_notif,answer3);
-				remoteView.setTextViewText(R.id.answer4_notif,answer4);
-				remoteView.setTextViewText(R.id.answer5_notif,answer5);
-				
-				remoteView.setOnClickPendingIntent(R.id.one_button_notif, btPendingIntent1);
-				remoteView.setOnClickPendingIntent(R.id.two_button_notif, btPendingIntent2);
-				remoteView.setOnClickPendingIntent(R.id.three_button_notif, btPendingIntent3);
-				remoteView.setOnClickPendingIntent(R.id.four_button_notif, btPendingIntent4);
-				remoteView.setOnClickPendingIntent(R.id.five_button_notif, btPendingIntent5);
-				
-				countDownTimerA = new CountDownTimer(60800, 1000) {
-
-				     public void onTick(long millisUntilFinished) {
-				    	 
-				    	 	extras.putLong(timeLeft, millisUntilFinished);
-							answerIntent.putExtras(extras);
-					    	 
-					    	 if ((int) (millisUntilFinished/1000) == 60) {
-				 			
-				 			mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
-				 			// The stack builder object will contain an artificial back stack for the
-				 				// started Activity.
-				 				// This ensures that navigating backward from the Activity leads out of
-				 				// your application to the Home screen.
-				 				TaskStackBuilder stackBuilder5 = TaskStackBuilder.create(ctx);
-				 				// Adds the back stack for the Intent (but not the Intent itself)
-				 				stackBuilder5.addParentStack(Answer.class);
-				 				// Adds the Intent that starts the Activity to the top of the stack
-				 				stackBuilder5.addNextIntent(answerIntent);
-				 				PendingIntent answerPendingIntent5 =
-				 						stackBuilder5.getPendingIntent(
-				 							0,
-				 							PendingIntent.FLAG_UPDATE_CURRENT
-				 						);
-				 				mBuilder.setContentIntent(answerPendingIntent5);
-				 				Notification notification = mBuilder.build();
-			    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
-			    				notification.bigContentView = remoteView;
-			    				}
-				 				NotificationManager mNotificationManager5 =
-				 					(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-				 				// notificationId allows you to update the notification later on.
-				 				mNotificationManager5.notify(notificationTag, notificationId, notification);
-				    	 
-				    	 } else {
-				    		 
-				    		 switch((int) (millisUntilFinished / 1000)) {
-				    	 		case 50:
-				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
-							        mBuilder.setTicker("50s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-				    	 		break;
-				    	 		case 40:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
-							        mBuilder.setTicker("40s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 30:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
-							        mBuilder.setTicker("30s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 20:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
-							        mBuilder.setTicker("20s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 10:
-				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
-							        mBuilder.setTicker("10s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-					    	 	default: 
-					    	 		mBuilder.setVibrate(new long[] { 0, 0});
-				    	 		}
-				 			// The stack builder object will contain an artificial back stack for the
-				 				// started Activity.
-				 				// This ensures that navigating backward from the Activity leads out of
-				 				// your application to the Home screen.
-				 				TaskStackBuilder stackBuilder5 = TaskStackBuilder.create(ctx);
-				 				// Adds the back stack for the Intent (but not the Intent itself)
-				 				stackBuilder5.addParentStack(Answer.class);
-				 				// Adds the Intent that starts the Activity to the top of the stack
-				 				stackBuilder5.addNextIntent(answerIntent);
-				 				PendingIntent answerPendingIntent5 =
-				 						stackBuilder5.getPendingIntent(
-				 							0,
-				 							PendingIntent.FLAG_UPDATE_CURRENT
-				 						);
-				 				mBuilder.setContentIntent(answerPendingIntent5);
-				 				Notification notification = mBuilder.build();
-			    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
-			    				notification.bigContentView = remoteView;
-			    				}
-				 				NotificationManager mNotificationManager5 =
-				 					(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-				 				// notificationId allows you to update the notification later on.
-				 				mNotificationManager5.notify(notificationTag, notificationId, notification);
-				    	 }
-				     }
-
-				     public void onFinish() {
-				    	 
-				    	 NotificationManager manager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-				 		manager.cancel(notificationTag, notificationId);
-				    			
-				     }
-				  }.start();
-				
-			break;
+			int[] answerNotifs = {R.id.answer1_notif, R.id.answer2_notif, R.id.answer3_notif, R.id.answer4_notif, R.id.answer5_notif};
+			int[] numberNotifs = {R.id.one_notif, R.id.two_notif, R.id.three_notif, R.id.four_notif, R.id.five_notif};
+			int[] numberButtonNotifs = {R.id.one_button_notif, R.id.two_button_notif, R.id.three_button_notif, R.id.four_button_notif, R.id.five_button_notif};
+			String[] answers = {answer1, answer2, answer3, answer4, answer5};
+			
+			for (int j = 0; j < nbrA; j++) {
+				remoteView.setTextViewText(answerNotifs[j],answers[j]);
+				remoteView.setOnClickPendingIntent(numberButtonNotifs[j], btPendingIntents[j]);
 			}
+			for (int j = nbrA; j < 5; j++) {
+				remoteView.setViewVisibility(answerNotifs[j], View.GONE);
+				remoteView.setViewVisibility(numberNotifs[j], View.GONE);
+				remoteView.setViewVisibility(numberButtonNotifs[j], View.GONE);
+			}
+				
+			countDownTimerA = new CountDownTimer(60800, 1000) {
+
+			     public void onTick(long millisUntilFinished) {
+			    	 
+			    	extras.putLong(timeLeft, millisUntilFinished);
+					answerIntent.putExtras(extras);
+			    	 
+			    	 if ((int) (millisUntilFinished/1000) == 60) {
+							
+							mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
+							// The stack builder object will contain an artificial back stack for the
+									// started Activity.
+									// This ensures that navigating backward from the Activity leads out of
+									// your application to the Home screen.
+									TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
+									// Adds the back stack for the Intent (but not the Intent itself)
+									stackBuilder.addParentStack(Answer.class);
+									// Adds the Intent that starts the Activity to the top of the stack
+									stackBuilder.addNextIntent(answerIntent);
+									PendingIntent answerPendingIntent =
+											stackBuilder.getPendingIntent(
+												0,
+												PendingIntent.FLAG_UPDATE_CURRENT
+											);
+									mBuilder.setContentIntent(answerPendingIntent);
+									Notification notification = mBuilder.build();
+				    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
+				    				notification.bigContentView = remoteView;
+				    				}
+									NotificationManager mNotificationManager =
+										(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+									// notificationId allows you to update the notification later on.
+									mNotificationManager.notify(notificationTag, notificationId, notification);
+					} else {
+			    	 
+					    	 switch((int) (millisUntilFinished / 1000)) {
+				    	 		case 50:
+				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
+							        mBuilder.setTicker("50s");
+					    	 		mBuilder.setVibrate(new long[] { 0, 150});
+				    	 		break;
+				    	 		case 40:
+					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
+							        mBuilder.setTicker("40s");
+					    	 		mBuilder.setVibrate(new long[] { 0, 150});
+					    	 	break;
+				    	 		case 30:
+					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
+							        mBuilder.setTicker("30s");
+					    	 		mBuilder.setVibrate(new long[] { 0, 150});
+					    	 	break;
+				    	 		case 20:
+					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
+							        mBuilder.setTicker("20s");
+					    	 		mBuilder.setVibrate(new long[] { 0, 150});
+					    	 	break;
+				    	 		case 10:
+				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
+							        mBuilder.setTicker("10s");
+					    	 		mBuilder.setVibrate(new long[] { 0, 150});
+					    	 	break;
+					    	 	default: 
+					    	 		mBuilder.setVibrate(new long[] { 0, 0});
+				    	 		}
+			    	 
+							// The stack builder object will contain an artificial back stack for the
+									// started Activity.
+									// This ensures that navigating backward from the Activity leads out of
+									// your application to the Home screen.
+									TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
+									// Adds the back stack for the Intent (but not the Intent itself)
+									stackBuilder.addParentStack(Answer.class);
+									// Adds the Intent that starts the Activity to the top of the stack
+									stackBuilder.addNextIntent(answerIntent);
+									PendingIntent answerPendingIntent =
+											stackBuilder.getPendingIntent(
+												0,
+												PendingIntent.FLAG_UPDATE_CURRENT
+											);
+									mBuilder.setContentIntent(answerPendingIntent);
+									Notification notification = mBuilder.build();
+				    				if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN){
+				    				notification.bigContentView = remoteView;
+				    				}
+									NotificationManager mNotificationManager =
+										(NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+									// notificationId allows you to update the notification later on.
+									mNotificationManager.notify(notificationTag, notificationId, notification);
+					}
+			     }
+
+			     public void onFinish() {
+			    	 
+			    	 NotificationManager manager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+			 		manager.cancel(notificationTag, notificationId);
+			    			
+			     }
+			     
+			}.start();
 			
 		  };
 
@@ -732,8 +347,10 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras.putString(createdAt, creationDate);
 			resultsIntent.putExtras(extras);
 			
-			Intent quickIntent1 = new Intent(ctx, ResultsNotificationActivity.class);
-			Bundle extras1 = new Bundle();
+			Intent[] quickIntents = new Intent[2];
+			PendingIntent[] btPendingIntents = new PendingIntent[2];
+
+			final Bundle extras1 = new Bundle();
 			extras1.putString(ID, questionId);
 			extras1.putInt(nID,notificationId);
 			extras1.putString(tag,notificationTag);
@@ -741,110 +358,44 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			extras1.putBoolean(group, grp);
 			extras1.putString(askerUsername, askerU);
 			extras1.putString(groupname, grpname);
-			extras1.putInt(saveOrUnsubscribeOrLeave, 1);
-			quickIntent1.putExtras(extras1);
-			PendingIntent btPendingIntent1 = PendingIntent.getBroadcast(ctx, 31, quickIntent1, PendingIntent.FLAG_UPDATE_CURRENT);
 			
-			Intent quickIntent2 = new Intent(ctx, ResultsNotificationActivity.class);
-			Bundle extras2 = new Bundle();
-			extras2.putString(ID, questionId);
-			extras2.putInt(nID,notificationId);
-			extras2.putString(tag,notificationTag);
-			extras2.putBoolean(subscribersOnly, subOnly);
-			extras1.putBoolean(group, grp);
-			extras2.putString(askerUsername, askerU);
-			extras1.putString(groupname, grpname);
-			extras2.putInt(saveOrUnsubscribeOrLeave, 2);
-			quickIntent2.putExtras(extras2);
-			PendingIntent btPendingIntent2 = PendingIntent.getBroadcast(ctx, 32, quickIntent2, PendingIntent.FLAG_UPDATE_CURRENT);
+			for (int j = 0; j < 2; j++) {
+				quickIntents[j] = new Intent(ctx, ResultsNotificationActivity.class);
+				extras1.putInt(saveOrUnsubscribeOrLeave, j+1);
+				quickIntents[j].putExtras(extras1);
+				btPendingIntents[j] = PendingIntent.getBroadcast(ctx, 31+j, quickIntents[j], PendingIntent.FLAG_UPDATE_CURRENT);
+			}
 			
 			final RemoteViews remoteView = new RemoteViews("com.spersio.opinions", R.layout.custom_notification_results);
-			
+
 			remoteView.setTextViewText(R.id.question_view_r_notif, qText);
 			
 			if (subOnly | grp) {
 				remoteView.setImageViewResource(R.id.unsubscribe_button_notif, R.drawable.ic_unsubscribe);
 			}
 			
-			switch (nbrA) {
-				case 2:
-					remoteView.setTextViewText(R.id.answer1_r_notif,answer1);
-					remoteView.setTextViewText(R.id.answer2_r_notif,answer2);
-					remoteView.setTextViewText(R.id.n_answer1_notif,nAnswer1.toString());
-					remoteView.setTextViewText(R.id.n_answer2_notif,nAnswer2.toString());
-					remoteView.setTextViewText(R.id.pc1_notif,String.valueOf((double)Math.round(pcAnswer1 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc2_notif,String.valueOf((double)Math.round(pcAnswer2 * 10) / 10) + "%");
-					remoteView.setViewVisibility(R.id.n_answer3_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.n_answer4_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.n_answer5_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.pc3_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.pc4_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.pc5_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.answer3_r_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.answer4_r_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.answer5_r_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.three_r_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.four_r_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.five_r_notif, View.GONE);
-				break;
-				case 3:
-					remoteView.setTextViewText(R.id.answer1_r_notif,answer1);
-					remoteView.setTextViewText(R.id.answer2_r_notif,answer2);
-					remoteView.setTextViewText(R.id.answer3_r_notif,answer3);
-					remoteView.setTextViewText(R.id.n_answer1_notif,nAnswer1.toString());
-					remoteView.setTextViewText(R.id.n_answer2_notif,nAnswer2.toString());
-					remoteView.setTextViewText(R.id.n_answer3_notif,nAnswer3.toString());
-					remoteView.setTextViewText(R.id.pc1_notif,String.valueOf((double)Math.round(pcAnswer1 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc2_notif,String.valueOf((double)Math.round(pcAnswer2 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc3_notif,String.valueOf((double)Math.round(pcAnswer3 * 10) / 10) + "%");
-					remoteView.setViewVisibility(R.id.n_answer4_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.n_answer5_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.pc4_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.pc5_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.answer4_r_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.answer5_r_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.four_r_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.five_r_notif, View.GONE);
-				break;
-				case 4:
-					remoteView.setTextViewText(R.id.answer1_r_notif,answer1);
-					remoteView.setTextViewText(R.id.answer2_r_notif,answer2);
-					remoteView.setTextViewText(R.id.answer3_r_notif,answer3);
-					remoteView.setTextViewText(R.id.answer4_r_notif,answer4);
-					remoteView.setTextViewText(R.id.n_answer1_notif,nAnswer1.toString());
-					remoteView.setTextViewText(R.id.n_answer2_notif,nAnswer2.toString());
-					remoteView.setTextViewText(R.id.n_answer3_notif,nAnswer3.toString());
-					remoteView.setTextViewText(R.id.n_answer4_notif,nAnswer4.toString());
-					remoteView.setTextViewText(R.id.pc1_notif,String.valueOf((double)Math.round(pcAnswer1 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc2_notif,String.valueOf((double)Math.round(pcAnswer2 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc3_notif,String.valueOf((double)Math.round(pcAnswer3 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc4_notif,String.valueOf((double)Math.round(pcAnswer4 * 10) / 10) + "%");
-					remoteView.setViewVisibility(R.id.n_answer5_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.pc5_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.answer5_r_notif, View.GONE);
-					remoteView.setViewVisibility(R.id.five_r_notif, View.GONE);
-				break;
-				case 5:
-					remoteView.setTextViewText(R.id.answer1_r_notif,answer1);
-					remoteView.setTextViewText(R.id.answer2_r_notif,answer2);
-					remoteView.setTextViewText(R.id.answer3_r_notif,answer3);
-					remoteView.setTextViewText(R.id.answer4_r_notif,answer4);
-					remoteView.setTextViewText(R.id.answer5_r_notif,answer5);
-					remoteView.setTextViewText(R.id.n_answer1_notif,nAnswer1.toString());
-					remoteView.setTextViewText(R.id.n_answer2_notif,nAnswer2.toString());
-					remoteView.setTextViewText(R.id.n_answer3_notif,nAnswer3.toString());
-					remoteView.setTextViewText(R.id.n_answer4_notif,nAnswer4.toString());
-					remoteView.setTextViewText(R.id.n_answer5_notif,nAnswer5.toString());
-					remoteView.setTextViewText(R.id.pc1_notif,String.valueOf((double)Math.round(pcAnswer1 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc2_notif,String.valueOf((double)Math.round(pcAnswer2 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc3_notif,String.valueOf((double)Math.round(pcAnswer3 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc4_notif,String.valueOf((double)Math.round(pcAnswer4 * 10) / 10) + "%");
-					remoteView.setTextViewText(R.id.pc5_notif,String.valueOf((double)Math.round(pcAnswer5 * 10) / 10) + "%");
-				break;
+			int[] answerNotifs = {R.id.answer1_r_notif, R.id.answer2_r_notif, R.id.answer3_r_notif, R.id.answer4_r_notif, R.id.answer5_r_notif};
+			int[] numberNotifs = {R.id.one_r_notif, R.id.two_r_notif, R.id.three_r_notif, R.id.four_r_notif, R.id.five_r_notif};
+			int[] nAnswerNotifs = {R.id.n_answer1_notif, R.id.n_answer2_notif, R.id.n_answer3_notif, R.id.n_answer4_notif, R.id.n_answer5_notif};
+			int[] pcNotifs = {R.id.pc1_notif, R.id.pc2_notif, R.id.pc3_notif, R.id.pc4_notif, R.id.pc5_notif};
+			String[] answers = {answer1, answer2, answer3, answer4, answer5};
+			Integer[] nAnswers = {nAnswer1, nAnswer2, nAnswer3, nAnswer4, nAnswer5};
+			double[] pcAnswers = {pcAnswer1, pcAnswer2, pcAnswer3, pcAnswer4, pcAnswer5};
+			
+			for (int j = 0; j < nbrA; j++) {
+				remoteView.setTextViewText(answerNotifs[j],answers[j]);
+				remoteView.setTextViewText(nAnswerNotifs[j],nAnswers[j].toString());
+				remoteView.setTextViewText(pcNotifs[j],String.valueOf((double)Math.round(pcAnswers[j] * 10) / 10) + "%");
+			}
+			for (int j = nbrA; j < 5; j++) {
+				remoteView.setViewVisibility(answerNotifs[j], View.GONE);
+				remoteView.setViewVisibility(numberNotifs[j], View.GONE);
+				remoteView.setViewVisibility(pcNotifs[j], View.GONE);
+				remoteView.setViewVisibility(nAnswerNotifs[j], View.GONE);
 			}
 			
-			remoteView.setOnClickPendingIntent(R.id.saveResults_button_notif, btPendingIntent1);
-			remoteView.setOnClickPendingIntent(R.id.unsubscribe_button_notif, btPendingIntent2);
+			remoteView.setOnClickPendingIntent(R.id.saveResults_button_notif, btPendingIntents[0]);
+			remoteView.setOnClickPendingIntent(R.id.unsubscribe_button_notif, btPendingIntents[1]);
 			
 			NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(ctx)

@@ -1,6 +1,5 @@
 package com.spersio.opinions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -215,26 +214,9 @@ public class Ask extends ActionBarActivity {
 		        }
 		    });
 
-			final ArrayList<TextView> answerTextViews = new ArrayList<TextView>();
-			answerTextViews.add(answer1);
-			answerTextViews.add(answer2);
-			answerTextViews.add(answer3);
-			answerTextViews.add(answer4);
-			answerTextViews.add(answer5);
-
-			final ArrayList<ImageButton> deleteImageButtons = new ArrayList<ImageButton>();
-			deleteImageButtons.add(delete1);
-			deleteImageButtons.add(delete2);
-			deleteImageButtons.add(delete3);
-			deleteImageButtons.add(delete4);
-			deleteImageButtons.add(delete5);
-
-			final ArrayList<ImageView> numberImageViews = new ArrayList<ImageView>();
-			numberImageViews.add(one);
-			numberImageViews.add(two);
-			numberImageViews.add(three);
-			numberImageViews.add(four);
-			numberImageViews.add(five);
+			final TextView[] answerTextViews = {answer1, answer2, answer3, answer4, answer5};
+			final ImageButton[] deleteImageButtons = {delete1, delete2, delete3, delete4, delete5};
+			final ImageView[] numberImageViews = {one, two, three, four, five};
 			
 			findViewById(R.id.answer_add).setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
@@ -244,13 +226,13 @@ public class Ask extends ActionBarActivity {
 						if (nbrAnswers<5) {
 							Toast.makeText(Ask.this, getResources().getString(R.string.answer_added), Toast.LENGTH_SHORT)
 							.show();	
-						  	answerTextViews.get(nbrAnswers).setText(answerSubmit.getText().toString());
-						  	answerTextViews.get(nbrAnswers).setVisibility(View.VISIBLE);
+						  	answerTextViews[nbrAnswers].setText(answerSubmit.getText().toString());
+						  	answerTextViews[nbrAnswers].setVisibility(View.VISIBLE);
 						  	if (nbrAnswers > 0) {
-						  		answerTextViews.get(nbrAnswers).requestFocus();
+						  		answerTextViews[nbrAnswers].requestFocus();
 						  	}
-						  	deleteImageButtons.get(nbrAnswers).setVisibility(View.VISIBLE);
-						  	numberImageViews.get(nbrAnswers).setVisibility(View.VISIBLE);
+						  	deleteImageButtons[nbrAnswers].setVisibility(View.VISIBLE);
+						  	numberImageViews[nbrAnswers].setVisibility(View.VISIBLE);
 						  	nbrAnswers=nbrAnswers+1;
 						} else {
 							Toast.makeText(Ask.this, getResources().getString(R.string.answers_max), Toast.LENGTH_LONG)
@@ -476,7 +458,7 @@ public class Ask extends ActionBarActivity {
 						if (nbrAnswers > 1 && nbrAnswers < 6) {
 							
 							for (int i = 1; i < nbrAnswers +1; i ++) {
-								params.put("answer" + i, answerTextViews.get(i-1).getText().toString());
+								params.put("answer" + i, answerTextViews[i-1].getText().toString());
 							}
 							
 							final ProgressDialog dlg = new ProgressDialog(Ask.this);
@@ -578,16 +560,16 @@ public class Ask extends ActionBarActivity {
     }
     
 
-	public int delete_answer(int answer, int nbrAnswers, ArrayList<TextView> answerTextViews, List<ImageButton> deleteImageButtons, List<ImageView> numberImageViews) {
-		if (!answerTextViews.get(answer - 1).getText().toString().equals("") && answerTextViews.get(answer - 1).getText().toString()!=null ){
+	public int delete_answer(int answer, int nbrAnswers, TextView[] answerTextViews, ImageButton[] deleteImageButtons, ImageView[] numberImageViews) {
+		if (!answerTextViews[answer-1].getText().toString().equals("") && answerTextViews[answer-1].getText().toString()!=null ){
 			if (nbrAnswers > 0 && nbrAnswers < 6) {
 				for (int i = answer-1; i < nbrAnswers - 1; i++) {
-					answerTextViews.get(i).setText(answerTextViews.get(i+1).getText().toString());
+					answerTextViews[i].setText(answerTextViews[i+1].getText().toString());
 				}
-				answerTextViews.get(nbrAnswers-1).setText("");
-				answerTextViews.get(nbrAnswers-1).setVisibility(View.GONE);
-				deleteImageButtons.get(nbrAnswers-1).setVisibility(View.GONE);
-				numberImageViews.get(nbrAnswers-1).setVisibility(View.GONE);
+				answerTextViews[nbrAnswers-1].setText("");
+				answerTextViews[nbrAnswers-1].setVisibility(View.GONE);
+				deleteImageButtons[nbrAnswers-1].setVisibility(View.GONE);
+				numberImageViews[nbrAnswers-1].setVisibility(View.GONE);
 				return nbrAnswers - 1;
 			} else {
 				Toast.makeText(Ask.this, getResources().getString(R.string.no_answer_to_delete), Toast.LENGTH_LONG)
