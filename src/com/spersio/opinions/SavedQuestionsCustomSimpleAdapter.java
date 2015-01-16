@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -98,56 +97,47 @@ public class SavedQuestionsCustomSimpleAdapter extends SimpleAdapter {
 					
 					HashMap<String, Object> question = SavedQuestionsCustomSimpleAdapter.listMap.get(holder.position);
 					
+					String[] answers = {question.get("answer1").toString(),
+										question.get("answer2").toString(),
+										question.get("answer3").toString(),
+										question.get("answer4").toString(),
+										question.get("answer5").toString()};
+		
+					int[] numberForAnswer = {(int) question.get("nA1"),
+											(int) question.get("nA2"),
+											(int) question.get("nA3"),
+											(int) question.get("nA4"),
+											(int) question.get("nA5")};
+					
+					double[] percentageForAnswer = new double[5];
+					String[] pcStrings = {"pcA1", "pcA2", "pcA3", "pcA4", "pcA5"};
+					
+					for (int i=0; i< 5; i++) {
+						if (question.get(pcStrings[i]) instanceof Integer) {
+							percentageForAnswer[i] = ((Integer) question.get(pcStrings[i])).doubleValue();
+							} else {
+							percentageForAnswer[i] = (double) (question.get(pcStrings[i]));
+						}
+					}
+					
+					Question questionForResults = new Question(question.get("questionID").toString(),
+							question.get("questionText").toString(),
+							"noTag",
+							question.get("askerUsername").toString(),
+							question.get("groupname").toString(),
+							question.get("createdAt").toString(),
+							(int) question.get("nbrAnswers"),
+							(int) question.get("nA"),
+							0,
+							answers,
+							numberForAnswer,
+							percentageForAnswer,
+							(boolean) question.get("group"),
+							(boolean) question.get("subscribersOnly"),
+							true);
+					
 					Intent intent = new Intent(context, Results.class);
-					
-					Bundle extras = new Bundle();
-					extras.putString(CustomPushReceiver.ID, question.get("questionID").toString());
-					extras.putString(CustomPushReceiver.text, question.get("questionText").toString());
-					extras.putInt(CustomPushReceiver.nbrAnswers, (int) question.get("nbrAnswers"));
-					extras.putString(CustomPushReceiver.A1, question.get("answer1").toString());
-					extras.putString(CustomPushReceiver.A2, question.get("answer2").toString());
-					extras.putString(CustomPushReceiver.A3, question.get("answer3").toString());
-					extras.putString(CustomPushReceiver.A4, question.get("answer4").toString());
-					extras.putString(CustomPushReceiver.A5, question.get("answer5").toString());
-					extras.putInt(CustomPushReceiver.nA, (int) question.get("nA"));
-					extras.putInt(CustomPushReceiver.nA1, (int) question.get("nA1"));
-					extras.putInt(CustomPushReceiver.nA2, (int) question.get("nA2"));
-					extras.putInt(CustomPushReceiver.nA3, (int) question.get("nA3"));
-					extras.putInt(CustomPushReceiver.nA4, (int) question.get("nA4"));
-					extras.putInt(CustomPushReceiver.nA5, (int) question.get("nA5"));
-					if (question.get("pcA1") instanceof Integer) {
-					extras.putDouble(CustomPushReceiver.pcA1, ((Integer) question.get("pcA1")).doubleValue());
-					} else {
-					extras.putDouble(CustomPushReceiver.pcA1, (double) (question.get("pcA1")));
-					}
-					if (question.get("pcA2") instanceof Integer) {
-					extras.putDouble(CustomPushReceiver.pcA2, ((Integer) question.get("pcA2")).doubleValue());
-					} else {
-					extras.putDouble(CustomPushReceiver.pcA2, (double) (question.get("pcA2")));
-					}
-					if (question.get("pcA3") instanceof Integer) {
-					extras.putDouble(CustomPushReceiver.pcA3, ((Integer) question.get("pcA3")).doubleValue());
-					} else {
-					extras.putDouble(CustomPushReceiver.pcA3, (double) (question.get("pcA3")));
-					}
-					if (question.get("pcA4") instanceof Integer) {
-					extras.putDouble(CustomPushReceiver.pcA4, ((Integer) question.get("pcA4")).doubleValue());
-					} else {
-					extras.putDouble(CustomPushReceiver.pcA4, (double) (question.get("pcA4")));
-					}
-					if (question.get("pcA5") instanceof Integer) {
-					extras.putDouble(CustomPushReceiver.pcA5, ((Integer) question.get("pcA5")).doubleValue());
-					} else {
-					extras.putDouble(CustomPushReceiver.pcA5, (double) (question.get("pcA5")));
-					}
-					extras.putBoolean(CustomPushReceiver.subscribersOnly, (boolean) question.get("subscribersOnly"));
-					extras.putBoolean(CustomPushReceiver.group, (boolean) question.get("group"));
-					extras.putString(CustomPushReceiver.askerUsername, question.get("askerUsername").toString());
-					extras.putString(CustomPushReceiver.groupname, question.get("groupname").toString());
-					extras.putBoolean(CustomPushReceiver.savedQuestion, true);
-					extras.putString(CustomPushReceiver.createdAt, question.get("createdAt").toString());
-					
-					intent.putExtras(extras);
+					intent.putExtra(CustomPushReceiver.questionKey, questionForResults);
 					
 					context.startActivity(intent);
 						

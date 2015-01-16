@@ -73,9 +73,9 @@ public class Results extends ActionBarActivity {
 	
 	String questionID = null;
 	String askerUsername = null;
-	String groupname = null;
-	int nId = 0;
-	String tag = null;
+	String groupName = null;
+	int notificationID = 0;
+	String notificationTag = null;
 	Boolean subscribersOnly = null;
 	Boolean group = null;
 	
@@ -91,7 +91,7 @@ public class Results extends ActionBarActivity {
 		uiHelper.onCreate(savedInstanceState);
 		
 		questionID = null;
-		nId = 0;
+		notificationID = 0;
 		
 		overridePendingTransition(0, 0);
 		
@@ -169,49 +169,30 @@ public class Results extends ActionBarActivity {
 		final ParseUser currentUser = ParseUser.getCurrentUser();
 		if (currentUser != null) {
 	    
-	    Bundle extras = getIntent().getExtras();
-		questionID = extras.getString(CustomPushReceiver.ID);
-		nId = extras.getInt(CustomPushReceiver.nID);
-		tag = extras.getString(CustomPushReceiver.tag);
-		subscribersOnly = extras.getBoolean(CustomPushReceiver.subscribersOnly);
-		group = extras.getBoolean(CustomPushReceiver.group);
-		groupname = extras.getString(CustomPushReceiver.groupname);
-		final int nbrAnswers = extras.getInt(CustomPushReceiver.nbrAnswers);
-		askerUsername = extras.getString(CustomPushReceiver.askerUsername);
-		final String A1 = extras.getString(CustomPushReceiver.A1);
-		final String A2 = extras.getString(CustomPushReceiver.A2);
-		final String A3 = extras.getString(CustomPushReceiver.A3);
-		final String A4 = extras.getString(CustomPushReceiver.A4);
-		final String A5 = extras.getString(CustomPushReceiver.A5);
-		final int NA1 = extras.getInt(CustomPushReceiver.nA1);
-		final int NA2 = extras.getInt(CustomPushReceiver.nA2);
-		final int NA3 = extras.getInt(CustomPushReceiver.nA3);
-		final int NA4 = extras.getInt(CustomPushReceiver.nA4);
-		final int NA5 = extras.getInt(CustomPushReceiver.nA5);
-		final int nA = extras.getInt(CustomPushReceiver.nA);
-		final double pcA1 = extras.getDouble(CustomPushReceiver.pcA1);
-		final double pcA2 = extras.getDouble(CustomPushReceiver.pcA2);
-		final double pcA3 = extras.getDouble(CustomPushReceiver.pcA3);
-		final double pcA4 = extras.getDouble(CustomPushReceiver.pcA4);
-		final double pcA5 = extras.getDouble(CustomPushReceiver.pcA5);
-		final String qText = extras.getString(CustomPushReceiver.text);		
-		final Boolean savedQuestion = extras.getBoolean(CustomPushReceiver.savedQuestion);
-		final String creationTime = extras.getString(CustomPushReceiver.createdAt);
+	    Question question = getIntent().getParcelableExtra(CustomPushReceiver.questionKey);
+	    
+		questionID = question.questionID;
+		notificationID = question.notificationID;
+		notificationTag = question.notificationTag;
+		subscribersOnly = question.subscribersOnly;
+		group = question.group;
+		groupName = question.groupName;
+		askerUsername = question.askerUsername;
 		
 		if (subscribersOnly) {
 			askerInfo.setText(getResources().getString(R.string.question_asked_by) + askerUsername + getResources().getString(R.string.to_subscribers));
 		} else if (group) {
-			askerInfo.setText(getResources().getString(R.string.question_asked_by) + askerUsername + getResources().getString(R.string.to_group) + groupname);
+			askerInfo.setText(getResources().getString(R.string.question_asked_by) + askerUsername + getResources().getString(R.string.to_group) + groupName);
 		}
-		dateInfo.setText(creationTime);
-		questionText.setText(qText);	
-		String total_n = String.valueOf(nA);
+		dateInfo.setText(question.createdAt);
+		questionText.setText(question.text);	
+		String total_n = String.valueOf(question.numberOfResponses);
 		total.setText(total_n);
 		pcTotal.setText("100%");
 		total.setVisibility(View.VISIBLE);
 		pcTotal.setVisibility(View.VISIBLE);
 		
-		if (savedQuestion) {
+		if (question.savedQuestion) {
 			backToHome.setVisibility(View.GONE);
 			ActionBar actionBar = getSupportActionBar();
 	        actionBar.setDisplayHomeAsUpEnabled(true);
@@ -230,16 +211,12 @@ public class Results extends ActionBarActivity {
 		TextView[] pcTextViews = {pc1, pc2, pc3, pc4, pc5};
 		ImageView[] numberImageViews = {one, two, three, four, five};
 		
-		String[] answersTable = {A1, A2, A3, A4, A5};
-		int[] nATable = {NA1, NA2, NA3, NA4, NA5};
-		double[] pcTable = {pcA1, pcA2, pcA3, pcA4, pcA5};
+		if (question.nbrAnswers > 1 && question.nbrAnswers < 6) {
 		
-		if (nbrAnswers > 1 && nbrAnswers < 6) {
-		
-			for (int i=0; i< nbrAnswers; i++) {
-				answerTextViews[i].setText(answersTable[i]);
-				nATextViews[i].setText(String.valueOf(nATable[i]));
-				pcTextViews[i].setText(String.valueOf((double)Math.round(pcTable[i] * 100) / 100) + "%");
+			for (int i=0; i< question.nbrAnswers; i++) {
+				answerTextViews[i].setText(question.answers[i]);
+				nATextViews[i].setText(String.valueOf(question.numberForAnswer[i]));
+				pcTextViews[i].setText(String.valueOf((double)Math.round(question.percentageForAnswer[i] * 100) / 100) + "%");
 	
 				answerTextViews[i].setVisibility(View.VISIBLE);
 				nATextViews[i].setVisibility(View.VISIBLE);
@@ -284,14 +261,18 @@ public class Results extends ActionBarActivity {
 				if (subscribersOnly) {
 					if (listChannels.contains("User_" + askerUsername)) {
 						unsubscribe.setText(getResources().getString(R.string.unsubscribe_from) + askerUsername + getResources().getString(R.string.s_questions));
+						unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
 					} else {
 						unsubscribe.setText(getResources().getString(R.string.resubscribe_to) + askerUsername + getResources().getString(R.string.s_questions));
+						unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));
 					}
 				} else if (group) {
-					if (listChannels.contains("Group_" + groupname)) {
-						unsubscribe.setText(getResources().getString(R.string.leave_group) + groupname);	
+					if (listChannels.contains("Group_" + groupName)) {
+						unsubscribe.setText(getResources().getString(R.string.leave_group) + groupName);
+						unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
 					} else {
-						unsubscribe.setText(getResources().getString(R.string.rejoin_group) + groupname);	
+						unsubscribe.setText(getResources().getString(R.string.rejoin_group) + groupName);
+						unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));	
 					}
 				} else {
 					// Invalid question
@@ -360,7 +341,7 @@ public class Results extends ActionBarActivity {
 					    dlg.setMessage(getResources().getString(R.string.saving_results));
 					    dlg.show();
 					    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-						manager.cancel(tag, nId);
+						manager.cancel(notificationTag, notificationID);
 					    ParseRelation<ParseObject> relation = currentUser.getRelation("savedQuestions");
 					    relation.add(ParseObject.createWithoutData("Question", questionID));
 					    currentUser.saveInBackground();
@@ -383,7 +364,7 @@ public class Results extends ActionBarActivity {
 					    dlg.setMessage(getResources().getString(R.string.unsubscribing));
 					    dlg.show();
 					    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-						manager.cancel(tag, nId);
+						manager.cancel(notificationTag, notificationID);
 						HashMap<String, List<String>> params = new HashMap<String, List<String>>();
 						ArrayList<String> usernames = new ArrayList<String>();
 						usernames.add(askerUsername);
@@ -422,7 +403,7 @@ public class Results extends ActionBarActivity {
 					    dlg.setMessage(getResources().getString(R.string.resubscribing));
 					    dlg.show();
 					    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-						manager.cancel(tag, nId);
+						manager.cancel(notificationTag, notificationID);
 						HashMap<String, Object> params = new HashMap<String, Object>();
 						params.put("username", askerUsername);
 						ParseCloud.callFunctionInBackground("addSubscriber", params, new FunctionCallback<Object>() {
@@ -446,15 +427,15 @@ public class Results extends ActionBarActivity {
 								   }
 							   }
 							});
-						} else if (unsubscribe.getText().toString().equals(getResources().getString(R.string.leave_group) + groupname)) {
+						} else if (unsubscribe.getText().toString().equals(getResources().getString(R.string.leave_group) + groupName)) {
 							final ProgressDialog dlg = new ProgressDialog(Results.this);
 						    dlg.setTitle(getResources().getString(R.string.please_wait));
 						    dlg.setMessage(getResources().getString(R.string.leaving));
 						    dlg.show();
 						    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-							manager.cancel(tag, nId);
+							manager.cancel(notificationTag, notificationID);
 							HashMap<String, Object> params = new HashMap<String, Object>();
-							params.put("groupname", groupname);
+							params.put("groupname", groupName);
 							ParseCloud.callFunctionInBackground("subtractMember", params, new FunctionCallback<Object>() {
 								   public void done(Object object, ParseException e) {
 									   if (e == null) {
@@ -462,53 +443,53 @@ public class Results extends ActionBarActivity {
 										    List<String> list = currentUser.getList("joinedGroups");
 										    List<String> listChannels = currentUser.getList("channels");
 											
-										    listChannels.remove("Group_" + groupname);
-											list.remove(groupname);
+										    listChannels.remove("Group_" + groupName);
+											list.remove(groupName);
 											currentUser.put("channels", listChannels);
 											currentUser.put("joinedGroups", list);
 											
 											currentUser.saveInBackground();
 											
 										unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_subscribe_big));
-										unsubscribe.setText(getResources().getString(R.string.rejoin_group) + groupname);
+										unsubscribe.setText(getResources().getString(R.string.rejoin_group) + groupName);
 										dlg.dismiss();
-										Toast.makeText(Results.this, getResources().getString(R.string.left_group) + groupname, Toast.LENGTH_SHORT)
+										Toast.makeText(Results.this, getResources().getString(R.string.left_group) + groupName, Toast.LENGTH_SHORT)
 										.show();
 									   } else {
 										dlg.dismiss();
-										Toast.makeText(Results.this, getResources().getString(R.string.unable_to_leave) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+										Toast.makeText(Results.this, getResources().getString(R.string.unable_to_leave) + groupName + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
 										.show();
 									   }
 								   }
 								});
 							
-						} else if (unsubscribe.getText().toString().equals(getResources().getString(R.string.rejoin_group) + groupname)){
+						} else if (unsubscribe.getText().toString().equals(getResources().getString(R.string.rejoin_group) + groupName)){
 							
 							final ProgressDialog dlg = new ProgressDialog(Results.this);
 						    dlg.setTitle(getResources().getString(R.string.please_wait));
 						    dlg.setMessage(getResources().getString(R.string.rejoining));
 						    dlg.show();
 						    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-							manager.cancel(tag, nId);
+							manager.cancel(notificationTag, notificationID);
 							HashMap<String, Object> params = new HashMap<String, Object>();
-							params.put("groupname", groupname);
+							params.put("groupname", groupName);
 							ParseCloud.callFunctionInBackground("addMember", params, new FunctionCallback<Object>() {
 								   public void done(Object object, ParseException e) {
 									   if (e == null) {
 										    
-									    currentUser.addUnique("joinedGroups", groupname);
-									    currentUser.addUnique("channels", "Group_" + groupname);
+									    currentUser.addUnique("joinedGroups", groupName);
+									    currentUser.addUnique("channels", "Group_" + groupName);
 									    
 										currentUser.saveInBackground();
 										
 										unsubscribeButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_unsubscribe_big));
-										unsubscribe.setText(getResources().getString(R.string.leave_group) + groupname);
+										unsubscribe.setText(getResources().getString(R.string.leave_group) + groupName);
 										dlg.dismiss();
-										Toast.makeText(Results.this, getResources().getString(R.string.rejoined_group) + groupname, Toast.LENGTH_SHORT)
+										Toast.makeText(Results.this, getResources().getString(R.string.rejoined_group) + groupName, Toast.LENGTH_SHORT)
 										.show();
 									   } else {
 										dlg.dismiss();
-										Toast.makeText(Results.this, getResources().getString(R.string.unable_to_rejoin) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+										Toast.makeText(Results.this, getResources().getString(R.string.unable_to_rejoin) + groupName + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
 										.show();
 									   }
 								   }
@@ -521,7 +502,7 @@ public class Results extends ActionBarActivity {
 				findViewById(R.id.backToHome_button).setOnClickListener(new View.OnClickListener() {
 					public void onClick(View view) {
 						NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-						manager.cancel(tag, nId);
+						manager.cancel(notificationTag, notificationID);
 						Intent intent = new Intent(Results.this,Home.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(intent);

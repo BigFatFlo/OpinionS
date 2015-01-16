@@ -22,8 +22,6 @@ import com.parse.ParseUser;
 
 public class SavedQuestions extends ActionBarActivity{
 	
-	//TextView username= null;
-	
 	ListView savedQuestionsView = null;
 	
 	Integer page = 0;
@@ -35,8 +33,6 @@ public class SavedQuestions extends ActionBarActivity{
         overridePendingTransition(0, 0);
 
         setContentView(R.layout.activity_saved_questions);
-        
-        //username = (TextView) findViewById(R.id.username_savedQuestions);
         
         savedQuestionsView = (ListView) findViewById(R.id.savedQuestions);
         
@@ -62,8 +58,6 @@ public class SavedQuestions extends ActionBarActivity{
 	    dlg.setTitle(getResources().getString(R.string.please_wait));
 	    dlg.setMessage(getResources().getString(R.string.loading_questions));
 	    dlg.show();
-        	
-        //username.setText(currentUser.getUsername());
         
         HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("firstPage", page);

@@ -1,9 +1,5 @@
 package com.spersio.opinions;
 
-import java.util.HashMap;
-import java.util.List;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -12,14 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.parse.FunctionCallback;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class YourGroups extends ActionBarActivity{
@@ -29,26 +19,22 @@ public class YourGroups extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         
         overridePendingTransition(0, 0);
-
-        // Notice that setContentView() is not used, because we use the root
-           // android.R.id.content as the container for each fragment
-
-           // setup action bar for tabs
-           ActionBar actionBar = getSupportActionBar();
-           actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-           actionBar.setDisplayShowTitleEnabled(true);
-
-           Tab tab1 = actionBar.newTab()
-                   .setText(R.string.action_joined_groups)
-                   .setTabListener(new TabListener<JoinedGroupsFragment>(
-                           this, "joined groups", JoinedGroupsFragment.class));
-           actionBar.addTab(tab1);
-
-           Tab tab2 = actionBar.newTab()
-                          .setText(R.string.action_owned_groups)
-                          .setTabListener(new TabListener<OwnedGroupsFragment>(
-                                  this, "owned groups", OwnedGroupsFragment.class));
-           actionBar.addTab(tab2);
+        
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setDisplayShowTitleEnabled(true);
+		
+		Tab tab1 = actionBar.newTab()
+		           .setText(R.string.action_joined_groups)
+		           .setTabListener(new TabListener<JoinedGroupsFragment>(
+		                   this, "joined groups", JoinedGroupsFragment.class));
+		actionBar.addTab(tab1);
+		
+		Tab tab2 = actionBar.newTab()
+                  .setText(R.string.action_owned_groups)
+                  .setTabListener(new TabListener<OwnedGroupsFragment>(
+                          this, "owned groups", OwnedGroupsFragment.class));
+		actionBar.addTab(tab2);
         
 	};
 	

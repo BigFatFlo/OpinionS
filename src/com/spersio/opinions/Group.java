@@ -293,68 +293,6 @@ public class Group extends ActionBarActivity{
 				}
         	});
         	
-        	/*deleteGroup.setOnClickListener(new OnClickListener() {
-    			
-    			@Override
-    			public void onClick(View v) {
-    				
-    				DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-					    @Override
-					    public void onClick(DialogInterface dialog, int which) {
-					        switch (which){
-					        case DialogInterface.BUTTON_POSITIVE:
-					        	
-					        	dialog.dismiss();
-					        	
-					        	final ProgressDialog dlg = new ProgressDialog(Group.this);
-								dlg.setTitle(getResources().getString(R.string.please_wait));
-								dlg.setMessage(getResources().getString(R.string.deleting_group));
-								dlg.show();
-								
-								final HashMap<String, Object> params = new HashMap<String, Object>();
-								params.put("groupname", groupname);
-								params.put("username", currentUser.getUsername());
-					        	
-								ParseCloud.callFunctionInBackground("deleteGroup", params, new FunctionCallback<Object>() {
-									   public void done(Object object, ParseException e) {
-
-										   if (e == null) {
-											   dlg.dismiss();
-											   
-											   Toast.makeText(Group.this, getResources().getString(R.string.group_deleted), Toast.LENGTH_SHORT)
-												.show();
-											   
-											   Intent intent = new Intent(Group.this,YourGroups.class);
-											   intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-											   startActivity(intent);
-											   
-										   } else {
-
-											   dlg.dismiss();
-											   Toast.makeText(Group.this, getResources().getString(R.string.could_not_delete_group), Toast.LENGTH_SHORT)
-												.show();
-											   
-										   }
-								}});
-					            break;
-
-					        case DialogInterface.BUTTON_NEGATIVE:
-					        	
-					        	dialog.dismiss();
-					        	
-					            break;
-					        }
-					    }
-					};
-					
-					AlertDialog.Builder builder = new AlertDialog.Builder(Group.this);
-					builder.setMessage(getResources().getString(R.string.are_you_sure) + groupname + "?" + getResources().getString(R.string.there_is_no_undo))
-						.setPositiveButton("Yes", dialogClickListener)
-					    .setNegativeButton("No", dialogClickListener).show();
-    				
-    			}
-        	});*/
-        	
         	leaveGroupButton.setOnClickListener(new OnClickListener() {
 				
 				@Override

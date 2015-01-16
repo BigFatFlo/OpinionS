@@ -246,35 +246,18 @@ public class Ask extends ActionBarActivity {
 				}
 			});
 			
-			findViewById(R.id.delete_answer1).setOnClickListener(new View.OnClickListener() {
-				public void onClick(View view) {
-					nbrAnswers = delete_answer(1,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
-				}
-			});
+			int[] deleteButtonsResources = {R.id.delete_answer1, R.id.delete_answer2, R.id.delete_answer3, R.id.delete_answer4, R.id.delete_answer5};
 			
-			findViewById(R.id.delete_answer2).setOnClickListener(new View.OnClickListener() {
-				public void onClick(View view) {
-					nbrAnswers = delete_answer(2,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
-				}
-			});
-			
-			findViewById(R.id.delete_answer3).setOnClickListener(new View.OnClickListener() {
-				public void onClick(View view) {
-					nbrAnswers = delete_answer(3,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
-				}
-			});
-			
-			findViewById(R.id.delete_answer4).setOnClickListener(new View.OnClickListener() {
-				public void onClick(View view) {
-					nbrAnswers = delete_answer(4,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
-				}
-			});
-			
-			findViewById(R.id.delete_answer5).setOnClickListener(new View.OnClickListener() {
-				public void onClick(View view) {
-					nbrAnswers = delete_answer(5,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
-				}
-			});
+			for (int i=0; i< 4; i++) {
+				
+				final int j = i;
+				findViewById(deleteButtonsResources[i]).setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						nbrAnswers = deleteAnswer(j+1,nbrAnswers,answerTextViews, deleteImageButtons, numberImageViews);
+					}
+				});
+				
+			}
 			
 			askSubscribers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 				
@@ -402,9 +385,10 @@ public class Ask extends ActionBarActivity {
 									   askButton.setVisibility(View.GONE);
 									   
 								   }
+							   }
+						});
 						
-			    }});
-			};
+				}
 
 			    public void onNothingSelected(AdapterView<?> parent) {
 			    	nbrUsersTargeted = 0;
@@ -560,7 +544,7 @@ public class Ask extends ActionBarActivity {
     }
     
 
-	public int delete_answer(int answer, int nbrAnswers, TextView[] answerTextViews, ImageButton[] deleteImageButtons, ImageView[] numberImageViews) {
+	public int deleteAnswer(int answer, int nbrAnswers, TextView[] answerTextViews, ImageButton[] deleteImageButtons, ImageView[] numberImageViews) {
 		if (!answerTextViews[answer-1].getText().toString().equals("") && answerTextViews[answer-1].getText().toString()!=null ){
 			if (nbrAnswers > 0 && nbrAnswers < 6) {
 				for (int i = answer-1; i < nbrAnswers - 1; i++) {
