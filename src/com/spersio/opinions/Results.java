@@ -519,7 +519,7 @@ public class Results extends ActionBarActivity {
 	
 	};
 	
-	public static void saveResults(String questionID, final Context context, int nId, String tag){
+	static void saveResults(String questionID, final Context context, int nId, String tag){
 		if (ParseUser.getCurrentUser()!=null){
 			
 			ParseRelation<ParseObject> relation = ParseUser.getCurrentUser().getRelation("savedQuestions");

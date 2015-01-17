@@ -112,51 +112,52 @@ android:background="@drawable/background_grey_black" >
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/international_button"
+        android:layout_centerHorizontal="true"
         android:padding="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         android:textSize="16sp"
-        android:layout_alignParentLeft="true"
         android:text="@string/select_sex" />
     
     <Spinner
         android:id="@+id/sexes_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/sex_change"
-        android:layout_alignTop="@id/sex_change"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/sex_change"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         />
     
     <TextView
         android:id="@+id/date_of_birth_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/sexes_spinner"
+        android:layout_centerHorizontal="true"
         android:padding="10dp"
-        android:layout_below="@id/sex_change"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         android:textSize="16sp"
-        android:layout_alignParentLeft="true"
         android:text="@string/select_date_of_birth" />
     
     <Spinner
         android:id="@+id/dates_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/date_of_birth_change"
-        android:layout_alignTop="@id/date_of_birth_change"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/date_of_birth_change"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         />
     
     <TextView
         android:id="@+id/salary_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/dates_spinner"
+        android:layout_centerHorizontal="true"
         android:padding="10dp"
-        android:layout_below="@id/date_of_birth_change"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         android:textSize="16sp"
-        android:layout_alignParentLeft="true"
         android:text="@string/select_salary" />
     
     
@@ -164,8 +165,10 @@ android:background="@drawable/background_grey_black" >
         android:id="@+id/salaries_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/salary_change"
-        android:layout_alignTop="@id/salary_change"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/salary_change"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         />
     
     <ImageButton
@@ -173,7 +176,7 @@ android:background="@drawable/background_grey_black" >
         android:layout_width="match_parent"
     	android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/salary_change"
+        android:layout_below="@id/salaries_spinner"
         android:padding="15dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_save_big"

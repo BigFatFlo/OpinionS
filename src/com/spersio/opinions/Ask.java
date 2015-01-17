@@ -544,7 +544,7 @@ public class Ask extends ActionBarActivity {
     }
     
 
-	public int deleteAnswer(int answer, int nbrAnswers, TextView[] answerTextViews, ImageButton[] deleteImageButtons, ImageView[] numberImageViews) {
+	private int deleteAnswer(int answer, int nbrAnswers, TextView[] answerTextViews, ImageButton[] deleteImageButtons, ImageView[] numberImageViews) {
 		if (!answerTextViews[answer-1].getText().toString().equals("") && answerTextViews[answer-1].getText().toString()!=null ){
 			if (nbrAnswers > 0 && nbrAnswers < 6) {
 				for (int i = answer-1; i < nbrAnswers - 1; i++) {
@@ -567,7 +567,7 @@ public class Ask extends ActionBarActivity {
 		}
 	};
 	
-	public void sendToSubscribers(ParseObject user) {
+	private void sendToSubscribers(ParseObject user) {
 		nbrSubscribers = user.getInt("nbrSubscribers");
 		if (nbrSubscribers <= 0) {
 			Toast.makeText(Ask.this, getResources().getString(R.string.no_subscribers), Toast.LENGTH_LONG)
@@ -589,7 +589,7 @@ public class Ask extends ActionBarActivity {
 		}
 	};
 	
-	public void sendToGroup(ParseObject user) {
+	private void sendToGroup(ParseObject user) {
 		listGroups = user.getList("ownedGroups");
 		if (listGroups != null) {
     		if (listGroups.isEmpty()) {

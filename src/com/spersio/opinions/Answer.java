@@ -267,7 +267,7 @@ public class Answer extends Activity {
 
 	};
 	
-	public int[] chooseAnswer(int answer, int nbrAnswers, boolean choiceMade, TextView[] answerTextViews, ImageButton[] chooseImageButtons) {
+	private int[] chooseAnswer(int answer, int nbrAnswers, boolean choiceMade, TextView[] answerTextViews, ImageButton[] chooseImageButtons) {
 		if (!choiceMade){
 			for (int i = 0; i < nbrAnswers; i++) {
 				if (i != answer) {
@@ -289,7 +289,7 @@ public class Answer extends Activity {
 		}
 	};
 	
-	public static void addAnswer(final String qID, int answer, final Context context, final int notificationId, final String nTag){
+	static void addAnswer(final String qID, int answer, final Context context, final int notificationId, final String nTag){
 		if (ParseUser.getCurrentUser()!=null){
 			HashMap<String, Object> params = new HashMap<String, Object>();
 			params.put("n", answer);
