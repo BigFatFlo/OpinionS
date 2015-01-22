@@ -6,7 +6,7 @@
     
     <string name="prompt_username">Pseudo</string>
     <string name="prompt_password">Mot de passe</string>
-    <string name="sign_up">Créer un compte!</string>
+    <string name="sign_up">Créer un compte</string>
     <string name="countdown">Compte à rebours</string>
     <string name="questionMark">Point d\'interrogation</string>
     <string name="send">Envoyer</string>
@@ -54,7 +54,7 @@
     <string name="error_end">.</string>
     <string name="error_passwords_diff">confirmer le mot de passe</string>
     <string name="error_no_email">entrer une adresse email valide</string>
-    <string name="time_to_answer">60s pour répondre à une question!</string>
+    <string name="time_to_answer">" min pour répondre à une question!"</string>
     <string name="needs_opinion">" a besoin de votre opinion!"</string>
     <string name="results_are_in">Les résultats sont là!</string>
     

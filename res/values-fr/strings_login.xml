@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="log_in">Connexion!</string>
+    <string name="log_in">Connexion</string>
     <string name="no_account">Pas de compte?</string>
     <string name="password_forgotten">Mot de passe oublié?</string>
     

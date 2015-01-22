@@ -775,12 +775,14 @@ Parse.Cloud.define("newQuestion", function(request, response) {
   var group = request.params.group;
   var groupname = request.params.groupname;
   var nbrUsersTargeted = request.params.nbrUsersTargeted; // Getting the parameters set by the User in the app
+  var timeToAnswer = 120; // timeToAnswer = 120s
 
   var newQuestion = new Parse.Object("Question");
 		newQuestion.set("asker",asker); // The user who asked the question
 		newQuestion.set("askerUsername",asker_username); // His/her username (so that the user getting the question doesn't have access to the asker's Id and other fields)
 		newQuestion.set("text",text); // The question per say
 		newQuestion.set("nbrAnswers",nbrAnswers); // Number of possible answers to the question
+		newQuestion.set("timeToAnswer", timeToAnswer); // The time given to the user to answer the question
 		if (subscribersOnly) {
 			var channel = "User_" + asker_username;
 		} else {
@@ -927,7 +929,8 @@ Parse.Cloud.afterSave("Question", function(request){
 			group: request.object.get("group"),
 			groupname: request.object.get("groupname"),
 			subscribersOnly: request.object.get("subscribersOnly"),
-			askerUsername: request.object.get("askerUsername")
+			askerUsername: request.object.get("askerUsername"),
+			timeToAnswer: request.object.get("timeToAnswer")
 		},
 		expiration_interval: time_for_answer
 		}, {

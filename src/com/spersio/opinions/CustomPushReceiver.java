@@ -110,10 +110,20 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			
 			remoteView.setTextViewText(R.id.question_notif, question.text);
 			
+			final int timeToAnswer = json.getInt("timeToAnswer");
+			final int timeToAnswerInMinutes = timeToAnswer/60;
+			final int timeInterval = timeToAnswer/6;
+			
+			int[] drawablesArray = {R.drawable.ic_stat_question_red_blue_1,
+									R.drawable.ic_stat_question_red_blue_2,
+									R.drawable.ic_stat_question_red_blue_3,
+									R.drawable.ic_stat_question_red_blue_4,
+									R.drawable.ic_stat_question_all_red};
+			
 			final NotificationCompat.Builder mBuilder =
 			        new NotificationCompat.Builder(ctx)
 			        .setSmallIcon(R.drawable.ic_stat_question)
-			        .setTicker(ctx.getResources().getString(R.string.time_to_answer))
+			        .setTicker(timeToAnswerInMinutes + ctx.getResources().getString(R.string.time_to_answer))
 			        .setContentTitle(question.askerUsername + ctx.getResources().getString(R.string.needs_opinion))
 			        .setContentText(question.text);
 			
@@ -134,8 +144,8 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 				remoteView.setViewVisibility(numberNotifs[j], View.GONE);
 				remoteView.setViewVisibility(numberButtonNotifs[j], View.GONE);
 			}
-				
-			countDownTimerA = new CountDownTimer(60800, 1000) {
+			
+			countDownTimerA = new CountDownTimer(timeToAnswer*1000 + 800, 1000) {
 
 			     public void onTick(long millisUntilFinished) {
 			    	 
@@ -143,7 +153,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 			    	extras.putLong(timeLeft, millisUntilFinished);
 					answerIntent.putExtras(extras);
 			    	 
-			    	 if ((int) (millisUntilFinished/1000) == 60) {
+			    	 if ((int) (millisUntilFinished/1000) == timeToAnswer) {
 							
 							mBuilder.setVibrate(new long[] { 0, 400, 150, 400 });
 							
@@ -165,35 +175,31 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 									mNotificationManager.notify(question.notificationTag, question.notificationID, notification);
 					} else {
 			    	 
-					    	 switch((int) (millisUntilFinished / 1000)) {
-				    	 		case 50:
-				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
-							        mBuilder.setTicker("50s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-				    	 		break;
-				    	 		case 40:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
-							        mBuilder.setTicker("40s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 30:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
-							        mBuilder.setTicker("30s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 20:
-					    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
-							        mBuilder.setTicker("20s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-				    	 		case 10:
-				    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
-							        mBuilder.setTicker("10s");
-					    	 		mBuilder.setVibrate(new long[] { 0, 150});
-					    	 	break;
-					    	 	default: 
-					    	 		mBuilder.setVibrate(new long[] { 0, 0});
-				    	 		}
+					    	 	int timeIntervalsElapsedInPercent = (int) ((timeToAnswer - (millisUntilFinished/1000)) *100 )/ timeInterval;
+								switch (timeIntervalsElapsedInPercent) {
+									case 100:
+										mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_1);
+										mBuilder.setVibrate(new long[] { 0, 150});
+					    	 		break;
+					    	 		case 200:
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_2);
+						    	 		mBuilder.setVibrate(new long[] { 0, 150});
+						    	 	break;
+					    	 		case 300:
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_3);
+						    	 		mBuilder.setVibrate(new long[] { 0, 150});
+						    	 	break;
+					    	 		case 400:
+						    	 		mBuilder.setSmallIcon(R.drawable.ic_stat_question_red_blue_4);
+						    	 		mBuilder.setVibrate(new long[] { 0, 150});
+						    	 	break;
+					    	 		case 500:
+					    	 			mBuilder.setSmallIcon(R.drawable.ic_stat_question_all_red);
+						    	 		mBuilder.setVibrate(new long[] { 0, 150});
+						    	 	break;
+						    	 	default: 
+						    	 		mBuilder.setVibrate(new long[] { 0, 0});
+								}
 									
 					    	 	TaskStackBuilder stackBuilder = TaskStackBuilder.create(ctx);
 								stackBuilder.addParentStack(Answer.class);

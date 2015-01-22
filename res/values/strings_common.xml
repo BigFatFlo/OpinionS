@@ -6,7 +6,7 @@
     
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
-    <string name="sign_up">Sign Up!</string>
+    <string name="sign_up">Sign Up</string>
     <string name="countdown">Countdown</string>
     <string name="questionMark">Question Mark</string>
     <string name="send">Send</string>
@@ -54,7 +54,7 @@
     <string name="error_end">.</string>
     <string name="error_passwords_diff">confirm your password</string>
     <string name="error_no_email">enter a valid email address</string>
-    <string name="time_to_answer">60s to answer new question!</string>
+    <string name="time_to_answer">" min to answer new question!"</string>
     <string name="needs_opinion">" needs your opinion!"</string>
     <string name="results_are_in">The results are in!</string>
     
