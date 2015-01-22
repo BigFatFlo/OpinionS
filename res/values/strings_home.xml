@@ -6,8 +6,8 @@
     <string name="uncomplete_profile">Your Profile is incomplete!</string>
     <string name="profile_complete">Your Profile is complete</string>
     <string name="prompt_groupname">Group name</string>
-    <string name="subscribeToUser">Subscribe to a user\'s questions!</string>
-    <string name="joinGroup">Join or create a group!</string>
+    <string name="subscribeToUser">Subscribe to a user\'s questions</string>
+    <string name="joinGroup">Join or create a group</string>
     <string name="createGroup">Create a group!</string>
     
     <string name="profile_is_complete">Your Profile is complete!</string>

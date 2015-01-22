@@ -110,7 +110,7 @@ public class Signup extends Activity {
                     Toast.makeText(Signup.this, e.getMessage(), Toast.LENGTH_LONG).show();
                   } else {
                     // Start an intent for the Profile activity
-                	  Intent intent = new Intent(Signup.this, Home.class);
+                	Intent intent = new Intent(Signup.this, Home.class);
           	    	intent.putExtra("fromLogin", true);
                     startActivity(intent);
                   }

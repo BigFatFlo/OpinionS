@@ -4,10 +4,10 @@
     <string name="nbrSubscribers">Vous n\'avez pas d\'abonné</string>
     <string name="refresh">Rafraichir</string>
     <string name="uncomplete_profile">Votre Profile est incomplet!</string>
-    <string name="profile_complete">Votre Profile est complet!</string>
+    <string name="profile_complete">Votre Profile est complet</string>
     <string name="prompt_groupname">Nom du groupe</string>
-    <string name="subscribeToUser">Abonnez-vous aux questions d\'un utilisateur!</string>
-    <string name="joinGroup">Rejoignez ou créez un groupe!</string>
+    <string name="subscribeToUser">Abonnez-vous aux questions d\'un utilisateur</string>
+    <string name="joinGroup">Rejoignez ou créez un groupe</string>
     <string name="createGroup">Créez un groupe!</string>
     
     <string name="profile_is_complete">Votre Profile est complet!</string>
