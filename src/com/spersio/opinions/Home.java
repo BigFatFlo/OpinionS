@@ -31,7 +31,6 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-//import com.facebook.AppEventsLogger;
 
 public class Home extends ActionBarActivity {
 	
@@ -372,17 +371,6 @@ public class Home extends ActionBarActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        
-        //AppEventsLogger.deactivateApp(this);
-    };
-    
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (ParseUser.getCurrentUser() != null) {
-        	ParseUser.getCurrentUser().saveInBackground();
-        }
-        ParseInstallation.getCurrentInstallation().saveInBackground();
     };
     
     @Override

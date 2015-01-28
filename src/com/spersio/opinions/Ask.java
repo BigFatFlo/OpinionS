@@ -74,10 +74,6 @@ public class Ask extends ActionBarActivity {
 	
 	Integer ask_type = -1;
 	
-	Integer nbrChannels = 0;
-	
-	Integer nbrUsersPerChannel = 0;
-	
 	Integer nbrSubscribers = 0;
 	
 	Integer nbrUsersTargeted = 0;
@@ -233,7 +229,7 @@ public class Ask extends ActionBarActivity {
 						  	}
 						  	deleteImageButtons[nbrAnswers].setVisibility(View.VISIBLE);
 						  	numberImageViews[nbrAnswers].setVisibility(View.VISIBLE);
-						  	nbrAnswers=nbrAnswers+1;
+						  	nbrAnswers++;
 						} else {
 							Toast.makeText(Ask.this, getResources().getString(R.string.answers_max), Toast.LENGTH_LONG)
 							.show();
@@ -403,12 +399,12 @@ public class Ask extends ActionBarActivity {
 				public void onClick(View view) {
 					if (ask_type == -1) {
 						
-						Toast.makeText(Ask.this, getResources().getString(R.string.no_targeted_users), Toast.LENGTH_LONG)
+						Toast.makeText(Ask.this, getResources().getString(R.string.no_users_criteria), Toast.LENGTH_LONG)
 						.show();
 						
 					} else if (nbrUsersTargeted == 0) {
 						
-						Toast.makeText(Ask.this, getResources().getString(R.string.no_users_criteria), Toast.LENGTH_LONG)
+						Toast.makeText(Ask.this, getResources().getString(R.string.no_targeted_users), Toast.LENGTH_LONG)
 						.show();
 						
 					} else if (questionText.getText().toString().length() > 8 && !(questionText.getText().toString().equals(getResources().getString(R.string.here_you_can_see)))){
@@ -424,17 +420,15 @@ public class Ask extends ActionBarActivity {
 								params.put("group", false);
 								params.put("groupname", groupName);
 								params.put("subscribersOnly", true);
-								params.put("nbrUsersTargeted", nbrUsersTargeted);
 							break;
 							case 1:
 								if (groupName.equals("")) {						
 									Toast.makeText(Ask.this, getResources().getString(R.string.no_group), Toast.LENGTH_LONG)
 									.show();
 								} else {
-									params.put("groupname", groupName);
 									params.put("group",true);
+									params.put("groupname", groupName);
 									params.put("subscribersOnly", false);
-									params.put("nbrUsersTargeted", nbrUsersTargeted);
 								}
 							break;
 						}
