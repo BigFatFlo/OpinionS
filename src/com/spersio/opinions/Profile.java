@@ -82,8 +82,8 @@ public class Profile extends ActionBarActivity {
 	        	    }
 	        	    
 	        	    listCountries = config.getList("listOfCountries");
-	        	    listSexes.add(getResources().getString(R.string.man));
-	        	    listSexes.add(getResources().getString(R.string.woman));
+	        	    listSexes.add(getResources().getString(R.string.Man));
+	        	    listSexes.add(getResources().getString(R.string.Woman));
 	        	    listDates = config.getList("listOfDates");
 	        	    listSalaries = config.getList("listOfSalaries");
 	        	    
@@ -149,26 +149,26 @@ public class Profile extends ActionBarActivity {
 
 		if (currentUser != null) {	
 			
-			int charNumber = currentUser.getInt("characteristicsNumber");
+			final int actualCharNumber = currentUser.getInt("characteristicsNumber");
+			final String actualCountry = currentUser.getString("country");
+			final Boolean international = currentUser.getBoolean("international");
 			
-			if (charNumber != -1) {
+			if (actualCharNumber != -1) {
 				
 				String sex = null;
-				if (charNumber < 1000) {
+				if (actualCharNumber < 1000) {
 					sex = getResources().getString(R.string.man);
 				} else {
 					sex = getResources().getString(R.string.woman);
 				}
-				int salaryRange = charNumber%10; 
+				int salaryRange = actualCharNumber%10; 
 				int dateOfBirth = 0;
-				int absoluteDateOfBirth = ((charNumber%1000) - (charNumber%10))/10;
+				int absoluteDateOfBirth = ((actualCharNumber%1000) - (actualCharNumber%10))/10;
 				if (absoluteDateOfBirth<15) {
 					dateOfBirth = absoluteDateOfBirth + 2000;
 				} else {
 					dateOfBirth = absoluteDateOfBirth + 1900;
 				}
-				String country = currentUser.getString("country");
-				Boolean international = currentUser.getBoolean("international");
 				String internationalChoice = null;
 				if (international) {
 					internationalChoice = getResources().getString(R.string.want);
@@ -197,7 +197,7 @@ public class Profile extends ActionBarActivity {
 				profileTitle.setText(getResources().getString(R.string.profile_complete));
 				actualProfile.setText(getResources().getString(R.string.you_are) + sex +
 									  getResources().getString(R.string.born_in) + dateOfBirth + 
-									  getResources().getString(R.string.living_in) + country + 
+									  getResources().getString(R.string.living_in) + actualCountry + 
 									  getResources().getString(R.string.have_a_salary) + salaryRange*10000 + 
 									  getResources().getString(R.string.euro_and) + (salaryRange+1)*10000 + 
 									  getResources().getString(R.string.euro) + 
@@ -254,10 +254,6 @@ public class Profile extends ActionBarActivity {
 				salariesSpinner.setVisibility(View.VISIBLE);
 				
 			}
-				
-		final String actualCountry = currentUser.getString("country");
-		final int actualCharNumber = charNumber;
-		final Boolean international = currentUser.getBoolean("international");
 			
 		findViewById(R.id.save_profile_button).setOnClickListener(new View.OnClickListener() {
 					public void onClick(View view) {

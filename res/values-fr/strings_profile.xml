@@ -2,11 +2,13 @@
 <resources>
     
     <string name="save_profile">Sauvegarder le Profile</string>
+    <string name="Man">Homme</string>
+    <string name="Woman">Femme</string>
     <string name="man">un homme</string>
     <string name="woman">une femme</string>
     <string name="select_sex">Etes vous un homme ou une femme?</string>
     <string name="select_date_of_birth">Quelle est votre année de naissance?</string>
-    <string name="select_salary">Quel est votre salaire annuel?</string>
+    <string name="select_salary">Quel est votre salaire annuel (€)?</string>
     <string name="complete_profile">Compléter votre Profile!</string>
     <string name="international">Voulez-vous recevoir des questions internationales (en anglais)?</string>
     <string name="select_country">Veuillez sélectionner votre pays</string>

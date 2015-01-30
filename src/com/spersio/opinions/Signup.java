@@ -96,6 +96,7 @@ public class Signup extends Activity {
               user.setEmail(emailView.getText().toString());
               user.setPassword(passwordView.getText().toString());
               user.put("country", "");
+              user.put("international", false);
               user.put("characteristicsNumber", -1);
               user.put("nbrQuestionsAsked", 0);
               user.put("nbrSubscribers", 0);

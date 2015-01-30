@@ -2,11 +2,13 @@
 <resources>
     
     <string name="save_profile">Save Profile</string>
+    <string name="Man">Man</string>
+    <string name="Woman">Woman</string>
     <string name="man">a man</string>
     <string name="woman">a woman</string>
     <string name="select_sex">Are you a man or a woman?</string>
     <string name="select_date_of_birth">What year were your born?</string>
-    <string name="select_salary">What is your annual salary?</string>
+    <string name="select_salary">What is your annual salary ($)?</string>
     <string name="complete_profile">Complete your Profile!</string>
     <string name="international">Do you want to receive international questions (in english)?</string>
     <string name="select_country">Please select your country</string>
@@ -17,8 +19,8 @@
     <string name="born_in">", born in "</string>
     <string name="living_in">", living in "</string>
     <string name="have_a_salary">", have an annual salary between "</string>
-    <string name="euro_and">"€ and "</string>
-    <string name="euro">€</string>
+    <string name="euro_and">"$ and "</string>
+    <string name="euro">$</string>
     <string name="and">" and "</string>
     <string name="to_receive_international">" to receive international questions."</string>
     <string name="do_you_confirm">"Do you confirm that you are "</string>
