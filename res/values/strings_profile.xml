@@ -9,7 +9,7 @@
     <string name="select_sex">Are you a man or a woman?</string>
     <string name="select_date_of_birth">What year were your born?</string>
     <string name="select_salary">What is your annual salary ($)?</string>
-    <string name="complete_profile">Complete your Profile!</string>
+    <string name="complete_profile">Complete your Profile</string>
     <string name="international">Do you want to receive international questions (in english)?</string>
     <string name="select_country">Please select your country</string>
     <string name="change_profile">Change your Profile</string>

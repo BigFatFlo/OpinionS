@@ -244,8 +244,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 								json.getString("answer4"),
 								json.getString("answer5")};
 			
-			int[] numberForAnswer = {json.getInt("nA"),
-									json.getInt("nA1"),
+			int[] numberForAnswer = {json.getInt("nA1"),
 									json.getInt("nA2"),
 									json.getInt("nA3"),
 									json.getInt("nA4"),

@@ -109,8 +109,7 @@ public class Profile extends ActionBarActivity {
 						adapterSalaries.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 						salariesSpinner.setAdapter(adapterSalaries);
 						dlg.dismiss();
-					}
-					else {
+					} else {
 						dlg.dismiss();
 						Toast.makeText(Profile.this, getResources().getString(R.string.unable_to_load_criteria), Toast.LENGTH_LONG)
 						.show();
