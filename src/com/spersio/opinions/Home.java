@@ -189,163 +189,192 @@ public class Home extends ActionBarActivity {
             	
             	findViewById(R.id.subscribeToUser).requestFocus();	
             	
-            	final ProgressDialog dlg = new ProgressDialog(Home.this);
-				dlg.setTitle(getResources().getString(R.string.please_wait));
-				dlg.setMessage(getResources().getString(R.string.checking_username));
-				dlg.show();
-				
-				final HashMap<String, Object> params = new HashMap<String, Object>();
-				final String askerUsername = subscribeToUsername.getText().toString();
-				params.put("username", askerUsername);
-				
-				ParseCloud.callFunctionInBackground("userExists", params, new FunctionCallback<Boolean>() {
-					   public void done(Boolean exists, ParseException e) {
-						   if (e == null) {
-							
-							   if (exists) {
-								   
-								   List<String> subscribedUsers = currentUser.getList("subscribedUsers");
-									
-									if (subscribedUsers != null) {
-									
-									if (subscribedUsers.contains(askerUsername)) {
-										dlg.dismiss();
-										Toast.makeText(Home.this, getResources().getString(R.string.already_subscriber), Toast.LENGTH_LONG)
-										.show();
-									} else {
-											
-										addSubscriber(currentUser, askerUsername, params);
-										dlg.dismiss();
+            	if (subscribeToUsername.getText().toString().length() > 0) {
+            	
+	            	final ProgressDialog dlg = new ProgressDialog(Home.this);
+					dlg.setTitle(getResources().getString(R.string.please_wait));
+					dlg.setMessage(getResources().getString(R.string.checking_username));
+					dlg.show();
+					
+					final HashMap<String, Object> params = new HashMap<String, Object>();
+					final String askerUsername = subscribeToUsername.getText().toString();
+					params.put("username", askerUsername);
+					
+					ParseCloud.callFunctionInBackground("userExists", params, new FunctionCallback<Boolean>() {
+						   public void done(Boolean exists, ParseException e) {
+							   if (e == null) {
+								
+								   if (exists) {
+									   
+									   List<String> subscribedUsers = currentUser.getList("subscribedUsers");
 										
-									}
-									
-									} else {
+										if (subscribedUsers != null) {
+										
+										if (subscribedUsers.contains(askerUsername)) {
+											dlg.dismiss();
+											Toast.makeText(Home.this, getResources().getString(R.string.already_subscriber), Toast.LENGTH_LONG)
+											.show();
+										} else {
+												
+											addSubscriber(currentUser, askerUsername, params);
+											dlg.dismiss();
 											
-										addSubscriber(currentUser, askerUsername, params);
-										dlg.dismiss();
-
-									}	
+										}
+										
+										} else {
+												
+											addSubscriber(currentUser, askerUsername, params);
+											dlg.dismiss();
+	
+										}	
+									   
+								   } else {
+									   dlg.dismiss();
+									   Toast.makeText(Home.this, getResources().getString(R.string.user) + askerUsername + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
+										.show();
+								   }
 								   
 							   } else {
-								   dlg.dismiss();
-								   Toast.makeText(Home.this, getResources().getString(R.string.user) + askerUsername + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
-									.show();
+								dlg.dismiss();
+								Toast.makeText(Home.this, getResources().getString(R.string.unable_to_subscribe) + askerUsername + getResources().getString(R.string.s_questions_please), Toast.LENGTH_LONG)
+								.show();
 							   }
-							   
-						   } else {
-							dlg.dismiss();
-							Toast.makeText(Home.this, getResources().getString(R.string.unable_to_subscribe) + askerUsername + getResources().getString(R.string.s_questions_please), Toast.LENGTH_LONG)
-							.show();
 						   }
-					   }
-				});
+					});
+					
+	            } else {
+					
+					Toast.makeText(Home.this, getResources().getString(R.string.have_to_type), Toast.LENGTH_LONG)
+		            .show();
+					
+				}
+            	
             }
         });
         
         joinGroup.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	
-            	findViewById(R.id.joinGroup).requestFocus();	
+	            if (joinGroupname.getText().toString().length()>0) {	
             	
-            	final ProgressDialog dlg = new ProgressDialog(Home.this);
-				dlg.setTitle(getResources().getString(R.string.please_wait));
-				dlg.setMessage(getResources().getString(R.string.checking_groupname));
-				dlg.show();
-				
-				final HashMap<String, Object> params = new HashMap<String, Object>();
-				final String groupName = joinGroupname.getText().toString();
-				params.put("groupname", groupName);
-				params.put("username", currentUser.getUsername());
-				
-				ParseCloud.callFunctionInBackground("groupExists", params, new FunctionCallback<Boolean>() {
-					   public void done(Boolean exists, ParseException e) {
-						   if (e == null) {
-							
-							   if (exists) {
-								   
-								   List<String> joinedGroups = currentUser.getList("joinedGroups");
-									
-									if (joinedGroups != null) {
-									
-									if (joinedGroups.contains(groupName)) {
-										dlg.dismiss();
-										Toast.makeText(Home.this, getResources().getString(R.string.already_member), Toast.LENGTH_LONG)
-										.show();
-									} else {
-											
-										addMember(currentUser, groupName, params);
-										dlg.dismiss();
+            		findViewById(R.id.joinGroup).requestFocus();	
+	            	
+	            	final ProgressDialog dlg = new ProgressDialog(Home.this);
+					dlg.setTitle(getResources().getString(R.string.please_wait));
+					dlg.setMessage(getResources().getString(R.string.checking_groupname));
+					dlg.show();
+					
+					final HashMap<String, Object> params = new HashMap<String, Object>();
+					final String groupName = joinGroupname.getText().toString();
+					params.put("groupname", groupName);
+					params.put("username", currentUser.getUsername());
+					
+					ParseCloud.callFunctionInBackground("groupExists", params, new FunctionCallback<Boolean>() {
+						   public void done(Boolean exists, ParseException e) {
+							   if (e == null) {
+								
+								   if (exists) {
+									   
+									   List<String> joinedGroups = currentUser.getList("joinedGroups");
 										
-									}
-									
-									} else {
+										if (joinedGroups != null) {
+										
+										if (joinedGroups.contains(groupName)) {
+											dlg.dismiss();
+											Toast.makeText(Home.this, getResources().getString(R.string.already_member), Toast.LENGTH_LONG)
+											.show();
+										} else {
+												
+											addMember(currentUser, groupName, params);
+											dlg.dismiss();
 											
-										addMember(currentUser, groupName, params);
-										dlg.dismiss();
-
-									}	
+										}
+										
+										} else {
+												
+											addMember(currentUser, groupName, params);
+											dlg.dismiss();
+	
+										}	
+									   
+								   } else {
+									   dlg.dismiss();
+									   Toast.makeText(Home.this, getResources().getString(R.string.the_group) + groupName + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
+										.show();
+								   }
 								   
 							   } else {
-								   dlg.dismiss();
-								   Toast.makeText(Home.this, getResources().getString(R.string.the_group) + groupName + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
-									.show();
+								dlg.dismiss();
+								Toast.makeText(Home.this, getResources().getString(R.string.unable_to_join) + groupName + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
+								.show();
 							   }
-							   
-						   } else {
-							dlg.dismiss();
-							Toast.makeText(Home.this, getResources().getString(R.string.unable_to_join) + groupName + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
-							.show();
 						   }
-					   }
-				});
+					});
+				
+	            } else {
+					
+					Toast.makeText(Home.this, getResources().getString(R.string.have_to_type), Toast.LENGTH_LONG)
+		            .show();
+					
+				}
+				
             }
         });
         
         createGroup.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-            	findViewById(R.id.joinGroup).requestFocus();
+            	if (joinGroupname.getText().toString().length()>0) {
             	
-            	final ProgressDialog dlg = new ProgressDialog(Home.this);
-				dlg.setTitle(getResources().getString(R.string.please_wait));
-				dlg.setMessage(getResources().getString(R.string.checking_groupname));
-				dlg.show();
-				
-				final HashMap<String, Object> params = new HashMap<String, Object>();
-				final String groupName = joinGroupname.getText().toString();
-				params.put("groupname", groupName);
-				params.put("username", currentUser.getUsername());
-				
-				ParseCloud.callFunctionInBackground("createGroup", params, new FunctionCallback<Boolean>() {
-					   public void done(Boolean exists, ParseException e) {
-						   if (e == null) {
-							   
-							   if (exists) {
+	            	findViewById(R.id.joinGroup).requestFocus();
+	            	
+	            	final ProgressDialog dlg = new ProgressDialog(Home.this);
+					dlg.setTitle(getResources().getString(R.string.please_wait));
+					dlg.setMessage(getResources().getString(R.string.checking_groupname));
+					dlg.show();
+					
+					final HashMap<String, Object> params = new HashMap<String, Object>();
+					final String groupName = joinGroupname.getText().toString();
+					params.put("groupname", groupName);
+					params.put("username", currentUser.getUsername());
+					
+					ParseCloud.callFunctionInBackground("createGroup", params, new FunctionCallback<Boolean>() {
+						   public void done(Boolean exists, ParseException e) {
+							   if (e == null) {
 								   
-								   dlg.dismiss();
-								   Toast.makeText(Home.this, getResources().getString(R.string.a_group_called) + groupName + getResources().getString(R.string.already_exists), Toast.LENGTH_LONG)
-								   .show();
+								   if (exists) {
+									   
+									   dlg.dismiss();
+									   Toast.makeText(Home.this, getResources().getString(R.string.a_group_called) + groupName + getResources().getString(R.string.already_exists), Toast.LENGTH_LONG)
+									   .show();
+									   
+								   } else {
+									   
+									   currentUser.addUnique("ownedGroups", groupName);
+									    
+									   currentUser.saveInBackground();
+									   
+									   dlg.dismiss();
+									   Toast.makeText(Home.this, getResources().getString(R.string.group) + groupName + getResources().getString(R.string.successfully_created), Toast.LENGTH_LONG)
+									   .show();
+									   
+								   }
 								   
 							   } else {
 								   
-								   currentUser.addUnique("ownedGroups", groupName);
-								    
-								   currentUser.saveInBackground();
-								   
 								   dlg.dismiss();
-								   Toast.makeText(Home.this, getResources().getString(R.string.group) + groupName + getResources().getString(R.string.successfully_created), Toast.LENGTH_LONG)
-								   .show();
+								   Toast.makeText(Home.this, getResources().getString(R.string.unable_to_create), Toast.LENGTH_LONG)
+								   .show(); 
 								   
 							   }
-							   
-						   } else {
-							   
-							   dlg.dismiss();
-							   Toast.makeText(Home.this, getResources().getString(R.string.unable_to_create), Toast.LENGTH_LONG)
-							   .show(); 
-							   
-						   }
-					   }});
+					}});
+				
+	            } else {
+					
+					Toast.makeText(Home.this, getResources().getString(R.string.have_to_type), Toast.LENGTH_LONG)
+		            .show();
+					
+				}
 				
         }});
         

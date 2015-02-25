@@ -15,7 +15,7 @@
     <string name="you_are_a_member">Vous êtes membre de ce groupe</string>
     <string name="you_are_an_owner_and_a_member">Vous êtes membre et propriétaire de ce groupe</string>
     <string name="already_an_owner">" est déjà un propriétaire du groupe "</string>
-    <string name="successfully_added">"L\'utilisateur "</string>
+    <string name="successfully_added">"Utilisateur "</string>
     <string name="as_an_owner_of_the_group">" ajouté comme propriétaire du groupe "</string>
     <string name="unable_to_add_owner">"Impossible d\'ajouter un propriétaire au groupe "</string>
     <string name="deleting_group">Suppression du groupe. Veuillez patienter.</string>

@@ -14,6 +14,7 @@
     <string name="BTH">Retour au menu</string>
     <string name="delete">Supprimer</string>
     <string name="name">Nom</string>
+    <string name="have_to_type">Vous devez écrire quelque chose</string>
     
     <string name="asker_info">Aucune info sur l\'émetteur!</string>
     <string name="question_view">La question n\'est pas encore chargée!</string>

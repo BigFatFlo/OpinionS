@@ -230,66 +230,75 @@ public class Group extends ActionBarActivity{
 					
 					findViewById(R.id.addOwner).requestFocus();
 					
-					final ProgressDialog dlg = new ProgressDialog(Group.this);
-					dlg.setTitle(getResources().getString(R.string.please_wait));
-					dlg.setMessage(getResources().getString(R.string.checking_username));
-					dlg.show();
+					if (addOwnerUsername.getText().toString().length() > 0) {
 					
-					final HashMap<String, Object> params = new HashMap<String, Object>();
-					final String new_owner_username = addOwnerUsername.getText().toString();
-					params.put("newOwnerUsername", new_owner_username);
-					params.put("username", currentUser.getUsername());
-					params.put("groupname", groupname);
-					
-					ParseCloud.callFunctionInBackground("addOwner", params, new FunctionCallback<Integer>() {
-						   public void done(Integer result, ParseException e) {
-							   
-							   dlg.dismiss();
-							   
-							   if (e == null) {
+						final ProgressDialog dlg = new ProgressDialog(Group.this);
+						dlg.setTitle(getResources().getString(R.string.please_wait));
+						dlg.setMessage(getResources().getString(R.string.checking_username));
+						dlg.show();
+						
+						final HashMap<String, Object> params = new HashMap<String, Object>();
+						final String new_owner_username = addOwnerUsername.getText().toString();
+						params.put("newOwnerUsername", new_owner_username);
+						params.put("username", currentUser.getUsername());
+						params.put("groupname", groupname);
+						
+						ParseCloud.callFunctionInBackground("addOwner", params, new FunctionCallback<Integer>() {
+							   public void done(Integer result, ParseException e) {
 								   
-								   switch (result) {
-								   case -4:
+								   dlg.dismiss();
+								   
+								   if (e == null) {
 									   
-									   Toast.makeText(Group.this, getResources().getString(R.string.not_owner), Toast.LENGTH_LONG)
+									   switch (result) {
+									   case -4:
+										   
+										   Toast.makeText(Group.this, getResources().getString(R.string.not_owner), Toast.LENGTH_LONG)
+								            .show();
+										   
+									   break;
+									   case -3:
+										   
+										   Toast.makeText(Group.this, getResources().getString(R.string.user) + new_owner_username + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
+								            .show();
+										   
+									   break;
+									   case -2:
+										   
+										   Toast.makeText(Group.this, getResources().getString(R.string.user) + new_owner_username + getResources().getString(R.string.already_an_owner) + groupname, Toast.LENGTH_LONG)
+								            .show();
+										   
+									   break;
+									   case -1:
+										   
+										   Toast.makeText(Group.this, getResources().getString(R.string.the_group) + groupname + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
+								            .show();
+										   
+									   break;
+									   case 0:
+										   
+										   Toast.makeText(Group.this, getResources().getString(R.string.successfully_added) + new_owner_username + getResources().getString(R.string.as_an_owner_of_the_group) + groupname, Toast.LENGTH_LONG)
+								            .show();
+										   
+									   break;
+									   }
+									   
+								   } else {
+									   
+									   Toast.makeText(Group.this, getResources().getString(R.string.unable_to_add_owner) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
 							            .show();
 									   
-								   break;
-								   case -3:
-									   
-									   Toast.makeText(Group.this, getResources().getString(R.string.user) + new_owner_username + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
-							            .show();
-									   
-								   break;
-								   case -2:
-									   
-									   Toast.makeText(Group.this, getResources().getString(R.string.user) + new_owner_username + getResources().getString(R.string.already_an_owner) + groupname, Toast.LENGTH_LONG)
-							            .show();
-									   
-								   break;
-								   case -1:
-									   
-									   Toast.makeText(Group.this, getResources().getString(R.string.the_group) + groupname + getResources().getString(R.string.not_exist), Toast.LENGTH_LONG)
-							            .show();
-									   
-								   break;
-								   case 0:
-									   
-									   Toast.makeText(Group.this, getResources().getString(R.string.successfully_added) + new_owner_username + getResources().getString(R.string.as_an_owner_of_the_group) + groupname, Toast.LENGTH_LONG)
-							            .show();
-									   
-								   break;
 								   }
-								   
-							   } else {
-								   
-								   Toast.makeText(Group.this, getResources().getString(R.string.unable_to_add_owner) + groupname + getResources().getString(R.string.please_try_again), Toast.LENGTH_LONG)
-						            .show();
-								   
 							   }
-						   }
-					});
+						});
 					
+					} else {
+						
+						Toast.makeText(Group.this, getResources().getString(R.string.have_to_type), Toast.LENGTH_LONG)
+			            .show();
+						
+					}
+						
 				}
         	});
         	

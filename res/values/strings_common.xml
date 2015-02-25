@@ -14,6 +14,7 @@
     <string name="BTH">Back to menu</string>
     <string name="delete">Delete</string>
     <string name="name">Name</string>
+    <string name="have_to_type">You have to type something</string>
     
     <string name="asker_info">No info on the asker!</string>
     <string name="question_view">The question hasn\'t loaded yet!</string>
